@@ -1,0 +1,1318 @@
+/* ═══════════════════════════════════════════════════════════
+   Shared components — panels, stat tiles, commander tokens,
+   tables, pills, heatmap, goals. Brand applied with restraint:
+   gold for titles and active state, Inter for every number.
+   ═══════════════════════════════════════════════════════════ */
+
+/* === Panel (opt-in generic surface) ===
+   Same recipe as .chart-container / .stat-card: navy card, faint top sheen,
+   1px inner highlight. Add .panel-hairline for the gold top hairline. */
+.panel {
+  position: relative;
+  background: var(--sheen), var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+  padding: 1.5rem;
+}
+
+.panel-hairline::before,
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 1px;
+  background: var(--hairline-gold);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Small gold uppercase label with a diamond — use above a title or as a
+   group label. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+/* === Stat Cards === */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.stat-card {
+  position: relative;
+  background:
+    radial-gradient(90% 70% at 100% 0%, rgba(232, 140, 50, 0.06), transparent 70%),
+    var(--sheen),
+    var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.375rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--accent-line);
+  box-shadow: var(--inner-highlight), var(--glow-warm);
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-value-sm {
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+/* === Commander Cards (artwork) ===
+   Portrait + body, with the commander's faction colour as a glowing seam
+   between them (read from the faction badge inside, so no JS change). */
+.commander-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.commander-card {
+  --card-faction: var(--border-strong);
+  position: relative;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+  transition: border-color 0.25s ease, transform 0.25s var(--ease-out), box-shadow 0.25s ease;
+}
+
+.commander-card:has(.faction-badge.skaal) { --card-faction: var(--skaal); }
+.commander-card:has(.faction-badge.grenalia) { --card-faction: var(--grenalia); }
+.commander-card:has(.faction-badge.lucia) { --card-faction: var(--lucia); }
+.commander-card:has(.faction-badge.neutral) { --card-faction: var(--neutral); }
+.commander-card:has(.faction-badge.shadis) { --card-faction: var(--shadis); }
+.commander-card:has(.faction-badge.archaeon) { --card-faction: var(--archaeon); }
+.commander-card:has(.faction-badge.adora) { --card-faction: var(--adora); }
+.commander-card:has(.faction-badge.mechanus) { --card-faction: var(--mechanus); }
+.commander-card:has(.faction-badge.treasure) { --card-faction: var(--treasure); }
+
+.commander-card:hover {
+  border-color: var(--accent-line);
+  transform: translateY(-3px);
+  box-shadow: var(--inner-highlight), var(--glow-warm), var(--shadow-md);
+}
+
+.commander-card:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.commander-art {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  background: var(--bg-elevated);
+  transition: transform 0.5s var(--ease-out), filter 0.3s ease;
+}
+
+.commander-card:hover .commander-art {
+  transform: scale(1.045);
+  filter: saturate(1.08) brightness(1.04);
+}
+
+.commander-art-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--gold);
+  background:
+    radial-gradient(60% 60% at 50% 40%, rgba(232, 140, 50, 0.14), transparent 70%),
+    var(--bg-elevated);
+}
+
+/* Solid, positioned body so the zoomed portrait slides under it. */
+.commander-card-body {
+  position: relative;
+  padding: 0.875rem 0.875rem 0.9375rem;
+  background: linear-gradient(180deg, #161d2a 0%, var(--bg-card) 100%);
+}
+
+.commander-card-body::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: var(--card-faction);
+  box-shadow: 0 0 14px 1px color-mix(in srgb, var(--card-faction) 65%, transparent);
+}
+
+.commander-card-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.375rem;
+  line-height: 1.25;
+  color: var(--text);
+}
+
+.commander-card-stats {
+  margin-top: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.commander-card-games {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  margin-top: 0.125rem;
+}
+
+/* === Matchup Heatmap === */
+.matchup-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+}
+
+.matchup-table {
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  width: auto;
+  min-width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.matchup-corner {
+  background: var(--bg-card);
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+.matchup-col-header {
+  padding: 0.5rem 0.375rem;
+  text-align: center;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  height: 180px;
+}
+
+.matchup-row-header {
+  padding: 0.5rem 0.625rem;
+  text-align: right;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
+
+.matchup-cell {
+  padding: 0.375rem 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--bg-card);
+  min-width: 50px;
+  cursor: default;
+  position: relative;
+}
+
+.matchup-favored {
+  background: rgba(0, 158, 115, 0.2);
+  color: var(--positive);
+}
+
+.matchup-unfavored {
+  background: rgba(213, 94, 0, 0.2);
+  color: var(--negative-soft);
+}
+
+.matchup-even {
+  background: var(--bg-elevated);
+  color: var(--text-secondary);
+}
+
+.matchup-self {
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+}
+
+.matchup-nodata {
+  background: var(--bg);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.matchup-count {
+  display: block;
+  font-size: 0.5625rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1;
+  margin-top: 1px;
+}
+
+/* Tinted cells need a lighter count to stay above 4.5:1. */
+.matchup-favored .matchup-count,
+.matchup-unfavored .matchup-count {
+  color: var(--text-secondary);
+}
+
+/* Matchup tooltip — same glass recipe as .info-tooltip */
+.matchup-tooltip {
+  position: fixed;
+  z-index: 1000;
+  background: rgba(22, 29, 42, 0.96);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-strong);
+  border-top-color: var(--accent-line);
+  border-radius: var(--radius);
+  padding: 0.625rem 0.875rem;
+  box-shadow: var(--shadow-lg);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 0.12s ease, transform 0.12s ease;
+  max-width: 260px;
+}
+
+.matchup-tooltip.visible {
+  opacity: 1;
+  transform: none;
+}
+
+.matchup-tooltip-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.matchup-tooltip-wr {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 0.125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.matchup-tooltip-games {
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+}
+
+.matchup-legend {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.6875rem;
+  color: var(--text-secondary);
+}
+
+.legend-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.legend-favored { background: rgba(0, 158, 115, 0.3); }
+.legend-even { background: var(--bg-elevated); }
+.legend-unfavored { background: rgba(213, 94, 0, 0.3); }
+.legend-nodata { background: var(--bg); border: 1px solid var(--border); }
+
+/* === Pills / Filter Bar (faction) ===
+   .filter-btn is the site's pill. Neutral active = gold; a pill with a
+   data-faction attribute lights up in that faction's colour instead. */
+.filter-bar {
+  display: flex;
+  gap: 0.375rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn,
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.9375rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-decoration: none;
+  transition: color var(--dur) ease, background var(--dur) ease, border-color var(--dur) ease, box-shadow var(--dur) ease;
+}
+
+.filter-btn:hover,
+.pill:hover {
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+}
+
+.filter-btn.active,
+.pill.active,
+.pill[aria-pressed="true"],
+.pill[aria-selected="true"] {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--gold-text);
+  box-shadow: inset 0 0 12px rgba(232, 162, 69, 0.1);
+}
+
+.filter-btn:focus-visible,
+.pill:focus-visible {
+  outline-offset: 1px;
+}
+
+.filter-btn[data-faction="skaal"].active {
+  border-color: var(--skaal);
+  color: #f0834a;
+  background: rgba(213, 94, 0, 0.12);
+  box-shadow: inset 0 0 12px rgba(213, 94, 0, 0.12);
+}
+
+.filter-btn[data-faction="grenalia"].active {
+  border-color: var(--grenalia);
+  color: #3fb980;
+  background: rgba(0, 158, 115, 0.12);
+  box-shadow: inset 0 0 12px rgba(0, 158, 115, 0.12);
+}
+
+.filter-btn[data-faction="lucia"].active {
+  border-color: var(--lucia);
+  color: var(--lucia);
+  background: rgba(232, 182, 48, 0.12);
+  box-shadow: inset 0 0 12px rgba(232, 182, 48, 0.12);
+}
+
+.filter-btn[data-faction="neutral"].active {
+  border-color: var(--neutral);
+  color: #c0a890;
+  background: rgba(168, 144, 120, 0.12);
+  box-shadow: inset 0 0 12px rgba(168, 144, 120, 0.12);
+}
+
+.filter-btn[data-faction="shadis"].active {
+  border-color: var(--shadis);
+  color: #9898aa;
+  background: rgba(123, 123, 142, 0.14);
+  box-shadow: inset 0 0 12px rgba(123, 123, 142, 0.12);
+}
+
+.filter-btn[data-faction="archaeon"].active {
+  border-color: var(--archaeon);
+  color: #58a6ff;
+  background: rgba(0, 114, 178, 0.14);
+  box-shadow: inset 0 0 12px rgba(0, 114, 178, 0.14);
+}
+
+.filter-btn[data-faction="adora"].active {
+  border-color: var(--adora);
+  color: #e094c0;
+  background: rgba(204, 121, 167, 0.12);
+  box-shadow: inset 0 0 12px rgba(204, 121, 167, 0.12);
+}
+
+.filter-btn[data-faction="mechanus"].active {
+  border-color: var(--mechanus);
+  color: #c68e63;
+  background: rgba(169, 113, 75, 0.12);
+  box-shadow: inset 0 0 12px rgba(169, 113, 75, 0.12);
+}
+
+.filter-btn[data-faction="treasure"].active {
+  border-color: var(--treasure);
+  color: var(--treasure);
+  background: rgba(237, 217, 160, 0.1);
+  box-shadow: inset 0 0 12px rgba(237, 217, 160, 0.1);
+}
+
+/* === Form controls (opt-in) ===
+   .field        text / search input
+   .field-select native <select> with the gold chevron
+   Both sit on the recessed --bg-inset well and focus to a gold border. */
+.field,
+.field-select {
+  padding: 0.5rem 0.875rem;
+  background-color: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+  transition: border-color var(--dur) ease, box-shadow var(--dur) ease;
+}
+
+.field::placeholder {
+  color: var(--text-muted);
+}
+
+.field:hover,
+.field-select:hover {
+  border-color: var(--border-strong);
+}
+
+.field:focus,
+.field-select:focus {
+  outline: none;
+  border-color: var(--accent-border);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35), 0 0 0 3px rgba(232, 162, 69, 0.16);
+}
+
+.field-select {
+  padding-right: 2rem;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23e8a245' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+}
+
+/* === Data Table === */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+}
+
+/* Floating copy of a long table's header row, pinned under the sticky nav
+   stack while the table body is on screen. Built and positioned by
+   initStickyTableHeader() in site/js/shared.js.
+
+   Why a clone rather than `position: sticky` on the real thead: .table-wrapper
+   sets `overflow-x: auto`, and per spec a non-`visible` overflow on one axis
+   computes the other axis to `auto` too — so the wrapper is already a scroll
+   container on both axes, and a sticky thead inside it can only stick to the
+   wrapper's own scrollport. That scrollport is as tall as the table and never
+   scrolls, so nothing sticks. Capping the wrapper's height would give it
+   somewhere to scroll, but then a wheel over the table scrolls the table while
+   the page is still showing the hero — the header pins mid-screen and rows
+   read in a letterbox. Cloning keeps the page's scroll model untouched. */
+.sticky-table-header {
+  position: fixed;
+  top: var(--sticky-stack);
+  /* Below .nav (300), .sub-nav (290) and .time-filter-bar (250), above content. */
+  z-index: 200;
+  display: none;
+  overflow: hidden;
+  background: #161d2a;
+  border: 1px solid var(--border);
+  border-bottom-color: var(--accent-line);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: var(--shadow-md);
+}
+
+.sticky-table-header.visible {
+  display: block;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table thead {
+  background: linear-gradient(180deg, #171e2b 0%, #141a26 100%);
+}
+
+.data-table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Sortable headers */
+.data-table th.sortable {
+  cursor: pointer;
+  transition: color var(--dur) ease;
+  position: relative;
+  padding-right: 1.75rem;
+}
+
+.data-table th.sortable:hover {
+  color: var(--text);
+}
+
+.data-table th.sortable::after {
+  content: '\21C5';
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.625rem;
+  opacity: 0.35;
+}
+
+.data-table th.sorted-asc,
+.data-table th.sorted-desc {
+  color: var(--gold-text);
+}
+
+.data-table th.sorted-asc::after {
+  content: '\2191';
+  opacity: 1;
+  color: var(--gold);
+}
+
+.data-table th.sorted-desc::after {
+  content: '\2193';
+  opacity: 1;
+  color: var(--gold);
+}
+
+.data-table td {
+  padding: 0.6875rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text);
+}
+
+/* Faint banding keeps long rows trackable without heavy lines. */
+.data-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.014);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr {
+  transition: background 0.12s ease;
+}
+
+.data-table tbody tr:hover {
+  background: rgba(232, 162, 69, 0.055);
+}
+
+.data-table tbody tr:hover td:first-child {
+  box-shadow: inset 2px 0 0 var(--gold);
+}
+
+.placeholder-row td {
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 2.5rem 1rem;
+}
+
+.data-table tbody tr.placeholder-row:hover {
+  background: transparent;
+}
+
+.data-table tbody tr.placeholder-row:hover td:first-child {
+  box-shadow: none;
+}
+
+/* Faction badge — tinted chip with a hairline of the faction colour.
+   Text colours are lightened faction hues tuned for AA on navy. */
+.faction-badge {
+  display: inline-block;
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.faction-badge.skaal {
+  background: rgba(213, 94, 0, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(213, 94, 0, 0.32);
+  color: #f0834a;
+}
+
+.faction-badge.grenalia {
+  background: rgba(0, 158, 115, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(0, 158, 115, 0.32);
+  color: #3fb980;
+}
+
+.faction-badge.lucia {
+  background: rgba(232, 182, 48, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(232, 182, 48, 0.3);
+  color: #E8B630;
+}
+
+.faction-badge.neutral {
+  background: rgba(168, 144, 120, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(168, 144, 120, 0.3);
+  color: #c0a890;
+}
+
+.faction-badge.shadis {
+  background: rgba(123, 123, 142, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(123, 123, 142, 0.36);
+  color: #9898aa;
+}
+
+.faction-badge.archaeon {
+  background: rgba(0, 114, 178, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 114, 178, 0.4);
+  color: #58a6ff;
+}
+
+.faction-badge.adora {
+  background: rgba(204, 121, 167, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(204, 121, 167, 0.3);
+  color: #e094c0;
+}
+
+.faction-badge.mechanus {
+  background: rgba(169, 113, 75, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(169, 113, 75, 0.32);
+  color: #c68e63;
+}
+
+/* Treasure has no emblem in game — a metallic sheen stands in for one. */
+.faction-badge.treasure {
+  background: linear-gradient(100deg, rgba(184, 134, 11, 0.18), rgba(237, 217, 160, 0.3), rgba(184, 134, 11, 0.18));
+  box-shadow: inset 0 0 0 1px rgba(237, 217, 160, 0.3);
+  color: #f0dda8;
+}
+
+/* Winrate coloring */
+.winrate-positive {
+  color: var(--positive);
+  font-weight: 600;
+}
+
+.winrate-negative {
+  color: var(--negative);
+  font-weight: 600;
+}
+
+.winrate-neutral {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* === Charts === */
+.chart-container {
+  position: relative;
+  background: var(--sheen), var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+}
+
+/* Panel / chart caption: Inter, with a small gold diamond. */
+.chart-inner-title {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.chart-inner-title::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.85;
+}
+
+.chart-inner-title .tooltip-icon {
+  margin-left: 0;
+}
+
+/* Small chart grid (3-column for distributions) */
+.chart-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.chart-row-2 {
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 0;
+}
+
+/* Let grid cells shrink below a canvas's last-drawn width; Chart.js then
+   re-fits the canvas to the cell instead of pushing the page sideways. */
+.chart-row > *,
+.card-grid > *,
+.commander-grid > *,
+.goals-grid > * {
+  min-width: 0;
+}
+
+.chart-container canvas,
+.chart-sm canvas {
+  max-width: 100%;
+}
+
+.chart-sm {
+  position: relative;
+  background: var(--sheen), var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+}
+
+.chart-sm-title {
+  display: flex;
+  align-items: center;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.875rem;
+}
+
+/* Analytics overview: the first-turn block sits under the distribution row. */
+.first-turn-section {
+  margin-top: 2.25rem;
+}
+
+/* === Winrate Bucket Tables === */
+
+.wr-bucket-table {
+  font-size: 0.8125rem;
+}
+
+.wr-bucket-table th {
+  white-space: nowrap;
+  font-size: 0.6875rem;
+}
+
+/* Bucket columns hold centred numbers — centre their labels to match. */
+.wr-bucket-table th:not(:first-child) {
+  text-align: center;
+  padding-left: 1.75rem;
+}
+
+.wr-cell {
+  text-align: center;
+  font-weight: 500;
+  position: relative;
+  white-space: nowrap;
+}
+
+.wr-cell-count {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.wr-high {
+  color: var(--positive);
+}
+
+.wr-low {
+  color: var(--negative-soft);
+}
+
+.wr-even {
+  color: var(--text);
+}
+
+.wr-nodata {
+  color: var(--text-muted);
+}
+
+/* === Collapsible Sections === */
+.section-title.collapsible {
+  cursor: pointer;
+  user-select: none;
+  transition: filter var(--dur) ease;
+}
+
+.section-title.collapsible:hover {
+  filter: brightness(1.12);
+}
+
+/* The chevron reads as a small round toggle beside the title. */
+.section-title.collapsible .chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.375rem;
+  height: 1.375rem;
+  margin-left: 0.375rem;
+  border: 1px solid var(--accent-line);
+  border-radius: 50%;
+  /* The ▾ glyph is too small at title scale, so it is hidden (font-size 0)
+     and redrawn as an SVG chevron. */
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f2c271' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") center / 11px no-repeat, var(--accent-softer);
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
+  vertical-align: 0.2em;
+  transition: transform 0.2s var(--ease-out), background var(--dur) ease, border-color var(--dur) ease;
+}
+
+.section-title.collapsible:hover .chevron {
+  background-color: var(--accent-soft);
+  border-color: var(--accent-border);
+}
+
+.section-title.collapsed .chevron {
+  transform: rotate(-90deg);
+}
+
+.section-body {
+  transition: max-height 0.3s ease, opacity 0.2s ease;
+}
+
+/* === Chart Controls === */
+.chart-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+/* Segmented control: a recessed track holding pill buttons. */
+.bin-toggle {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+}
+
+.bin-btn {
+  padding: 0.25rem 0.8125rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  font-family: inherit;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--dur) ease, background var(--dur) ease, border-color var(--dur) ease;
+}
+
+.bin-btn:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.bin-btn.active {
+  background: var(--accent-soft);
+  border-color: var(--accent-border);
+  color: var(--gold-text);
+}
+
+.bin-btn:focus-visible {
+  outline-offset: 1px;
+}
+
+.mirror-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.4375rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  margin-left: 0.75rem;
+}
+
+.mirror-toggle:hover {
+  color: var(--text);
+}
+
+.mirror-toggle input {
+  accent-color: var(--gold);
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+/* === Goals page === */
+.section-subtitle {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin: -0.25rem 0 1.5rem;
+  max-width: 60ch;
+}
+
+.goal-group-title {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold-text);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  margin: 2.25rem 0 1rem;
+}
+
+.goal-group-title::before {
+  content: '';
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.goal-group-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent-line), transparent);
+}
+
+.goals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.goal-card {
+  position: relative;
+  background: var(--sheen), var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  box-shadow: var(--inner-highlight), var(--shadow-sm);
+}
+
+.goal-card.met {
+  border-color: color-mix(in srgb, var(--positive) 40%, var(--border));
+}
+
+.goal-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.goal-label {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.goal-status {
+  flex-shrink: 0;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.goal-status.met {
+  color: var(--positive);
+}
+
+.goal-numbers {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.goal-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.goal-target {
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+}
+
+.goal-sub {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Progress: recessed track, molten-gold fill; a met goal turns positive. */
+.progress-track {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-inset);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(90deg, var(--gold-lo) 0%, var(--gold) 60%, var(--gold-hi) 100%);
+  box-shadow: 0 0 10px rgba(232, 162, 69, 0.35);
+  transition: width 0.6s var(--ease-out);
+}
+
+.progress-fill.met {
+  background: linear-gradient(90deg, #2a8a3c 0%, var(--positive) 100%);
+  box-shadow: 0 0 10px rgba(63, 185, 80, 0.3);
+}
+
+.goal-decks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  padding-top: 0.625rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.goal-deck-row {
+  display: grid;
+  grid-template-columns: 1fr auto 1.25rem;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+.goal-deck-name {
+  color: var(--text-secondary);
+}
+
+.goal-deck-rate {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+
+.goal-deck-mark {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.goal-deck-row.met .goal-deck-mark {
+  color: var(--positive);
+}
+
+.stat-sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.goal-na {
+  color: var(--text-muted);
+}
+
+.goal-count {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Combined row of the art-source table (cards + tokens + commanders). */
+.goal-total-row td {
+  font-weight: 600;
+  color: var(--text);
+  border-top: 1px solid var(--border);
+}
+
+/* "Other" only means an ArtType the pipeline doesn't recognise — normally
+   nothing lands there, so the column is dropped rather than shown as zeros.
+   See renderArtSourceTable() in site/js/goals.js. */
+#art-source-table.hide-other .col-other {
+  display: none;
+}
+
+/* Art-source donuts on the Goals page: one ring per pool, sharing a legend.
+   Segment colours live in ART_SOURCES in site/js/goals.js. */
+.art-source-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.art-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.art-legend-swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.art-source-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 900px) {
+  .art-source-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .art-source-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.art-source-donut {
+  position: relative;
+  max-width: 190px;
+  margin: 0 auto;
+}
+
+/* Human-art share, read from the hole of the ring. */
+.art-source-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.art-source-center-value {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.art-source-center-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.art-source-caption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.art-source-details summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+  transition: color var(--dur) ease;
+}
+
+.art-source-details summary:hover {
+  color: var(--gold-text);
+}

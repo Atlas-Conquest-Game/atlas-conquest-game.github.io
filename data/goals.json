@@ -1,0 +1,836 @@
+{
+  "art_goals": [
+    {
+      "id": "art_count",
+      "label": "100 Cards with Human Art",
+      "kind": "count",
+      "current": 282,
+      "target": 100,
+      "met": true
+    },
+    {
+      "id": "art_commanders",
+      "label": "100% of Commanders with Human Art",
+      "kind": "percent",
+      "numerator": 16,
+      "denominator": 16,
+      "current": 1.0,
+      "target": 1.0,
+      "met": true
+    },
+    {
+      "id": "art_legendary",
+      "label": "75% of Legendary Minions with Human Art",
+      "kind": "percent",
+      "numerator": 29,
+      "denominator": 29,
+      "current": 1.0,
+      "target": 0.75,
+      "met": true
+    },
+    {
+      "id": "art_starters",
+      "label": "75% of Starter Decks with Human Art",
+      "kind": "decks",
+      "threshold": 0.75,
+      "metric": "human_art",
+      "current": 5,
+      "target": 5,
+      "met": true,
+      "detail": [
+        {
+          "deck": "Starter Beasts",
+          "total": 15,
+          "met_count": 14,
+          "rate": 0.9333,
+          "met": true
+        },
+        {
+          "deck": "Starter Death",
+          "total": 14,
+          "met_count": 14,
+          "rate": 1.0,
+          "met": true
+        },
+        {
+          "deck": "Starter Deploy",
+          "total": 15,
+          "met_count": 15,
+          "rate": 1.0,
+          "met": true
+        },
+        {
+          "deck": "Starter Mage",
+          "total": 14,
+          "met_count": 13,
+          "rate": 0.9286,
+          "met": true
+        },
+        {
+          "deck": "Starter Military",
+          "total": 15,
+          "met_count": 15,
+          "rate": 1.0,
+          "met": true
+        }
+      ]
+    }
+  ],
+  "animation_goals": [
+    {
+      "id": "anim_all",
+      "label": "20% of all Cards have an animation",
+      "kind": "percent",
+      "numerator": 286,
+      "denominator": 287,
+      "current": 0.9965,
+      "target": 0.2,
+      "met": true
+    },
+    {
+      "id": "anim_commanders",
+      "label": "50% of Commanders have an animation",
+      "kind": "percent",
+      "numerator": 16,
+      "denominator": 16,
+      "current": 1.0,
+      "target": 0.5,
+      "met": true
+    },
+    {
+      "id": "anim_legendary",
+      "label": "50% of Legendary Minions have an animation",
+      "kind": "percent",
+      "numerator": 29,
+      "denominator": 29,
+      "current": 1.0,
+      "target": 0.5,
+      "met": true
+    },
+    {
+      "id": "anim_starters",
+      "label": "50% of Starter Deck cards have an animation",
+      "kind": "decks",
+      "threshold": 0.5,
+      "metric": "has_animation",
+      "current": 5,
+      "target": 5,
+      "met": true,
+      "detail": [
+        {
+          "deck": "Starter Beasts",
+          "total": 15,
+          "met_count": 15,
+          "rate": 1.0,
+          "met": true
+        },
+        {
+          "deck": "Starter Death",
+          "total": 14,
+          "met_count": 14,
+          "rate": 1.0,
+          "met": true
+        },
+        {
+          "deck": "Starter Deploy",
+          "total": 15,
+          "met_count": 15,
+          "rate": 1.0,
+          "met": true
+        },
+        {
+          "deck": "Starter Mage",
+          "total": 14,
+          "met_count": 13,
+          "rate": 0.9286,
+          "met": true
+        },
+        {
+          "deck": "Starter Military",
+          "total": 15,
+          "met_count": 15,
+          "rate": 1.0,
+          "met": true
+        }
+      ]
+    }
+  ],
+  "overall": {
+    "cards": {
+      "total": 287,
+      "human": 282,
+      "human_rate": 0.9826,
+      "animated": 286,
+      "animated_rate": 0.9965,
+      "art_types": {
+        "commissioned": {
+          "count": 92,
+          "rate": 0.3206
+        },
+        "purchased": {
+          "count": 2,
+          "rate": 0.007
+        },
+        "placeholder": {
+          "count": 188,
+          "rate": 0.6551
+        },
+        "ai": {
+          "count": 5,
+          "rate": 0.0174
+        },
+        "other": {
+          "count": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    "tokens": {
+      "total": 9,
+      "human": 8,
+      "human_rate": 0.8889,
+      "animated": 9,
+      "animated_rate": 1.0,
+      "art_types": {
+        "commissioned": {
+          "count": 1,
+          "rate": 0.1111
+        },
+        "purchased": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "placeholder": {
+          "count": 7,
+          "rate": 0.7778
+        },
+        "ai": {
+          "count": 1,
+          "rate": 0.1111
+        },
+        "other": {
+          "count": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    "commanders": {
+      "total": 16,
+      "human": 16,
+      "human_rate": 1.0,
+      "animated": 16,
+      "animated_rate": 1.0,
+      "art_types": {
+        "commissioned": {
+          "count": 16,
+          "rate": 1.0
+        },
+        "purchased": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "placeholder": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "ai": {
+          "count": 0,
+          "rate": 0.0
+        },
+        "other": {
+          "count": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    "all": {
+      "total": 312,
+      "human": 306,
+      "human_rate": 0.9808,
+      "animated": 311,
+      "animated_rate": 0.9968,
+      "art_types": {
+        "commissioned": {
+          "count": 109,
+          "rate": 0.3494
+        },
+        "purchased": {
+          "count": 2,
+          "rate": 0.0064
+        },
+        "placeholder": {
+          "count": 195,
+          "rate": 0.625
+        },
+        "ai": {
+          "count": 6,
+          "rate": 0.0192
+        },
+        "other": {
+          "count": 0,
+          "rate": 0.0
+        }
+      }
+    }
+  },
+  "by_patron": [
+    {
+      "patron": "Adora",
+      "faction": "adora",
+      "cards": {
+        "total": 1,
+        "human": 1,
+        "human_rate": 1.0,
+        "animated": 1,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 1,
+            "rate": 1.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 0,
+        "human": 0,
+        "human_rate": 0.0,
+        "animated": 0,
+        "animated_rate": 0.0,
+        "art_types": {
+          "commissioned": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Archaeon",
+      "faction": "archaeon",
+      "cards": {
+        "total": 27,
+        "human": 26,
+        "human_rate": 0.963,
+        "animated": 26,
+        "animated_rate": 0.963,
+        "art_types": {
+          "commissioned": {
+            "count": 12,
+            "rate": 0.4444
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 14,
+            "rate": 0.5185
+          },
+          "ai": {
+            "count": 1,
+            "rate": 0.037
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 3,
+        "human": 3,
+        "human_rate": 1.0,
+        "animated": 3,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 3,
+            "rate": 1.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Grenalia",
+      "faction": "grenalia",
+      "cards": {
+        "total": 34,
+        "human": 33,
+        "human_rate": 0.9706,
+        "animated": 34,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 13,
+            "rate": 0.3824
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 20,
+            "rate": 0.5882
+          },
+          "ai": {
+            "count": 1,
+            "rate": 0.0294
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 3,
+        "human": 3,
+        "human_rate": 1.0,
+        "animated": 3,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 3,
+            "rate": 1.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Lucia",
+      "faction": "lucia",
+      "cards": {
+        "total": 36,
+        "human": 36,
+        "human_rate": 1.0,
+        "animated": 36,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 7,
+            "rate": 0.1944
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 29,
+            "rate": 0.8056
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 3,
+        "human": 3,
+        "human_rate": 1.0,
+        "animated": 3,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 3,
+            "rate": 1.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Mechanus",
+      "faction": "mechanus",
+      "cards": {
+        "total": 1,
+        "human": 1,
+        "human_rate": 1.0,
+        "animated": 1,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 1,
+            "rate": 1.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 0,
+        "human": 0,
+        "human_rate": 0.0,
+        "animated": 0,
+        "animated_rate": 0.0,
+        "art_types": {
+          "commissioned": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Neutral",
+      "faction": "neutral",
+      "cards": {
+        "total": 127,
+        "human": 125,
+        "human_rate": 0.9843,
+        "animated": 127,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 41,
+            "rate": 0.3228
+          },
+          "purchased": {
+            "count": 2,
+            "rate": 0.0157
+          },
+          "placeholder": {
+            "count": 82,
+            "rate": 0.6457
+          },
+          "ai": {
+            "count": 2,
+            "rate": 0.0157
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 2,
+        "human": 2,
+        "human_rate": 1.0,
+        "animated": 2,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 2,
+            "rate": 1.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Shadis",
+      "faction": "shadis",
+      "cards": {
+        "total": 24,
+        "human": 23,
+        "human_rate": 0.9583,
+        "animated": 24,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 7,
+            "rate": 0.2917
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 16,
+            "rate": 0.6667
+          },
+          "ai": {
+            "count": 1,
+            "rate": 0.0417
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 2,
+        "human": 2,
+        "human_rate": 1.0,
+        "animated": 2,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 2,
+            "rate": 1.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Skaal",
+      "faction": "skaal",
+      "cards": {
+        "total": 36,
+        "human": 36,
+        "human_rate": 1.0,
+        "animated": 36,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 12,
+            "rate": 0.3333
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 24,
+            "rate": 0.6667
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 3,
+        "human": 3,
+        "human_rate": 1.0,
+        "animated": 3,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 3,
+            "rate": 1.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    },
+    {
+      "patron": "Treasure",
+      "faction": "treasure",
+      "cards": {
+        "total": 1,
+        "human": 1,
+        "human_rate": 1.0,
+        "animated": 1,
+        "animated_rate": 1.0,
+        "art_types": {
+          "commissioned": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 1,
+            "rate": 1.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      },
+      "commanders": {
+        "total": 0,
+        "human": 0,
+        "human_rate": 0.0,
+        "animated": 0,
+        "animated_rate": 0.0,
+        "art_types": {
+          "commissioned": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "purchased": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "placeholder": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "ai": {
+            "count": 0,
+            "rate": 0.0
+          },
+          "other": {
+            "count": 0,
+            "rate": 0.0
+          }
+        }
+      }
+    }
+  ]
+}
