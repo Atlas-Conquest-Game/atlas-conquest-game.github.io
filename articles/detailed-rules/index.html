@@ -81,8 +81,8 @@
           </ul>
           <div class="ac-nav__extras">
             <div class="ac-nav__ctas">
-              <span class="ac-cta-slot" data-ac-cta="primary"><a class="ac-btn ac-btn--gold" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
-              <span class="ac-cta-slot" data-ac-cta="secondary"><span class="ac-btn ac-btn--ghost is-soon" data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Coming soon to Steam</span></span></span>
+              <span class="ac-cta-slot" data-ac-cta="primary"><a class="ac-btn ac-btn--steam" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Wishlist on Steam</span></a></span>
+              <span class="ac-cta-slot" data-ac-cta="secondary"><a class="ac-btn ac-btn--ghost" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
             </div>
             <p class="ac-nav__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span><strong data-ac-discord-online></strong> online now &middot; <strong data-ac-discord-members></strong> in the Discord</span></p>
             <ul class="ac-social" aria-label="Atlas Conquest on social media">
@@ -94,7 +94,8 @@
           </div>
         </div>
         <div class="ac-nav__actions">
-          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="sm" data-ac-cta-short data-ac-cta-count><a class="ac-btn ac-btn--gold ac-btn--sm" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta</span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-style="pill" data-ac-cta-short data-ac-cta-count><a class="ac-btn ac-btn--pill" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta</span><span class="ac-btn__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span data-ac-discord-online></span><span class="ac-btn__live-label"> online</span></span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="sm" data-ac-cta-short="narrow" data-ac-cta-count><a class="ac-btn ac-btn--steam ac-btn--sm" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label"><span class="ac-btn__label-full">Wishlist on Steam</span><span class="ac-btn__label-short">Wishlist</span></span></a></span>
         </div>
       </nav>
     </div>
@@ -130,7 +131,7 @@
 <div class="container article-prose" data-article-body>
 <p>Atlas Conquest is a two-player competitive card battler played on a hex-grid board. This page starts with the basics and adds detail as it goes, so you can stop reading whenever you&rsquo;re ready to play.</p>
 <h2 id="overview">Overview</h2>
-<p>Each player leads an army with a <strong>commander</strong>. Your goal is to reduce the enemy commander&rsquo;s <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76"> Health to 0 before they do the same to you.</p>
+<p>Each player leads an army with a <strong>commander</strong>. Your goal is to reduce the enemy commander&rsquo;s <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76" loading="lazy" decoding="async"> Health to 0 before they do the same to you.</p>
 <p>Players take turns. On your turn you can:</p>
 <ul>
 <li><strong>Play cards</strong> from your hand, paying for them with mana.</li>
@@ -141,16 +142,16 @@
 <p>The rest of this page explains each of these.</p>
 <h2 id="the-map">The Map</h2>
 <p>Each player&rsquo;s <strong>territory</strong> is the tiles they own: yours is outlined in green, your opponent&rsquo;s in red. A game starts with each commander on its starting tile, which is the only tile its player owns.</p>
-<p><picture><source srcset="/assets/articles/detailed-rules/map-dunes.webp" type="image/webp"><img alt="The Dunes map at the start of a game: your commander's starting tile at the bottom left (green outline), your opponent's at the top right (red outline), and two villages in the middle" class="wide" src="/assets/articles/detailed-rules/map-dunes.jpg"></picture></p>
+<p><picture><source type="image/webp" srcset="/assets/articles/detailed-rules/img-a53ad83dc1-800.webp 800w, /assets/articles/detailed-rules/img-a53ad83dc1-1600.webp 1600w" sizes="(max-width: 1234px) 94vw, 1160px"><img alt="The Dunes map at the start of a game: your commander&#x27;s starting tile at the bottom left (green outline), your opponent&#x27;s at the top right (red outline), and two villages in the middle" class="wide" src="/assets/articles/detailed-rules/map-dunes.jpg" loading="lazy" decoding="async" width="1920" height="1080" data-full="/assets/articles/detailed-rules/map-dunes.jpg"></picture></p>
 <p>The map has three kinds of tile. Everything else, like desert, snow, or jungle, is just scenery.</p>
 <ul>
-<li><strong>Normal tiles</strong> give <img alt="1 mana" class="text-icon" height="72" src="/assets/icons/text/mana_1.png" style="--drop: 0.262" title="1 mana" width="66"> each turn while you own them.</li>
-<li><strong>Villages</strong> give <img alt="2 mana" class="text-icon" height="72" src="/assets/icons/text/mana_2.png" style="--drop: 0.262" title="2 mana" width="66"> each turn while you own them.</li>
+<li><strong>Normal tiles</strong> give <img alt="1 mana" class="text-icon" height="72" src="/assets/icons/text/mana_1.png" style="--drop: 0.262" title="1 mana" width="66" loading="lazy" decoding="async"> each turn while you own them.</li>
+<li><strong>Villages</strong> give <img alt="2 mana" class="text-icon" height="72" src="/assets/icons/text/mana_2.png" style="--drop: 0.262" title="2 mana" width="66" loading="lazy" decoding="async"> each turn while you own them.</li>
 <li><strong>Mountains</strong> can only be entered by characters with Flying.</li>
 </ul>
 <p>Each game is played on one of three maps: Dunes (above), Snowmelt, and Tropics.</p>
-<p><picture><source srcset="/assets/articles/detailed-rules/map-snowmelt.webp" type="image/webp"><img alt="The Snowmelt map at the start of a game: starting tiles on the left (green outline) and right (red outline), around a center of villages and a lake ringed by snowy mountains" class="pair" src="/assets/articles/detailed-rules/map-snowmelt.jpg"></picture>
-<picture><source srcset="/assets/articles/detailed-rules/map-tropics.webp" type="image/webp"><img alt="The Tropics map at the start of a game: starting tiles on the left (green outline) and right (red outline), three central villages between two mountains, and volcanoes in the corners" class="pair" src="/assets/articles/detailed-rules/map-tropics.jpg"></picture></p>
+<p><picture><source type="image/webp" srcset="/assets/articles/detailed-rules/img-e627c702a0-800.webp 800w, /assets/articles/detailed-rules/img-e627c702a0-1600.webp 1600w" sizes="(max-width: 760px) 94vw, 580px"><img alt="The Snowmelt map at the start of a game: starting tiles on the left (green outline) and right (red outline), around a center of villages and a lake ringed by snowy mountains" class="pair" src="/assets/articles/detailed-rules/map-snowmelt.jpg" loading="lazy" decoding="async" width="1920" height="1080" data-full="/assets/articles/detailed-rules/map-snowmelt.jpg"></picture>
+<picture><source type="image/webp" srcset="/assets/articles/detailed-rules/img-d55a74f5bb-800.webp 800w, /assets/articles/detailed-rules/img-d55a74f5bb-1600.webp 1600w" sizes="(max-width: 760px) 94vw, 580px"><img alt="The Tropics map at the start of a game: starting tiles on the left (green outline) and right (red outline), three central villages between two mountains, and volcanoes in the corners" class="pair" src="/assets/articles/detailed-rules/map-tropics.jpg" loading="lazy" decoding="async" width="1920" height="1080" data-full="/assets/articles/detailed-rules/map-tropics.jpg"></picture></p>
 <h2 id="mana-and-cards">Mana and Cards</h2>
 <p>At the start of each of your turns, you draw a card and your mana refills to what your territory gives. Mana you don&rsquo;t spend is lost when your turn ends. You begin the game owning a single tile, so claiming more land is how you afford bigger cards.</p>
 <p>Every card costs mana to play. There are two kinds:</p>
@@ -158,25 +159,25 @@
 <li><strong>Minions</strong> join the board as characters. Play one onto an empty tile in your territory. A minion can&rsquo;t move or battle on the turn you play it.</li>
 <li><strong>Spells</strong> have a one-time effect.</li>
 </ul>
-<p><img alt="Anatomy of a card — a minion and a spell side by side, labelling mana cost, patron color, name, text, subtype, and the minion's power, speed and health" class="wide" src="/assets/articles/detailed-rules/card-anatomy.png"></p>
+<p><picture><source type="image/webp" srcset="/assets/articles/detailed-rules/img-01ace85418-800.webp 800w, /assets/articles/detailed-rules/img-01ace85418-1600.webp 1600w" sizes="(max-width: 1234px) 94vw, 1160px"><img alt="Anatomy of a card — a minion and a spell side by side, labelling mana cost, patron color, name, text, subtype, and the minion&#x27;s power, speed and health" class="wide" src="/assets/articles/detailed-rules/card-anatomy.png" loading="lazy" decoding="async" width="2480" height="1840" data-full="/assets/articles/detailed-rules/card-anatomy.png"></picture></p>
 <h2 id="characters">Characters</h2>
 <p>Commanders and minions are both <strong>characters</strong>. Characters stand on tiles, and each has three stats:</p>
 <ul>
-<li class="icon-item"><img alt="power" class="text-icon" height="72" src="/assets/icons/text/power.png" style="--drop: 0.262" title="Power" width="106"> <strong>Power</strong>: the damage it deals in battle.</li>
-<li class="icon-item"><img alt="speed" class="text-icon" height="72" src="/assets/icons/text/speed.png" style="--drop: 0.262" title="Speed" width="99"> <strong>Speed</strong>: how many tiles it can move each turn.</li>
-<li class="icon-item"><img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76"> <strong>Health</strong>: the damage it can take before it&rsquo;s destroyed.</li>
+<li class="icon-item"><img alt="power" class="text-icon" height="72" src="/assets/icons/text/power.png" style="--drop: 0.262" title="Power" width="106" loading="lazy" decoding="async"> <strong>Power</strong>: the damage it deals in battle.</li>
+<li class="icon-item"><img alt="speed" class="text-icon" height="72" src="/assets/icons/text/speed.png" style="--drop: 0.262" title="Speed" width="99" loading="lazy" decoding="async"> <strong>Speed</strong>: how many tiles it can move each turn.</li>
+<li class="icon-item"><img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76" loading="lazy" decoding="async"> <strong>Health</strong>: the damage it can take before it&rsquo;s destroyed.</li>
 </ul>
 <h2 id="movement-and-battle">Movement and Battle</h2>
-<p>Each turn, each of your characters can move up to its <img alt="speed" class="text-icon" height="72" src="/assets/icons/text/speed.png" style="--drop: 0.262" title="Speed" width="99"> Speed in tiles. Drag it to where you want it to go.</p>
+<p>Each turn, each of your characters can move up to its <img alt="speed" class="text-icon" height="72" src="/assets/icons/text/speed.png" style="--drop: 0.262" title="Speed" width="99" loading="lazy" decoding="async"> Speed in tiles. Drag it to where you want it to go.</p>
 <figure class="article-video">
-<video aria-label="A minion with 3 Speed is dragged along a three-tile route and walks it, its Speed badge counting down from 3 to 0" autoplay loop muted playsinline preload="auto" src="/assets/articles/detailed-rules/movement.mp4"></video>
-<figcaption>A minion with <img alt="3 speed" class="text-icon" height="72" src="/assets/icons/text/speed_3.png" style="--drop: 0.262" title="3 speed" width="99"> is dragged along a three-tile route. The tiles it can reach are outlined, and its Speed badge counts down to <img alt="0 speed" class="text-icon" height="72" src="/assets/icons/text/speed_0.png" style="--drop: 0.262" title="0 speed" width="99"> as it moves.</figcaption>
+<video aria-label="A minion with 3 Speed is dragged along a three-tile route and walks it, its Speed badge counting down from 3 to 0" controls data-autoplay="" loop muted playsinline poster="/assets/articles/detailed-rules/movement-poster.webp" preload="none" src="/assets/articles/detailed-rules/movement.mp4"></video>
+<figcaption>A minion with <img alt="3 speed" class="text-icon" height="72" src="/assets/icons/text/speed_3.png" style="--drop: 0.262" title="3 speed" width="99" loading="lazy" decoding="async"> is dragged along a three-tile route. The tiles it can reach are outlined, and its Speed badge counts down to <img alt="0 speed" class="text-icon" height="72" src="/assets/icons/text/speed_0.png" style="--drop: 0.262" title="0 speed" width="99" loading="lazy" decoding="async"> as it moves.</figcaption>
 </figure>
 <p>Characters can pass through tiles held by your other characters, but not through enemies, and must end their move on an empty tile.</p>
-<p>To <strong>battle</strong>, drag a character onto an enemy next to it. Both deal damage equal to their <img alt="power" class="text-icon" height="72" src="/assets/icons/text/power.png" style="--drop: 0.262" title="Power" width="106"> Power to each other at the same time. A character whose <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76"> Health reaches 0 is destroyed. If the defender is destroyed, the attacker moves into its tile.</p>
+<p>To <strong>battle</strong>, drag a character onto an enemy next to it. Both deal damage equal to their <img alt="power" class="text-icon" height="72" src="/assets/icons/text/power.png" style="--drop: 0.262" title="Power" width="106" loading="lazy" decoding="async"> Power to each other at the same time. A character whose <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76" loading="lazy" decoding="async"> Health reaches 0 is destroyed. If the defender is destroyed, the attacker moves into its tile.</p>
 <figure class="article-video">
-<video aria-label="Heavy Cavalry attacks Guerilla Gorilla. Both take damage at once, the Gorilla dies, and the Cavalry moves into its tile with 5 Health left" autoplay loop muted playsinline preload="auto" src="/assets/articles/detailed-rules/battle.mp4"></video>
-<figcaption><a class="card-link" data-card="Heavy Cavalry" href="/cards.html#heavy-cavalry">Heavy Cavalry</a> (<span class="text-icon-run"><img alt="5 power" class="text-icon" height="72" src="/assets/icons/text/power_5.png" style="--drop: 0.262" title="5 power" width="106"><img alt="8 health" class="text-icon" height="72" src="/assets/icons/text/health_8.png" style="--drop: 0.262" title="8 health" width="76"></span>) attacks a <a class="card-link" data-card="Guerilla Gorilla" href="/cards.html#guerilla-gorilla">Guerilla Gorilla</a> (<span class="text-icon-run"><img alt="3 power" class="text-icon" height="72" src="/assets/icons/text/power_3.png" style="--drop: 0.262" title="3 power" width="106"><img alt="4 health" class="text-icon" height="72" src="/assets/icons/text/health_4.png" style="--drop: 0.262" title="4 health" width="76"></span>). Both deal damage at the same time: the Gorilla is destroyed, and the Cavalry, down to <img alt="5 health" class="text-icon" height="72" src="/assets/icons/text/health_5.png" style="--drop: 0.262" title="5 health" width="76">, moves into its tile.</figcaption>
+<video aria-label="Heavy Cavalry attacks Guerilla Gorilla. Both take damage at once, the Gorilla dies, and the Cavalry moves into its tile with 5 Health left" controls data-autoplay="" loop muted playsinline poster="/assets/articles/detailed-rules/battle-poster.webp" preload="none" src="/assets/articles/detailed-rules/battle.mp4"></video>
+<figcaption><a class="card-link" data-card="Heavy Cavalry" href="/cards.html#heavy-cavalry">Heavy Cavalry</a> (<span class="text-icon-run"><img alt="5 power" class="text-icon" height="72" src="/assets/icons/text/power_5.png" style="--drop: 0.262" title="5 power" width="106" loading="lazy" decoding="async"><img alt="8 health" class="text-icon" height="72" src="/assets/icons/text/health_8.png" style="--drop: 0.262" title="8 health" width="76" loading="lazy" decoding="async"></span>) attacks a <a class="card-link" data-card="Guerilla Gorilla" href="/cards.html#guerilla-gorilla">Guerilla Gorilla</a> (<span class="text-icon-run"><img alt="3 power" class="text-icon" height="72" src="/assets/icons/text/power_3.png" style="--drop: 0.262" title="3 power" width="106" loading="lazy" decoding="async"><img alt="4 health" class="text-icon" height="72" src="/assets/icons/text/health_4.png" style="--drop: 0.262" title="4 health" width="76" loading="lazy" decoding="async"></span>). Both deal damage at the same time: the Gorilla is destroyed, and the Cavalry, down to <img alt="5 health" class="text-icon" height="72" src="/assets/icons/text/health_5.png" style="--drop: 0.262" title="5 health" width="76" loading="lazy" decoding="async">, moves into its tile.</figcaption>
 </figure>
 <p>A few more details:</p>
 <ul>
@@ -187,7 +188,7 @@
 </ul>
 <h2 id="claiming-territory">Claiming Territory</h2>
 <p>Once per turn, your commander can <strong>claim</strong> the tile it&rsquo;s standing on, if that tile is unclaimed and next to your territory. Claiming is free: it doesn&rsquo;t use the commander&rsquo;s movement or attack. A newly claimed tile starts giving mana at the start of your next turn.</p>
-<p>Your territory can only grow as large as your commander&rsquo;s <img alt="dominion" class="text-icon" height="72" src="/assets/icons/text/dominion.png" style="--drop: 0.177" title="Dominion" width="65"> Dominion. When you reach that limit, you have to <strong>unclaim</strong> a tile before you can claim another: right-click a tile you own and choose to unclaim it. Right-clicking any tile also shows its details.</p>
+<p>Your territory can only grow as large as your commander&rsquo;s <img alt="dominion" class="text-icon" height="72" src="/assets/icons/text/dominion.png" style="--drop: 0.177" title="Dominion" width="65" loading="lazy" decoding="async"> Dominion. When you reach that limit, you have to <strong>unclaim</strong> a tile before you can claim another: right-click a tile you own and choose to unclaim it. Right-clicking any tile also shows its details.</p>
 <p>You can&rsquo;t claim tiles your opponent owns, though some cards can.</p>
 <h2 id="abilities">Abilities</h2>
 <p>Some characters have abilities, shown as circles along the top of their token. Hover over one to read it. There are three kinds:</p>
@@ -198,16 +199,16 @@
 </ul>
 <p>Activated abilities sit in the top-left and top-right circles; static and triggered abilities sit in the top-center.</p>
 <figure class="article-video">
-<video aria-label="Blinkshot's activated ability lights up its range, targets an enemy Runic Knight two tiles away, and the shot destroys it" autoplay loop muted playsinline preload="auto" src="/assets/articles/detailed-rules/ability-activated.mp4"></video>
+<video aria-label="Blinkshot's activated ability lights up its range, targets an enemy Runic Knight two tiles away, and the shot destroys it" controls data-autoplay="" loop muted playsinline poster="/assets/articles/detailed-rules/ability-activated-poster.webp" preload="none" src="/assets/articles/detailed-rules/ability-activated.mp4"></video>
 <figcaption>An <strong>activated</strong> ability: <a class="card-link" data-card="Blinkshot" href="/cards.html#blinkshot">Blinkshot</a> uses <em>[Cooldown 2, Range 2]: Deal 4 damage to target character.</em> Its range lights up, it targets an enemy <a class="card-link" data-card="Runic Knight" href="/cards.html#runic-knight">Runic Knight</a> two tiles away, and the shot destroys it.</figcaption>
 </figure>
 <figure class="article-video">
-<video aria-label="Darkwing is played next to its commander. A blast hits the board: the enemy Owl Familiar dies, the enemy Gorilla and the player's commander take 2 damage, and Darkwing is unharmed" autoplay loop muted playsinline preload="auto" src="/assets/articles/detailed-rules/ability-arrival.mp4"></video>
+<video aria-label="Darkwing is played next to its commander. A blast hits the board: the enemy Owl Familiar dies, the enemy Gorilla and the player's commander take 2 damage, and Darkwing is unharmed" controls data-autoplay="" loop muted playsinline poster="/assets/articles/detailed-rules/ability-arrival-poster.webp" preload="none" src="/assets/articles/detailed-rules/ability-arrival.mp4"></video>
 <figcaption>A <strong>triggered</strong> ability: <a class="card-link" data-card="Darkwing" href="/cards.html#darkwing">Darkwing</a> is played next to its commander (Commander-Deploy), and its Arrival fires: <em>Deal 2 damage to ALL non-Daemon characters.</em> The enemy <a class="card-link" data-card="Owl Familiar" href="/cards.html#owl-familiar">Owl Familiar</a> is destroyed, the enemy <a class="card-link" data-card="Guerilla Gorilla" href="/cards.html#guerilla-gorilla">Guerilla Gorilla</a> and your own commander take 2 damage, and Darkwing, a Daemon, is unharmed.</figcaption>
 </figure>
 <h2 id="reading-card-text">Reading Card Text</h2>
 <p>Hover over a card to see what each keyword in its text means.</p>
-<p>Card text uses the stat icons in place of numbers. A number inside an icon is an amount of that stat: &ldquo;Gain <img alt="2 mana" class="text-icon" height="72" src="/assets/icons/text/mana_2.png" style="--drop: 0.262" title="2 mana" width="66"> this turn&rdquo; gives you 2 extra mana, and &ldquo;Target minion gains <span class="text-icon-run">+<img alt="1 power" class="text-icon" height="72" src="/assets/icons/text/power_1.png" style="--drop: 0.262" title="1 power" width="106"><img alt="1 speed" class="text-icon" height="72" src="/assets/icons/text/speed_1.png" style="--drop: 0.262" title="1 speed" width="99"><img alt="1 health" class="text-icon" height="72" src="/assets/icons/text/health_1.png" style="--drop: 0.262" title="1 health" width="76"></span>&rdquo; gives it +1 Power, +1 Speed, and +1 Health.</p>
+<p>Card text uses the stat icons in place of numbers. A number inside an icon is an amount of that stat: &ldquo;Gain <img alt="2 mana" class="text-icon" height="72" src="/assets/icons/text/mana_2.png" style="--drop: 0.262" title="2 mana" width="66" loading="lazy" decoding="async"> this turn&rdquo; gives you 2 extra mana, and &ldquo;Target minion gains <span class="text-icon-run">+<img alt="1 power" class="text-icon" height="72" src="/assets/icons/text/power_1.png" style="--drop: 0.262" title="1 power" width="106" loading="lazy" decoding="async"><img alt="1 speed" class="text-icon" height="72" src="/assets/icons/text/speed_1.png" style="--drop: 0.262" title="1 speed" width="99" loading="lazy" decoding="async"><img alt="1 health" class="text-icon" height="72" src="/assets/icons/text/health_1.png" style="--drop: 0.262" title="1 health" width="76" loading="lazy" decoding="async"></span>&rdquo; gives it +1 Power, +1 Speed, and +1 Health.</p>
 <p>Common keywords:</p>
 <ul>
 <li><strong>Arrival</strong>: happens when the card is played.</li>
@@ -225,11 +226,11 @@
 </ul>
 <h2 id="commanders">Commanders</h2>
 <p>Your commander is on the board from the start, and when it falls, you lose.</p>
-<p><img alt="Anatomy of a commander — patron color, activated ability, text, subtype, and the dominion, intellect, speed and health stats" class="wide" src="/assets/articles/detailed-rules/commander-anatomy.png"></p>
-<p>Like other characters, commanders have <img alt="speed" class="text-icon" height="72" src="/assets/icons/text/speed.png" style="--drop: 0.262" title="Speed" width="99"> Speed and <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76"> Health. They also have two stats of their own:</p>
+<p><picture><source type="image/webp" srcset="/assets/articles/detailed-rules/img-24e5c08d50-800.webp 800w, /assets/articles/detailed-rules/img-24e5c08d50-1600.webp 1600w" sizes="(max-width: 1234px) 94vw, 1160px"><img alt="Anatomy of a commander — patron color, activated ability, text, subtype, and the dominion, intellect, speed and health stats" class="wide" src="/assets/articles/detailed-rules/commander-anatomy.png" loading="lazy" decoding="async" width="2480" height="1800" data-full="/assets/articles/detailed-rules/commander-anatomy.png"></picture></p>
+<p>Like other characters, commanders have <img alt="speed" class="text-icon" height="72" src="/assets/icons/text/speed.png" style="--drop: 0.262" title="Speed" width="99" loading="lazy" decoding="async"> Speed and <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76" loading="lazy" decoding="async"> Health. They also have two stats of their own:</p>
 <ul>
-<li class="icon-item"><img alt="dominion" class="text-icon" height="72" src="/assets/icons/text/dominion.png" style="--drop: 0.177" title="Dominion" width="65"> <strong>Dominion</strong>: the most tiles you can own at once.</li>
-<li class="icon-item"><img alt="intellect" class="text-icon" height="72" src="/assets/icons/text/intellect.png" style="--drop: 0.262" title="Intellect" width="67"> <strong>Intellect</strong>: your maximum hand size. If you have more cards than this when your turn ends, you choose which to discard.</li>
+<li class="icon-item"><img alt="dominion" class="text-icon" height="72" src="/assets/icons/text/dominion.png" style="--drop: 0.177" title="Dominion" width="65" loading="lazy" decoding="async"> <strong>Dominion</strong>: the most tiles you can own at once.</li>
+<li class="icon-item"><img alt="intellect" class="text-icon" height="72" src="/assets/icons/text/intellect.png" style="--drop: 0.262" title="Intellect" width="67" loading="lazy" decoding="async"> <strong>Intellect</strong>: your maximum hand size. If you have more cards than this when your turn ends, you choose which to discard.</li>
 </ul>
 <p>Each commander also has its own text, with bonuses and abilities such as Claim.</p>
 <h3>Patrons</h3>
@@ -241,16 +242,16 @@
 <li><strong>Shadis</strong> (black): death. Relentless minions, powerful removal, and death synergies.</li>
 <li><strong>Archaeon</strong> (blue): knowledge. Efficient card draw, spellcasters, and tempo plays.</li>
 </ul>
-<p><img alt="The current patron gods" src="/assets/articles/detailed-rules/patron-gods.png"></p>
+<p><picture><source type="image/webp" srcset="/assets/articles/detailed-rules/img-0368d7eb7c-800.webp 800w, /assets/articles/detailed-rules/img-0368d7eb7c-1368.webp 1368w" sizes="(max-width: 760px) 92vw, 660px"><img alt="The current patron gods" src="/assets/articles/detailed-rules/patron-gods.png" loading="lazy" decoding="async" width="1368" height="248" data-full="/assets/articles/detailed-rules/patron-gods.png"></picture></p>
 <h2 id="setting-up-a-game">Setting Up a Game</h2>
 <ul>
 <li><strong>Your deck</strong> has 40 to 60 cards, with no more than 3 copies of any card.</li>
 <li><strong>The first player</strong> is chosen at random.</li>
-<li><strong>Your opening hand</strong>: you look at as many cards as your commander&rsquo;s <img alt="intellect" class="text-icon" height="72" src="/assets/icons/text/intellect.png" style="--drop: 0.262" title="Intellect" width="67"> Intellect and keep 3 if you&rsquo;re going first, or 4 if you&rsquo;re going second. The rest are shuffled back into your deck.</li>
-<li><strong>Going second</strong>, you also get a <a class="card-link" data-card="War Chest" href="/cards.html#war-chest">War Chest</a>: a free spell that gives you <img alt="1 mana" class="text-icon" height="72" src="/assets/icons/text/mana_1.png" style="--drop: 0.262" title="1 mana" width="66"> that turn and again at the start of your next turn.</li>
+<li><strong>Your opening hand</strong>: you look at as many cards as your commander&rsquo;s <img alt="intellect" class="text-icon" height="72" src="/assets/icons/text/intellect.png" style="--drop: 0.262" title="Intellect" width="67" loading="lazy" decoding="async"> Intellect and keep 3 if you&rsquo;re going first, or 4 if you&rsquo;re going second. The rest are shuffled back into your deck.</li>
+<li><strong>Going second</strong>, you also get a <a class="card-link" data-card="War Chest" href="/cards.html#war-chest">War Chest</a>: a free spell that gives you <img alt="1 mana" class="text-icon" height="72" src="/assets/icons/text/mana_1.png" style="--drop: 0.262" title="1 mana" width="66" loading="lazy" decoding="async"> that turn and again at the start of your next turn.</li>
 </ul>
 <h2 id="how-a-game-ends">How a Game Ends</h2>
-<p>You win when the enemy commander&rsquo;s <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76"> Health reaches 0. You also lose if you have to draw a card from an empty deck, or if you concede.</p>
+<p>You win when the enemy commander&rsquo;s <img alt="health" class="text-icon" height="72" src="/assets/icons/text/health.png" style="--drop: 0.262" title="Health" width="76" loading="lazy" decoding="async"> Health reaches 0. You also lose if you have to draw a card from an empty deck, or if you concede.</p>
 </div>
 <section class="article-more" aria-labelledby="article-more-title">
   <div class="container">
@@ -268,7 +269,7 @@
     <div class="article-card-tags"><span class="article-tag">rules</span><span class="article-tag">league</span><span class="article-tag">strategy</span></div>
     <h3 class="article-card-title">The Conquest Format</h3>
     <p class="article-card-summary">The Top 8 of the Atlas Conquest League is played in Conquest — three locked decks per player, win with all of them to take the round. Full rules, a worked example, and how to think about your lineup.</p>
-    <div class="article-card-byline"><span class="article-author">By Atlas Conquest Team</span><span class="article-meta-item"><span class="article-meta-sep" aria-hidden="true">◆</span><time datetime="2026-07-16">July 16, 2026</time></span><span class="article-meta-item article-readtime"><span class="article-meta-sep" aria-hidden="true">◆</span>6 min read</span></div>
+    <div class="article-card-byline"><span class="article-author">By Atlas Conquest Team</span><span class="article-meta-item"><span class="article-meta-sep" aria-hidden="true">◆</span><time datetime="2026-07-16">Jul 16, 2026</time></span><span class="article-meta-item article-readtime"><span class="article-meta-sep" aria-hidden="true">◆</span>6 min read</span></div>
     <span class="article-card-cta" aria-hidden="true">Read article<svg class="ac-icon" aria-hidden="true"><use href="#ac-i-arrow"/></svg></span>
   </div>
 </a>
@@ -297,12 +298,12 @@
         <div class="ac-footer__cta-copy">
           <p class="ac-eyebrow">Public beta</p>
           <h2 class="ac-title ac-title--md" id="ac-footer-cta-title">Take Up the Hammer</h2>
-          <p class="ac-footer__cta-text">Beta access goes out through our Discord. Join to get in when the gates open, find opponents and follow development as it happens.</p>
+          <p class="ac-footer__cta-text">Wishlist on Steam to hear the moment we launch. Beta access goes out through our Discord: join to get in when the gates open, find opponents and follow development as it happens.</p>
           <p class="ac-footer__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span><strong data-ac-discord-members></strong> members &middot; <strong data-ac-discord-online></strong> online now</span></p>
         </div>
         <div class="ac-footer__cta-actions">
-          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--gold ac-btn--lg" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
-          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-size="lg"><span class="ac-btn ac-btn--ghost ac-btn--lg is-soon" data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Coming soon to Steam</span></span></span>
+          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--steam ac-btn--lg" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Wishlist on Steam</span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--ghost ac-btn--lg" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
         </div>
       </div>
     </section>
@@ -321,7 +322,7 @@
             <li><a href="/assets/media/video/trailer.mp4" data-ac-trailer>Watch the trailer</a></li>
             <li><a href="/articles/">Articles &amp; guides</a></li>
             <li><a href="/press.html">Press kit</a></li>
-            <li><span class="ac-cta-slot" data-ac-cta="steam" data-ac-cta-style="text"><span class="ac-textcta is-soon" data-platform="steam">Steam <span class="ac-soon">Coming soon</span></span></span></li>
+            <li><span class="ac-cta-slot" data-ac-cta="steam" data-ac-cta-style="text"><a class="ac-textcta" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span>Wishlist on Steam</span></a></span></li>
           </ul>
         </nav>
         <nav class="ac-footer__col" aria-labelledby="ac-footer-community">
@@ -348,7 +349,7 @@
     <div class="ac-footer__bottom">
       <div class="ac-footer__inner ac-footer__bottom-inner">
         <p class="ac-footer__copy">&copy; 2026 Atlas Conquest</p>
-        <p class="ac-footer__human"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-brush"/></svg>100% human-made art</p>
+        <p class="ac-footer__human"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-brush"/></svg>Human-made art</p>
         <ul class="ac-footer__legal">
           <li><a href="/privacy.html">Privacy</a></li>
           <li><a href="/terms.html">Terms</a></li>

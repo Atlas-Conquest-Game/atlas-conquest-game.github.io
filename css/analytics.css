@@ -204,14 +204,9 @@
 }
 
 @media (max-width: 768px) {
-  /* responsive.css made the old pill row the scroller; the scroller is now
-     its own element, so undo that here. */
-  .sub-nav-inner {
-    overflow: visible;
-    -webkit-mask-image: none;
-    mask-image: none;
-    padding-right: 1rem;
-  }
+  /* The scroller is its own element (.sub-nav-scroller); the row itself
+     just keeps the phone gutter. */
+  .sub-nav-inner { padding-right: 1rem; }
   .sub-nav-label { display: none; }
   .sub-nav-scroller { margin: 0 -0.5rem; }
   .sub-nav-link { padding: 0 0.875rem; font-size: 0.8125rem; }
@@ -688,6 +683,10 @@
 /* ─── 6. Overview ────────────────────────────────────────────────────── */
 
 .an-overview-hero .ac-page-hero__inner > * { max-width: 640px; }
+/* Overview is a data landing page: compact hero, and the headline numbers
+   start close under the filter bar so they're in the first screen. (The
+   Discord CTA lives in the nav and the footer band.) */
+.an-overview-hero + .time-filter-bar + #overview.section { padding-top: clamp(1.75rem, 1rem + 2vw, 2.75rem); }
 
 .an-section-head {
   display: flex;
@@ -1331,6 +1330,70 @@ section.is-collapsed .section-title { margin-bottom: 0; }
 
 /* Goals: the bars fill on arrival. */
 .goal-card .progress-fill { transition: width 0.9s var(--ease-out); }
+
+/* A row reached from an article link (/cards.html#<slug>) glows gold briefly. */
+.data-table tbody tr.is-linked td {
+  background: rgba(232, 162, 69, 0.14);
+  transition: background 0.6s ease;
+}
+.data-table tbody tr.is-linked td:first-child { box-shadow: inset 3px 0 0 var(--gold); }
+.card-row td { scroll-margin-top: calc(var(--sticky-stack) + 48px); }
+
+/* ─── 7b. Narrow tables (≤600px) ─────────────────────────────────────── */
+
+/* Wide tables scroll sideways inside .table-wrapper. shared.js marks a wrapper
+   .is-scrollable while columns are hidden off its right edge, and the fade
+   below says "there's more this way" until you reach the end. */
+@media (max-width: 600px) {
+  .table-wrapper.is-scrollable:not(.is-at-end) {
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 44px), rgba(0, 0, 0, 0.25));
+            mask-image: linear-gradient(90deg, #000 calc(100% - 44px), rgba(0, 0, 0, 0.25));
+  }
+
+  /* Commanders → Winrate by turns / actions / duration. The commander column
+     stays pinned on the left at a fixed width so winrates are always in view;
+     the faction pill goes (the token's ring already carries the faction). */
+  .wr-bucket-table th.wr-cmd-col,
+  .wr-bucket-table td.wr-cmd-col {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    width: 9.5rem;
+    min-width: 9.5rem;
+    max-width: 9.5rem;
+    background: var(--bg-card);
+    box-shadow: inset -1px 0 0 var(--border);
+  }
+  .wr-bucket-table thead th.wr-cmd-col { background: #161d2a; z-index: 2; }
+  .wr-bucket-table tbody tr:nth-child(even) .wr-cmd-col {
+    background: linear-gradient(rgba(255, 255, 255, 0.014), rgba(255, 255, 255, 0.014)), var(--bg-card);
+  }
+  .wr-bucket-table tbody tr:hover .wr-cmd-col {
+    background: linear-gradient(rgba(232, 162, 69, 0.055), rgba(232, 162, 69, 0.055)), var(--bg-card);
+    box-shadow: inset 2px 0 0 var(--gold), inset -1px 0 0 var(--border);
+  }
+  .wr-bucket-table .an-cmd-cell { display: flex; gap: 0.5rem; min-width: 0; }
+  .wr-bucket-table .an-cmd-cell .faction-badge { display: none; }
+  .wr-bucket-table .an-cmd-cell strong {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8125rem;
+  }
+  .wr-bucket-table th:not(:first-child) { padding-left: 0.75rem; }
+
+  /* Cards table: Faction and Type give way to the numbers; the faction moves
+     to a 3px bar on the card name (type is still searchable above). */
+  .data-table [data-col="faction"],
+  .data-table [data-col="type"] { display: none; }
+  .data-table .card-row td[data-col="name"] {
+    box-shadow: inset 3px 0 0 var(--row-faction, transparent);
+    min-width: 8.5rem;
+  }
+  .data-table .card-row:hover td[data-col="name"] {
+    box-shadow: inset 3px 0 0 var(--gold);
+  }
+}
 
 /* ─── 8. Motion ──────────────────────────────────────────────────────── */
 

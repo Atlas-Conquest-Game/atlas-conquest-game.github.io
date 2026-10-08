@@ -90,7 +90,7 @@
   /* The nav collapses to a burger and the filter bar reflows below this
      breakpoint, so the sticky stack above a table pane gets shorter. */
   :root {
-    --sticky-stack: calc(var(--nav-height) + 66px);
+    --sticky-stack: 152px; /* 56 nav + 46 tab bar + 50 filter bar */
   }
 
   .hero {
@@ -112,10 +112,6 @@
 
   .hero-meta {
     gap: 0.375rem 0.75rem;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
   }
 
   .nav-inner {
@@ -149,20 +145,6 @@
   .nav-link {
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
-  }
-
-  /* Scrollable sub-nav; the right edge fades to hint there is more. */
-  .sub-nav-inner {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 82%, transparent 100%);
-    mask-image: linear-gradient(90deg, #000 0%, #000 84%, transparent 100%);
-    padding-right: 4rem;
-  }
-
-  .sub-nav-inner::-webkit-scrollbar {
-    display: none;
   }
 
   /* Swap the period/map button rows for compact dropdowns */

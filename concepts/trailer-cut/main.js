@@ -5,8 +5,8 @@
    CONFIG — every outbound link lives here. Change a value, reload, done.
    ========================================================================= */
 const CONFIG = {
-  primaryCta: 'discord',     // 'discord' = Join the Beta leads everywhere. Flip to 'steam' (with the URL below) when the store page is live.
-  steam: '',                 // Steam store URL. Empty = store page not live yet → "Coming soon" state.
+  primaryCta: 'steam',       // 'steam' = Wishlist on Steam leads everywhere. 'discord' flips the roles (Join the Beta leads).
+  steam: '',                 // Steam store URL. Empty = Steam buttons stay in place and point at '#' until the store page exists.
   discord: 'https://discord.gg/7QaEY4yJH5',
   youtubeTrailerId: '',      // YouTube video id. Empty = play the local trailer.mp4 in the modal.
   x: 'https://x.com/Atlas_Conquest',
@@ -21,7 +21,7 @@ const CONFIG = {
   const TRAILER_SRC = '../../assets/media/video/trailer.mp4';
   const TRAILER_POSTER = '../../assets/media/stills/t62_5.webp';
   const METADATA_URL = '../../data/metadata.json';
-  const FALLBACK = { matches: 5229, players: 240 };
+  const FALLBACK_MATCHES = 5229;
 
   const root = document.documentElement;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -37,6 +37,7 @@ const CONFIG = {
   let deckPinned = false; // true while the chapter deck is pinned (chapters own their clips)
   let chaptersCtl = null;
   let clipsCtl = null;
+  let fieldCtl = null;
 
   root.classList.add('js');
   if (!reduced) root.classList.add('js-reveal');
@@ -53,65 +54,31 @@ const CONFIG = {
   }
   function warm(v) { if (v && !reduced && !v.getAttribute('src')) { v.preload = 'auto'; v.src = v.dataset.src; } }
 
-  /* ---------------- Links ---------------- */
+  /* Full-bleed reels ship a 1920 and a 1280 encode; phones and small tablets get the 1280. */
+  function pickSources() {
+    if (innerWidth > 820) return;
+    $$('video[data-clip][data-src-sm]').forEach((v) => { v.dataset.src = v.dataset.srcSm; });
+  }
+
+  /* ---------------- Links + which call to action leads ----------------
+     Steam is the primary CTA by default. With no store URL yet, Steam buttons
+     simply point at '#' and do nothing when clicked. */
   function applyLinks() {
+    root.classList.toggle('primary-discord', CONFIG.primaryCta === 'discord');
     $$('[data-link]').forEach((a) => {
-      const url = CONFIG[a.dataset.link];
+      const key = a.dataset.link;
+      const url = CONFIG[key];
+      if (key === 'steam') {
+        if (url) { a.href = url; return; }
+        a.href = '#';
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+        a.addEventListener('click', (e) => e.preventDefault());
+        return;
+      }
       if (url) a.href = url;
       else (a.closest('li') || a).hidden = true;
     });
-  }
-
-  /* ---------------- Toast ---------------- */
-  let toastTimer = 0;
-  const toast = $('[data-toast]');
-  const toastBody = $('[data-toast-body]');
-  function hideToast() { toast.classList.remove('is-shown'); }
-  function showToast(html) {
-    toastBody.innerHTML = html;
-    toast.classList.add('is-shown');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(hideToast, 12000);
-  }
-  $('[data-toast-close]').addEventListener('click', hideToast);
-  toast.addEventListener('mouseenter', () => clearTimeout(toastTimer));
-  toast.addEventListener('focusin', () => clearTimeout(toastTimer));
-  toast.addEventListener('mouseleave', () => { toastTimer = setTimeout(hideToast, 5000); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && toast.classList.contains('is-shown') && !modalOpen) hideToast(); });
-
-  /* ---------------- Steam buttons ----------------
-     Store page live  → every [data-steam] becomes a real link, and the nav CTA becomes "Wishlist".
-     Not live yet     → buttons stay visually primary but explain + hand off to the Discord beta. */
-  function setupSteam() {
-    const live = !!CONFIG.steam;
-    root.classList.toggle('steam-live', live);
-    // Which call to action leads. Markup marked data-primary-only="discord|steam" is shown only for that mode
-    // (CSS defaults to Discord-first, so the page is right without JS too).
-    root.classList.toggle('primary-steam', CONFIG.primaryCta === 'steam' && live);
-    $$('[data-live-only]').forEach((el) => { el.hidden = !live; });
-    $$('[data-steam]').forEach((btn) => {
-      if (live) {
-        const a = document.createElement('a');
-        a.className = btn.className;
-        if (btn.dataset.primaryOnly) a.dataset.primaryOnly = btn.dataset.primaryOnly;
-        a.href = CONFIG.steam;
-        a.target = '_blank';
-        a.rel = 'noopener';
-        a.innerHTML = btn.innerHTML;
-        a.querySelectorAll('[data-soon]').forEach((c) => c.remove());
-        btn.replaceWith(a);
-      } else {
-        btn.addEventListener('click', () => {
-          showToast(
-            '<strong>Steam page coming soon</strong>' +
-            '<p>Our store page isn’t live yet. The public beta runs through our Discord: join to get in early and hear the moment wishlists open.</p>' +
-            '<a class="btn btn--discord btn--block" href="' + CONFIG.discord + '" target="_blank" rel="noopener">' +
-            '<svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg><span class="btn__label">Join the Discord</span></a>'
-          );
-        });
-      }
-    });
-    if (live) { const n = document.getElementById('steam-soon-note'); if (n) n.remove(); }
   }
 
   /* ---------------- Nav ---------------- */
@@ -141,7 +108,7 @@ const CONFIG = {
   /* ---------------- Smooth in-page anchors ---------------- */
   function scrollToY(y) { window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' }); }
   function setupAnchors() {
-    $$('a[href^="#"]:not([data-rail-link])').forEach((a) => {
+    $$('a[href^="#"]').forEach((a) => {
       a.addEventListener('click', (e) => {
         const id = a.getAttribute('href').slice(1);
         const target = id && document.getElementById(id);
@@ -235,6 +202,7 @@ const CONFIG = {
     const io = new IntersectionObserver((entries) => {
       entries.forEach(({ target: v, isIntersecting }) => {
         if (deckPinned && v.closest('[data-chapter]')) return;
+        if (v.hasAttribute('data-fields-video')) return; // setupFields starts it later
         want(v, isIntersecting);
       });
     }, { rootMargin: '120px 0px', threshold: 0.01 });
@@ -246,31 +214,14 @@ const CONFIG = {
           const r = v.getBoundingClientRect();
           if (r.bottom > -120 && r.top < innerHeight + 120) want(v, true);
         });
-        const o = $('video[data-oneshot]');
-        if (o && o.getAttribute('src') && !o.ended) safePlay(o);
       },
     };
-
-    // The numbers backdrop: one slow pull-back over the field of cards, then hold.
-    const one = $('video[data-oneshot]');
-    if (one) {
-      const io2 = new IntersectionObserver(([e]) => {
-        if (!e.isIntersecting) return;
-        io2.disconnect();
-        one.src = one.dataset.src;
-        one.preload = 'auto';
-        one.addEventListener('playing', () => { one.playbackRate = 0.5; }, { once: true });
-        safePlay(one);
-      }, { threshold: 0.25 });
-      io2.observe(one.closest('section'));
-    }
   }
 
   /* ---------------- Chapters: the pinned "deck" ----------------
-     Each chapter is a 100vh sticky stage. Chapter N+1's block overlaps N's by
-     125vh, so N+1 pins exactly one screen after N and fades in over it *in place*:
-     the gold title card dissolves in, then the real <h2> shrinks into its slot
-     while the clip opens like a shutter and the copy settles.
+     Each chapter is a 100vh sticky stage; the next one pins STRIDE viewport-heights
+     later and fades in over it *in place*: the gold title card dissolves in on dark,
+     then shrinks into its slot while the footage opens beneath it like a shutter.
      u = how many viewport-heights the reader has scrolled since the stage pinned. */
   function setupChapters() {
     const section = $('#chapters');
@@ -280,15 +231,14 @@ const CONFIG = {
     const stages = chapters.map((c) => $('.chapter__stage', c));
     const heads = chapters.map((c) => $('[data-head]', c));
     const videos = chapters.map((c) => $('video[data-clip]', c));
-    const rail = $('[data-rail]');
-    const railLinks = $$('[data-rail-link]', rail);
+    const segs = $$('[data-beatbar] i');
     const pinMQ = matchMedia('(min-width: 1000px) and (min-height: 640px)');
 
     const KF = chapters.map((c, i) => {
-      // v: dip the previous chapter to black · t: title card fades up · a: title → slot · b: shutter · c: copy
-      if (i === 0) return { v: null, t: null, a: [0.02, 0.28], b: [0.1, 0.36], c: [0.24, 0.46], peak: 0.62 };
-      if (c.classList.contains('chapter--climax')) return { v: [0, 0.08], t: [0.04, 0.14], a: [0.24, 0.42], b: [0.13, 0.33], c: [0.33, 0.46], peak: 0.49 };
-      return { v: [0, 0.08], t: [0.05, 0.16], a: [0.22, 0.46], b: [0.3, 0.54], c: [0.42, 0.62], peak: 0.76 };
+      // v: fade the stage in over the last one · t: title card fades up · a: title → slot · b: shutter · c: line
+      if (i === 0) return { v: null, t: null, a: [0.04, 0.24], b: [0.08, 0.3], c: [0.24, 0.38], peak: 0.4 };
+      if (c.classList.contains('chapter--climax')) return { v: [0, 0.06], t: [0.03, 0.12], a: [0.2, 0.38], b: [0.12, 0.32], c: [0.32, 0.44], peak: 0.48 };
+      return { v: [0, 0.06], t: [0.03, 0.12], a: [0.17, 0.37], b: [0.21, 0.41], c: [0.33, 0.46], peak: 0.48 };
     });
     const FULL = { v: 1, t: 1, a: 1, b: 1, c: 1 };
     const HIDDEN = { v: 0, t: 0, a: 0, b: 0, c: 0 };
@@ -308,8 +258,8 @@ const CONFIG = {
         const sr = stages[i].getBoundingClientRect();
         const hr = heads[i].getBoundingClientRect();
         const cy = hr.top - sr.top + hr.height / 2;
-        const s = clamp(Math.min(2.2, (sr.width * 0.84) / hr.width, (sr.height * 0.42) / hr.height), 1, 2.2);
-        c.style.setProperty('--dy', (sr.height * 0.47 - cy).toFixed(1));
+        const s = clamp(Math.min(2.1, (sr.width * 0.84) / hr.width, (sr.height * 0.34) / hr.height), 1, 2.1);
+        c.style.setProperty('--dy', (sr.height * 0.48 - cy).toFixed(1));
         c.style.setProperty('--s', s.toFixed(3));
       });
       root.classList.remove('is-measuring');
@@ -335,7 +285,7 @@ const CONFIG = {
       for (let i = 0; i < n; i++) {
         const top = tops[i] - y;
         const u = (y - tops[i]) / vh;
-        if (i === 0 ? top < vh * 0.5 : u >= 0.07) active = i;
+        if (i === 0 ? top < vh * 0.5 : u >= 0.06) active = i;
         if (!pinned) continue;
         let st;
         if (top >= vh - 0.5) st = FULL;          // not reached yet: rest in its resolved state (off-screen)
@@ -360,24 +310,20 @@ const CONFIG = {
           apply(i, st);
           const r = rects[i];
           const covered = i < n - 1 && states[i + 1].v >= 1 && rects[i + 1].top <= 0.5;
-          const onScreen = st.v > 0.01 && r.bottom > 1 && r.top < vh - 1 && !covered;
+          const onScreen = st.v > 0.01 && st.b > 0.01 && r.bottom > 1 && r.top < vh - 1 && !covered;
           want(videos[i], onScreen);
           if (!onScreen && y > 0 && r.top < vh * 1.5 && r.bottom > -vh) warm(videos[i]);
         });
       }
 
-      railLinks.forEach((l, i) => {
-        l.classList.toggle('is-active', i === active);
-        l.classList.toggle('is-done', active > -1 && i < active);
-        if (i === active) l.setAttribute('aria-current', 'step'); else l.removeAttribute('aria-current');
+      // Thin, unnumbered progress: each segment fills while its beat is on screen.
+      segs.forEach((s, i) => {
+        const span = i < n - 1 ? tops[i + 1] - tops[i] : KF[i].peak * vh;
+        const from = tops[i] - (i === 0 ? vh * 0.3 : 0);
+        s.style.setProperty('--p', clamp((y - from) / (span + (i === 0 ? vh * 0.3 : 0)), 0, 1).toFixed(3));
+        s.classList.toggle('is-on', i === active);
       });
-      // Scrubber fill: marker k is reached as chapter k's title card settles.
-      const m = tops.map((t, i) => t + (i === 0 ? 0.1 : 0.2) * vh);
-      let P = 0;
-      if (y >= m[n - 1]) P = 1;
-      else for (let k = 0; k < n - 1; k++) if (y >= m[k] && y < m[k + 1]) P = (k + (y - m[k]) / (m[k + 1] - m[k])) / (n - 1);
-      rail.style.setProperty('--rail', P.toFixed(4));
-      root.classList.toggle('in-chapters', y >= tops[0] - vh * 0.35 && y < tops[n - 1] + vh * (pinned ? 0.62 : 0.6));
+      root.classList.toggle('in-chapters', y >= tops[0] - vh * 0.3 && y < tops[n - 1] + vh * (pinned ? 0.62 : 0.6));
     }
     const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
 
@@ -396,18 +342,7 @@ const CONFIG = {
       update();
     }
 
-    railLinks.forEach((l) => {
-      l.addEventListener('click', (e) => {
-        e.preventDefault();
-        const i = +l.dataset.railLink;
-        measure();
-        scrollToY(pinned ? tops[i] + KF[i].peak * vh : tops[i]);
-        const h = $('h2', chapters[i]);
-        if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); }
-      });
-    });
-
-    // Keyboard focus landing inside a chapter (e.g. the trailer button in V): show that chapter resolved.
+    // Keyboard focus landing inside a chapter (e.g. the trailer button in the climax): show that chapter resolved.
     chapters.forEach((c, i) => c.addEventListener('focusin', () => {
       if (!pinned) return;
       const lo = tops[i] + KF[i].c[1] * vh;
@@ -425,28 +360,141 @@ const CONFIG = {
     setMode();
   }
 
-  /* ---------------- Chapter IV: beats in sync with the clip's captions ---------------- */
-  function setupBeats() {
-    const list = $('[data-beats]');
-    const v = $('[data-beats-video]');
-    if (!list || !v) return;
-    const items = $$('.beat', list);
-    list.classList.add('beats--static'); // until the clip actually plays (and forever with reduced motion)
-    if (reduced) return;
+  /* ---------------- Three Battlefields ----------------
+     One spliced reel (Dunes pull-back → Snowmelt → Tropics). It is fetched a screen
+     early and only starts once the band is 40% in view, so the pull-back is seen from
+     its first frame. The gold map name and the tabs follow video.currentTime; a tab
+     seeks to its map. (As a data-clip it still pauses for the trailer modal.)
+     Reduced motion: nothing plays, so the tabs swap between three stills. */
+  function setupFields() {
+    const sec = $('[data-fields]');
+    if (!sec) return;
+    const v = $('video[data-fields-video]', sec);
+    const names = $$('[data-map-name]', sec);
+    const tabs = $$('[data-map-tab]', sec);
+    const starts = tabs.map((b) => +b.dataset.t);
+    const XFADE = 0.5; // the reel's crossfades; a tab lands just after its map has faded in
+    let cur = -1;
     let raf = 0;
-    const tick = () => {
-      const t = v.currentTime;
-      const dur = v.duration || 6.2;
-      items.forEach((li) => {
-        const a = +li.dataset.from;
-        const b = Math.min(+li.dataset.to, dur);
-        const on = t >= a && t < b;
-        li.classList.toggle('is-on', on);
-        li.style.setProperty('--p', (on ? (t - a) / (b - a) : t >= b ? 1 : 0).toFixed(3));
+
+    const segAt = (t) => { let i = 0; starts.forEach((s, k) => { if (t >= s) i = k; }); return i; };
+    function show(i) {
+      if (i === cur) return;
+      if (cur >= 0) tabs[cur].style.removeProperty('--p');
+      cur = i;
+      names.forEach((n, k) => n.classList.toggle('is-on', k === i));
+      tabs.forEach((b, k) => {
+        b.classList.toggle('is-on', k === i);
+        b.setAttribute('aria-pressed', String(k === i));
       });
-      raf = v.paused ? 0 : requestAnimationFrame(tick);
+    }
+
+    if (reduced) {
+      sec.classList.add('is-still');
+      const still = (i) => { v.dataset.poster = tabs[i].dataset.still; if (v.getAttribute('poster')) v.poster = v.dataset.poster; };
+      still(0); // the whole Dunes map, not the opening close-up
+      tabs.forEach((b, i) => b.addEventListener('click', () => { show(i); still(i); }));
+      show(0);
+      return;
+    }
+
+    const sync = () => {
+      const t = v.currentTime;
+      const dur = v.duration || 16.4;
+      const i = segAt(t);
+      show(i);
+      const end = i < starts.length - 1 ? starts[i + 1] : dur;
+      tabs[i].style.setProperty('--p', clamp((t - starts[i]) / (end - starts[i]), 0, 1).toFixed(3));
     };
-    v.addEventListener('playing', () => { list.classList.remove('beats--static'); if (!raf) raf = requestAnimationFrame(tick); });
+    new IntersectionObserver(([e]) => { if (e.isIntersecting) warm(v); }, { rootMargin: '0px 0px 100% 0px' }).observe(v);
+    new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) want(v, false);
+      else if (e.intersectionRatio >= 0.4) want(v, true);
+    }, { threshold: [0, 0.4] }).observe(v);
+
+    const loop = () => { sync(); raf = v.paused ? 0 : requestAnimationFrame(loop); };
+    v.addEventListener('play', () => { if (!raf) raf = requestAnimationFrame(loop); });
+    v.addEventListener('pause', () => { cancelAnimationFrame(raf); raf = 0; sync(); });
+    v.addEventListener('seeked', sync);
+
+    // A server without byte-range support (e.g. a bare local static server) makes the file
+    // unseekable; then the reel is loaded once as a blob, which always seeks.
+    let blob = null;
+    const canSeek = (t) => { const s = v.seekable; for (let k = 0; k < s.length; k++) if (t >= s.start(k) && t <= s.end(k) + 0.05) return true; return false; };
+    function seekTo(t) {
+      if (v.readyState < 1) { v.addEventListener('loadedmetadata', () => seekTo(t), { once: true }); want(v, true); return; }
+      if (canSeek(t) || t === 0) { try { v.currentTime = t; } catch (_) { /* ignore */ } sync(); return; }
+      if (!blob) {
+        blob = fetch(v.currentSrc || v.dataset.src).then((r) => (r.ok ? r.blob() : Promise.reject())).then((b) => new Promise((res) => {
+          v.addEventListener('loadedmetadata', res, { once: true });
+          v.src = URL.createObjectURL(b);
+        })).catch(() => {});
+      }
+      blob.then(() => {
+        if (canSeek(t)) v.currentTime = t;
+        const r = v.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < innerHeight) want(v, true); // the src swap paused it
+        sync();
+      });
+    }
+
+    tabs.forEach((b, i) => b.addEventListener('click', () => {
+      show(i);
+      seekTo(i === 0 ? 0 : starts[i] + XFADE);
+    }));
+    show(0);
+  }
+
+  /* ---------------- Numbers backdrop: the card field ----------------
+     One smooth pull-back over the field of cards, then it holds on the last frame.
+     The file is a half-speed re-cut of the 60fps trailer with the darkness baked in
+     (no CSS filters), fetched well before it scrolls into view, and only started
+     once it can play through, so it never stutters on entry. */
+  function setupField() {
+    const v = $('video[data-field]');
+    if (!v) return;
+    const sec = v.closest('section');
+    const endPoster = v.dataset.end;
+    if (reduced) { v.poster = endPoster; return; } // the held final frame, as a still
+    const src = innerWidth <= 820 ? v.dataset.srcSm : v.dataset.src;
+    let state = 0; // 0 idle · 1 loading · 2 started
+    let raf = 0;
+    const giveUp = () => { // autoplay refused (e.g. low-power mode): show the held frame instead
+      v.removeAttribute('src');
+      try { v.load(); } catch (_) { /* ignore */ }
+      v.poster = endPoster;
+    };
+    const start = () => {
+      if (modalOpen) return;
+      try { const p = v.play(); if (p && p.catch) p.catch(giveUp); } catch (_) { giveUp(); }
+    };
+    const check = () => {
+      raf = 0;
+      const r = sec.getBoundingClientRect();
+      const vh = innerHeight;
+      if (state === 0 && r.top < vh * 2.5 && r.bottom > -vh) {
+        state = 1;
+        v.preload = 'auto';
+        v.src = src;
+        v.load();
+      }
+      if (state === 1 && r.top < vh * 0.62 && r.bottom > vh * 0.25) {
+        state = 2;
+        removeEventListener('scroll', onScroll);
+        if (v.readyState >= 4) start();
+        else {
+          let done = false;
+          const go = () => { if (!done) { done = true; start(); } };
+          v.addEventListener('canplaythrough', go, { once: true });
+          setTimeout(go, 1800); // don't wait forever on a slow connection
+        }
+      }
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(check); };
+    addEventListener('scroll', onScroll, { passive: true });
+    v.addEventListener('error', giveUp, { once: true });
+    check();
+    fieldCtl = { resume() { if (state === 2 && v.paused && !v.ended && v.currentTime > 0) safePlay(v); } };
   }
 
   /* ---------------- Reveal + image priming ----------------
@@ -477,23 +525,18 @@ const CONFIG = {
     check();
   }
 
-  /* ---------------- Live stats + count-up ---------------- */
-  async function loadStats() {
-    const out = { matches: FALLBACK.matches, players: FALLBACK.players, updated: null };
+  /* ---------------- Live match count + count-up ---------------- */
+  async function loadMatches() {
     try {
       const res = await fetch(METADATA_URL, { cache: 'no-cache' });
       if (res.ok) {
         const json = await res.json();
         const all = ((json && json.data) || json || {}).all;
         const a = all && all.all;
-        if (a) {
-          if (a.total_matches) out.matches = a.total_matches;
-          if (a.total_players) out.players = a.total_players;
-          if (a.last_updated) out.updated = a.last_updated;
-        }
+        if (a && a.total_matches) return a.total_matches;
       }
     } catch (_) { /* keep the fallback */ }
-    return out;
+    return FALLBACK_MATCHES;
   }
 
   function setupNumbers() {
@@ -506,20 +549,11 @@ const CONFIG = {
     };
 
     const liveEl = $('[data-live-matches]');
-    const ready = loadStats().then((s) => {
-      liveEl.dataset.count = String(s.matches);
-      srOf(liveEl).textContent = fmt(s.matches);
-      $$('[data-live-players]').forEach((n) => { n.textContent = fmt(s.players); });
+    const ready = loadMatches().then((m) => {
+      liveEl.dataset.count = String(m);
+      srOf(liveEl).textContent = fmt(m);
       // Headline rounds *down* to the thousand ("5,000+") so it never over-claims.
-      if (s.matches >= 1000) $$('[data-live-round]').forEach((n) => { n.textContent = fmt(Math.floor(s.matches / 1000) * 1000); });
-      if (s.updated) {
-        const d = new Date(s.updated);
-        if (!isNaN(d)) {
-          $$('[data-live-updated]').forEach((n) => {
-            n.textContent = 'updated ' + d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-          });
-        }
-      }
+      if (m >= 1000) $$('[data-live-round]').forEach((el) => { el.textContent = fmt(Math.floor(m / 1000) * 1000); });
       if (reduced || liveEl.dataset.done) setFinal(liveEl);
     });
 
@@ -623,86 +657,123 @@ const CONFIG = {
     measure();
   }
 
-  /* ---------------- Finale card ring ----------------
-     Sixteen two-sided cards on a slightly tilted ring: the far side shows card
-     backs passing behind, faces darken as they turn away, the edges dissolve. */
-  function setupRing() {
-    const stage = $('[data-ring]');
-    if (!stage || reduced) return; // reduced motion keeps the static fan
-    const ring = $('[data-ring-inner]', stage);
-    const items = $$('.ring__item', ring);
-    const toggle = $('[data-ring-toggle]');
-    const tLabel = $('[data-ring-toggle-label]');
-    const n = items.length;
-    const step = 360 / n;
-    const TILT = -8;
-    let R = 0;
-    ring.classList.add('is-3d');
-    stage.classList.add('is-3d');
-    toggle.hidden = false;
+  /* ---------------- Finale coverflow (the trailer's end slide) ----------------
+     Cards sit on a shallow arc: the centre card is largest and frontmost, the rest
+     turn away and recede toward both screen edges. Every 2.5s the row advances one
+     card. Each card carries its own perspective() so overlaps follow z-index (no
+     3D intersections), and cards only ever wrap around while invisible. */
+  function setupFlow() {
+    const flow = $('[data-flow]');
+    if (!flow) return;
+    const cards = $$('.flow__card', flow);
+    const toggle = $('[data-flow-toggle]', flow);
+    const n = cards.length;
+    const HALF = Math.floor(n / 2);
+    const SHOWN = 5;                   // cards visible either side of the centre
+    const STEP = (15 * Math.PI) / 180; // arc angle between neighbours
+    const INTERVAL = 2500;
+    let cur = 0;
+    const lastD = cards.map(() => null);
+    flow.classList.add('is-ready');
 
-    const layout = () => {
-      const cw = ring.offsetWidth;
-      R = Math.round(((cw / 2) / Math.tan(Math.PI / n)) * 1.16); // a little air between cards
-      items.forEach((it, i) => { it.style.transform = 'rotateY(' + (i * step) + 'deg) translateZ(' + R + 'px)'; });
-      // Fade the ring's own flanks (where cards turn edge-on), not the viewport's.
-      const P = parseFloat(getComputedStyle(stage).perspective) || 1500;
-      const th = 1.18; // ~67.5°: the widest point on screen
-      const half = (R * Math.sin(th) * P) / (P + R * (1 - Math.cos(th))) + cw * 0.42;
-      stage.style.setProperty('--ring-half', Math.round(half) + 'px');
-    };
+    const posOf = (i) => { let m = (((i - cur) % n) + n) % n; if (m > HALF) m -= n; return m; };
 
-    const BASE = -7; // deg per second
-    let angle = 0; let vel = BASE; let hover = false; let paused = false; let dragging = false;
-    let last = 0; let raf = 0;
-    function frame(t) {
-      const dt = Math.min(0.05, last ? (t - last) / 1000 : 0);
-      last = t;
-      const target = paused || hover ? 0 : BASE;
-      if (!dragging) {
-        vel += (target - vel) * Math.min(1, dt * 2.2);
-        angle += vel * dt;
-      }
-      ring.style.transform = 'translateZ(' + (-R) + 'px) rotateX(' + TILT + 'deg) rotateY(' + angle.toFixed(3) + 'deg)';
-      for (let i = 0; i < n; i++) {
-        const facing = Math.cos(((i * step + angle) * Math.PI) / 180);
-        items[i].style.setProperty('--shade', (facing > 0 ? (1 - facing) * 0.82 : 0.82).toFixed(3));
-      }
-      raf = requestAnimationFrame(frame);
+    function layout(instant) {
+      const cw = cards[0].offsetWidth;
+      const R = cw * 3.6;   // arc radius
+      const P = cw * 7;     // camera distance
+      cards.forEach((c, i) => {
+        const d = posOf(i);
+        const ad = Math.abs(d);
+        const sg = Math.sign(d);
+        const th = Math.min(ad, SHOWN + 1) * STEP;
+        const x = sg * R * Math.sin(th);
+        const z = R * (Math.cos(th) - 1) - ad * 0.06 * cw;
+        const rot = sg * Math.min(th * 1.18, 1.43);
+        const wrapped = lastD[i] !== null && Math.abs(d - lastD[i]) > HALF;
+        c.classList.toggle('is-jump', !!instant || wrapped);
+        c.style.transform = 'perspective(' + P.toFixed(0) + 'px) translate3d(' + x.toFixed(1) + 'px,0,' + z.toFixed(1) + 'px) rotateY(' + rot.toFixed(4) + 'rad)';
+        c.style.zIndex = String(50 - ad);
+        c.style.opacity = ad <= SHOWN - 1 ? '1' : ad === SHOWN ? '.7' : '0';
+        c.style.setProperty('--lit', Math.max(0.5, 1 - ad * 0.1).toFixed(2));
+        c.classList.toggle('is-center', d === 0);
+        c.setAttribute('aria-hidden', ad > SHOWN - 1 ? 'true' : 'false');
+        lastD[i] = d;
+      });
+      if (instant) { void flow.offsetWidth; cards.forEach((c) => c.classList.remove('is-jump')); }
     }
-    const start = () => { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } };
-    const stop = () => { cancelAnimationFrame(raf); raf = 0; };
-    new IntersectionObserver(([e]) => { if (e.isIntersecting) start(); else stop(); }).observe(stage);
 
-    stage.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hover = true; });
-    stage.addEventListener('pointerleave', () => { hover = false; });
+    function step(k) { cur = (((cur + k) % n) + n) % n; layout(false); }
 
-    let sx = 0; let sa = 0; let lx = 0; let lt = 0;
-    stage.addEventListener('pointerdown', (e) => {
-      if (e.button !== 0) return;
-      dragging = true; sx = lx = e.clientX; sa = angle; lt = performance.now();
-      stage.classList.add('is-dragging');
-      try { stage.setPointerCapture(e.pointerId); } catch (_) { /* ignore */ }
+    // Multi-card moves (clicking a far card) spin one card at a time, quickly.
+    let queue = 0;
+    let qTimer = 0;
+    function stepBy(k) {
+      if (!k) return;
+      clearTimeout(qTimer);
+      queue = k;
+      flow.classList.add('is-fast');
+      const run = () => {
+        const s = Math.sign(queue);
+        step(s);
+        queue -= s;
+        if (queue) qTimer = setTimeout(run, reduced ? 0 : 170);
+        else qTimer = setTimeout(() => flow.classList.remove('is-fast'), 500);
+      };
+      run();
+    }
+
+    // Autoplay: pauses on hover, focus, the toggle, a hidden tab, off-screen, or the trailer modal.
+    let hover = false; let focused = false; let userPaused = false; let inView = false; let timer = 0;
+    const canRun = () => !reduced && !hover && !focused && !userPaused && inView && !document.hidden && !modalOpen;
+    const schedule = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => { if (canRun()) step(1); schedule(); }, INTERVAL);
+    };
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { threshold: 0.25 }).observe(flow);
+    flow.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hover = true; });
+    flow.addEventListener('pointerleave', () => { hover = false; });
+    flow.addEventListener('focusin', () => { focused = true; });
+    flow.addEventListener('focusout', (e) => { if (!flow.contains(e.relatedTarget)) focused = false; });
+
+    if (!reduced) {
+      toggle.hidden = false;
+      toggle.addEventListener('click', () => {
+        userPaused = !userPaused;
+        toggle.setAttribute('aria-pressed', String(userPaused));
+        toggle.setAttribute('aria-label', userPaused ? 'Play cards' : 'Pause cards');
+      });
+    }
+
+    // Swipe / drag (touch keeps vertical page scrolling), click a card to bring it forward, arrow keys.
+    let sx = null; let moved = false;
+    flow.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0 || e.target.closest('button')) return;
+      sx = e.clientX; moved = false;
     });
-    stage.addEventListener('pointermove', (e) => {
-      if (!dragging) return;
-      angle = sa + (e.clientX - sx) * 0.2;
-      const now = performance.now();
-      vel = clamp(((e.clientX - lx) * 0.2) / Math.max(0.016, (now - lt) / 1000), -140, 140);
-      lx = e.clientX; lt = now;
+    flow.addEventListener('pointermove', (e) => { if (sx !== null && Math.abs(e.clientX - sx) > 10) moved = true; });
+    const end = (e) => {
+      if (sx === null) return;
+      const dx = e.clientX - sx;
+      sx = null;
+      if (Math.abs(dx) > 36) { stepBy(dx < 0 ? 1 : -1); schedule(); }
+    };
+    flow.addEventListener('pointerup', end);
+    flow.addEventListener('pointercancel', () => { sx = null; });
+    cards.forEach((c, i) => c.addEventListener('click', () => {
+      if (moved) return;
+      const d = posOf(i);
+      if (d) { stepBy(d); schedule(); }
+    }));
+    flow.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); stepBy(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); stepBy(-1); }
     });
-    const end = () => { if (!dragging) return; dragging = false; stage.classList.remove('is-dragging'); };
-    stage.addEventListener('pointerup', end);
-    stage.addEventListener('pointercancel', end);
 
-    toggle.addEventListener('click', () => {
-      paused = !paused;
-      toggle.setAttribute('aria-pressed', String(paused));
-      tLabel.textContent = paused ? 'Play cards' : 'Pause cards';
-    });
-
-    layout();
-    addEventListener('resize', layout);
+    layout(true);
+    let rt = 0;
+    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => layout(true), 100); });
+    schedule();
   }
 
   /* ---------------- Trailer modal ---------------- */
@@ -713,8 +784,7 @@ const CONFIG = {
     if (!dlg || typeof dlg.showModal !== 'function') {
       // Very old browsers: just open the file.
       $$('[data-trailer]').forEach((b) => b.addEventListener('click', () => {
-        const t = Math.floor(+b.dataset.t || 0);
-        window.open(CONFIG.youtubeTrailerId ? 'https://www.youtube.com/watch?v=' + CONFIG.youtubeTrailerId + (t ? '&t=' + t + 's' : '') : TRAILER_SRC + (t ? '#t=' + t : ''), '_blank', 'noopener');
+        window.open(CONFIG.youtubeTrailerId ? 'https://www.youtube.com/watch?v=' + CONFIG.youtubeTrailerId : TRAILER_SRC, '_blank', 'noopener');
       }));
       return;
     }
@@ -722,11 +792,10 @@ const CONFIG = {
 
     function open(e) {
       opener = e.currentTarget;
-      const t = Math.max(0, Math.floor(+opener.dataset.t || 0)); // chapter buttons jump to their beat
       frame.textContent = '';
       if (CONFIG.youtubeTrailerId) {
         const f = document.createElement('iframe');
-        f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(CONFIG.youtubeTrailerId) + '?autoplay=1&rel=0&modestbranding=1' + (t ? '&start=' + t : '');
+        f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(CONFIG.youtubeTrailerId) + '?autoplay=1&rel=0&modestbranding=1';
         f.title = 'Atlas Conquest trailer';
         f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
         f.allowFullscreen = true;
@@ -739,14 +808,12 @@ const CONFIG = {
         v.preload = 'auto';
         v.poster = TRAILER_POSTER;
         v.setAttribute('aria-label', 'Atlas Conquest trailer, with sound');
-        v.src = TRAILER_SRC + (t ? '#t=' + t : '');
-        // Belt and braces for servers/browsers that ignore the media fragment.
-        if (t) v.addEventListener('loadedmetadata', () => { if (v.currentTime < t - 0.5) v.currentTime = t; }, { once: true });
+        v.src = TRAILER_SRC;
         frame.appendChild(v);
       }
       modalOpen = true;
       if (heroCtl) heroCtl.update();
-      $$('video[data-clip], video[data-oneshot]').forEach((c) => { if (!c.paused) c.pause(); });
+      $$('video[data-clip], video[data-field]').forEach((c) => { if (!c.paused) c.pause(); });
       dlg.showModal();
       closeBtn.focus();
       const v = $('video', frame);
@@ -760,6 +827,7 @@ const CONFIG = {
       if (heroCtl) heroCtl.update();
       if (chaptersCtl) chaptersCtl.refresh();
       if (clipsCtl) clipsCtl.resume();
+      if (fieldCtl) fieldCtl.resume();
       if (opener && document.contains(opener)) opener.focus();
     }
     $$('[data-trailer]').forEach((b) => b.addEventListener('click', open));
@@ -773,17 +841,18 @@ const CONFIG = {
 
   /* ---------------- Boot ---------------- */
   applyLinks();
-  setupSteam();
   setupNav();
   setupAnchors();
   setupHero();
   setupEmbers();
+  pickSources();
   setupChapters();
   setupClips();
-  setupBeats();
+  setupFields();
+  setupField();
   setupReveal();
   setupNumbers();
   setupGallery();
-  setupRing();
+  setupFlow();
   setupModal();
 })();

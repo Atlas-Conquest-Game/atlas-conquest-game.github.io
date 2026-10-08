@@ -20,6 +20,20 @@
 
 .deck-hero.ac-page-hero--compact:has(.ac-page-hero__art) { --ac-hero-min: clamp(220px, 19vw, 276px); }
 
+/* The compact band is too short for a full-bleed crop to keep the pyrotechnic's
+   face, so on wide screens the painting sits in the right-hand ~60% (taller
+   crop, face in frame) and feathers into the navy behind the copy. */
+.deck-hero .ac-page-hero__art { object-position: 46% 40%; }
+@media (min-width: 901px) {
+  .deck-hero .ac-page-hero__art {
+    left: auto;
+    width: 62%;
+    object-position: 50% 42%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%);
+            mask-image: linear-gradient(90deg, transparent 0%, #000 34%);
+  }
+}
+
 .deck-hero .ac-page-hero__inner > * { max-width: 760px; }
 .deck-hero .ac-page-hero__lede { max-width: 640px; }
 .deck-hero .ac-page-hero__meta { margin-top: 1rem; }
@@ -2596,4 +2610,70 @@
   .card-tile-controls { gap: 3px; }
   .card-tile-pips i { width: 5px; height: 5px; }
   .card-tile-pips { gap: 2px; }
+}
+
+/* ── Shared-link view on phones/tablets (≤900px, where the sidebar is a drawer) ──
+   decks.js folds the import box to one line when a deck arrives via ?code=, and
+   shows a summary strip — whose deck, which commander, how many cards, Copy
+   link — right above the decklist. Above 900px the sidebar already says this. */
+
+.deck-import-linked { display: none; }
+.deck-share-strip { display: none; }
+
+@media (max-width: 900px) {
+  .deck-panel.is-linked .deck-import { display: none; }
+  .deck-panel.is-linked .deck-import-linked {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 6px 8px 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    font-size: 0.8125rem;
+    color: var(--text-secondary);
+  }
+  .deck-import-linked .ac-icon { width: 16px; height: 16px; color: var(--gold-text); flex: none; }
+  .deck-import-linked-text { flex: 1; min-width: 0; }
+  .deck-import-change {
+    min-height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    font: inherit;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .deck-import-change:hover { border-color: var(--accent-border); color: var(--gold-text); }
+
+  .deck-share-strip:not(.hidden) {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 18px;
+    padding: 12px 12px 12px 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(90% 160% at 0% 50%, color-mix(in srgb, var(--fc, var(--gold)) 18%, transparent), transparent 70%),
+      var(--bg-card);
+    box-shadow: var(--inner-highlight), var(--shadow-sm);
+  }
+  .cmd-token--strip { --size: 52px; --ring: 3px; }
+  .deck-share-strip-meta { flex: 1; min-width: 0; }
+  .deck-share-strip-name,
+  .deck-share-strip-sub {
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .deck-share-strip-name { font-size: 1rem; font-weight: 650; color: var(--text); }
+  .deck-share-strip-sub { margin-top: 2px; font-size: 0.8125rem; color: var(--text-secondary); }
+  .deck-share-strip-btn { flex: none; }
 }

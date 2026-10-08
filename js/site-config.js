@@ -2,18 +2,22 @@
  * Atlas Conquest — site config + shared chrome behaviour.
  *
  * AC_CONFIG is the one place to change calls-to-action and outbound links for
- * the whole site. When the Steam store page goes live:
- *     primaryCta: 'steam',  links.steam: 'https://store.steampowered.com/app/…'
- * and every [data-ac-cta] slot swaps roles and labels (Steam becomes the gold
- * primary, Discord the secondary). Set links.youtubeTrailerId to switch the
- * trailer from the local placeholder video to a YouTube (nocookie) embed.
+ * the whole site. Steam leads by default: every primary [data-ac-cta] slot is a
+ * Steam-blue "Wishlist on Steam" button and Discord takes the secondary spot.
+ * Until links.steam is set those Steam buttons point at '#' and do nothing when
+ * clicked; set links.steam to the store URL and they go live everywhere.
+ * primaryCta: 'discord' flips the roles back (gold Discord primary, Steam as the
+ * ghost secondary). Set links.youtubeTrailerId to switch the trailer from the
+ * local placeholder video to a YouTube (nocookie) embed.
  *
  * Loaded with `defer` from every page's AC:HEAD region. Markup hooks:
  *   [data-ac-cta="primary|secondary|discord|steam"]  CTA slot (keep a static
- *       Discord-link fallback inside it). Options: data-ac-cta-size="sm|lg",
- *       data-ac-cta-short (short label), data-ac-cta-count (live online chip on
- *       the Discord button), data-ac-cta-style="gold|ghost|discord|steam|text",
- *       data-ac-cta-label="…" (custom label for a live link).
+ *       fallback inside it that matches the default render, so nothing shifts
+ *       when this script runs). Options: data-ac-cta-size="sm|lg",
+ *       data-ac-cta-short (short label; ="narrow" renders both labels and lets
+ *       CSS pick the short one on small screens), data-ac-cta-count (live online
+ *       chip on the Discord button), data-ac-cta-style="gold|ghost|discord|steam|pill|text",
+ *       data-ac-cta-label="…" (custom label).
  *   [data-ac-discord-members] / [data-ac-discord-online]  filled with live counts.
  *   [data-ac-discord-live]  container shown (hidden attr removed) once counts load.
  *   [data-ac-trailer]  any button/link; opens the trailer modal.
@@ -23,10 +27,10 @@
  *      closeTrailer(), discordCounts()} and a document 'ac:discord' event.
  */
 window.AC_CONFIG = {
-  primaryCta: 'discord', // 'discord' | 'steam' (steam only takes effect once links.steam is set)
+  primaryCta: 'steam', // 'steam' (default: Wishlist on Steam leads) | 'discord' (Join the Beta leads)
   links: {
     discord: 'https://discord.gg/7QaEY4yJH5',
-    steam: '', // Steam store URL; empty renders a non-link "Coming soon to Steam"
+    steam: '', // Steam store URL; empty keeps "Wishlist on Steam" in place as a no-op '#' link
     youtubeTrailerId: '', // e.g. 'dQw4w9WgXcQ'; empty plays assets/media/video/trailer.mp4
     x: 'https://x.com/Atlas_Conquest',
     instagram: 'https://www.instagram.com/atlasconquest/',
@@ -53,7 +57,6 @@ window.AC_CONFIG = {
   const LABELS = {
     discord: { full: 'Join the Beta on Discord', short: 'Join the Beta' },
     steam: { full: 'Wishlist on Steam', short: 'Wishlist' },
-    steamSoon: { full: 'Coming soon to Steam', short: 'Steam soon' },
   };
 
   const numberFormat = new Intl.NumberFormat('en-US');
@@ -85,8 +88,9 @@ window.AC_CONFIG = {
   }
 
   function primaryPlatform() {
-    // Steam can only lead once it has somewhere to send people.
-    return config.primaryCta === 'steam' && steamLive() ? 'steam' : 'discord';
+    // Steam leads unless the config explicitly hands the lead to Discord. It
+    // does so even before the store page exists (the button is a no-op then).
+    return config.primaryCta === 'discord' ? 'discord' : 'steam';
   }
 
   function platformFor(role) {
@@ -109,42 +113,47 @@ window.AC_CONFIG = {
     return chip;
   }
 
+  function labelNodes(platform, slot) {
+    const custom = slot.getAttribute('data-ac-cta-label');
+    if (custom) return [document.createTextNode(custom)];
+    const short = slot.getAttribute('data-ac-cta-short');
+    if (short === 'narrow') {
+      // Both labels; brand.css shows the short one on small screens.
+      return [
+        el('span', 'ac-btn__label-full', LABELS[platform].full),
+        el('span', 'ac-btn__label-short', LABELS[platform].short),
+      ];
+    }
+    return [document.createTextNode(LABELS[platform][short != null ? 'short' : 'full'])];
+  }
+
   function renderCta(slot) {
     const role = slot.getAttribute('data-ac-cta');
     const platform = platformFor(role);
     if (!platform) return;
 
-    const short = slot.hasAttribute('data-ac-cta-short');
     const size = slot.getAttribute('data-ac-cta-size');
     const isPrimary = platform === primaryPlatform();
-    const soon = platform === 'steam' && !steamLive();
+    // The lead button wears its platform's colours: Steam blue or molten gold.
+    const lead = role === 'primary' || (role !== 'secondary' && isPrimary);
     const style = slot.getAttribute('data-ac-cta-style') ||
-      (role === 'secondary' ? 'ghost' : role === 'primary' || isPrimary ? 'gold' : 'ghost');
-    const href = platform === 'discord' ? links.discord : links.steam;
-    const custom = slot.getAttribute('data-ac-cta-label');
-    const label = soon
-      ? LABELS.steamSoon[short ? 'short' : 'full']
-      : custom || LABELS[platform][short ? 'short' : 'full'];
+      (lead ? (platform === 'steam' ? 'steam' : 'gold') : 'ghost');
+    const pending = platform === 'steam' && !steamLive();
 
-    let node;
-    if (style === 'text') {
-      if (soon) {
-        node = el('span', 'ac-textcta is-soon');
-        node.append('Steam ', el('span', 'ac-soon', 'Coming soon'));
-      } else {
-        node = el('a', 'ac-textcta');
-        node.append(icon(platform), el('span', null, label));
-      }
-    } else {
-      node = el(soon ? 'span' : 'a', 'ac-btn ac-btn--' + style);
-      if (size === 'sm' || size === 'lg') node.classList.add('ac-btn--' + size);
-      if (soon) node.classList.add('is-soon');
-      node.append(icon(platform), el('span', 'ac-btn__label', label));
-      if (platform === 'discord' && slot.hasAttribute('data-ac-cta-count')) node.appendChild(liveChip());
-    }
+    const label = el('span', style === 'text' ? null : 'ac-btn__label');
+    label.append(...labelNodes(platform, slot));
+
+    const node = el('a', style === 'text' ? 'ac-textcta' : 'ac-btn ac-btn--' + style);
+    if (style !== 'text' && (size === 'sm' || size === 'lg')) node.classList.add('ac-btn--' + size);
+    node.append(icon(platform), label);
+    if (style !== 'text' && platform === 'discord' && slot.hasAttribute('data-ac-cta-count')) node.appendChild(liveChip());
     node.setAttribute('data-platform', platform);
-    if (!soon) {
-      node.href = href;
+    if (pending) {
+      // No store page yet: keep the button, go nowhere (see initPendingLinks).
+      node.href = '#';
+      node.setAttribute('data-ac-pending', '');
+    } else {
+      node.href = platform === 'discord' ? links.discord : links.steam;
       node.target = '_blank';
       node.rel = 'noopener';
     }
@@ -400,7 +409,11 @@ window.AC_CONFIG = {
       frame.replaceChildren(iframe);
     } else {
       const video = document.createElement('video');
-      video.src = ROOT + 'assets/media/video/trailer.mp4';
+      // 720p (~12 MB) unless the screen can really show 1080p (~42 MB, also
+      // the Press-kit download): phones no longer stream the master.
+      const sharp = window.screen && (window.screen.width * (window.devicePixelRatio || 1)) >= 2200 &&
+        window.matchMedia('(min-width: 1200px)').matches;
+      video.src = ROOT + 'assets/media/video/' + (sharp ? 'trailer.mp4' : 'trailer-720.mp4');
       video.poster = ROOT + 'assets/media/video/hero-poster.webp';
       video.controls = true;
       video.playsInline = true;
@@ -444,6 +457,16 @@ window.AC_CONFIG = {
     });
   }
 
+  // Steam buttons before the store URL exists are '#' links: swallow the click
+  // so they don't jump to the top of the page. Delegated, so the static
+  // fallback markup in the partials behaves the same.
+  function initPendingLinks() {
+    document.addEventListener('click', e => {
+      const link = e.target.closest('a[data-ac-pending]');
+      if (link && link.getAttribute('href') === '#') e.preventDefault();
+    });
+  }
+
   // ─── Boot ────────────────────────────────────────────────────────────
 
   function init() {
@@ -453,6 +476,7 @@ window.AC_CONFIG = {
     initNav();
     initSkipLink();
     initTrailerTriggers();
+    initPendingLinks();
     syncStickyStack();
     let resizeTimer = 0;
     window.addEventListener('resize', () => {

@@ -63,6 +63,13 @@
     h2 { font-size: 26px; }
     .body p { margin: 0; color: var(--muted); font-size: 15px; }
     .open { margin-top: auto; padding-top: 8px; font-weight: 600; color: var(--gold-1); font-size: 14px; }
+    .group { text-align: left; font-size: clamp(22px, 2.6vw, 30px); max-width: 1180px; margin: 8px auto 6px; }
+    .group-sub { max-width: 1180px; margin: 0 auto 20px; color: var(--muted); }
+    .group--old { margin-top: 56px; font-size: 22px; }
+    .grid--3 { grid-template-columns: repeat(3, 1fr); max-width: 1180px; }
+    .grid--old .concept { opacity: .85; }
+    .grid--old .concept:hover { opacity: 1; }
+    @media (max-width: 960px) { .grid--3 { grid-template-columns: 1fr; max-width: 560px; } }
     .bonus { max-width: 1040px; margin: 28px auto 0; }
     .concept--bonus { flex-direction: row; opacity: .9; }
     .concept--bonus .thumb { flex: 0 0 44%; aspect-ratio: auto; min-height: 220px; border-bottom: 0; border-right: 1px solid var(--line); }
@@ -86,43 +93,60 @@
       <img src="../assets/media/logo/wordmark-1200.webp" alt="Atlas Conquest" width="1200" height="189">
       <h1>Homepage Concepts</h1>
       <div class="ornament" aria-hidden="true"><span></span></div>
-      <p>Two directions for the new front door, both built from the trailer, the hammer logo and real game art. Open each one, scroll the whole thing, try it on your phone, and tell me what you love and what you hate. Mixing pieces across concepts is totally fair game.</p>
+      <p>Round 2: three takes on Trailer Cut with your feedback applied. Open each one, scroll the whole thing, and tell me which parts to keep. Mixing pieces across variants is fair game.</p>
     </header>
 
-    <div class="grid">
+    <h2 class="group">Trailer Cut &middot; round 2</h2>
+    <p class="group-sub">Your notes applied: Steam is the main button (Discord where the Steam pill was), no chapter numbers, captions or chips, bigger clips, a cleaner numbers section, and the trailer's &ldquo;Wishlist on Steam Now&rdquo; end slide as the finale.</p>
+    <div class="grid grid--3">
       <a class="concept" href="trailer-cut/">
         <div class="thumb" style="background-image:url('trailer-cut/thumb.webp')"></div>
         <div class="body">
-          <span class="label">Concept A</span>
-          <h2>Trailer Cut</h2>
-          <p>Cinematic and video-first. The trailer becomes the website: a full-bleed gameplay hero, the five trailer beats cutting in place as you scroll, a gallery of painted legends, and the trailer's end card with a tilted ring of real cards.</p>
-          <span class="open">Open concept &rarr;</span>
+          <span class="label">Variant A</span>
+          <h2>Refined</h2>
+          <p>The version you reviewed, with every note applied. Gold title cards hand off to big clips as you scroll, and the finale matches the trailer's end slide.</p>
+          <span class="open">Open &rarr;</span>
         </div>
+      </a>
+      <a class="concept" href="trailer-cut-b/">
+        <div class="thumb" style="background-image:url('trailer-cut-b/thumb.webp')"></div>
+        <div class="body">
+          <span class="label">Variant B</span>
+          <h2>Full-Bleed Reel</h2>
+          <p>The five beats play full-screen on one pinned stage. Each title card lands over dark footage, then shrinks to a lower-third as the clip brightens. Titles only, no body text.</p>
+          <span class="open">Open &rarr;</span>
+        </div>
+      </a>
+      <a class="concept" href="trailer-cut-c/">
+        <div class="thumb" style="background-image:url('trailer-cut-c/thumb.webp')"></div>
+        <div class="body">
+          <span class="label">Variant C</span>
+          <h2>Sun Forge</h2>
+          <p>The beats become a sideways filmstrip of big clips as you scroll, and the finale puts the molten-sun Atlas rising behind &ldquo;Wishlist on Steam Now&rdquo;.</p>
+          <span class="open">Open &rarr;</span>
+        </div>
+      </a>
+    </div>
+
+    <p class="group-sub" style="margin-top:22px">New: <a href="clips/">13 fresh gameplay clips</a> recorded from the game (most aren't in the trailer). Pick favorites and I'll drop them into the variant you choose.</p>
+
+    <h2 class="group group--old">Earlier concepts</h2>
+    <div class="grid grid--3 grid--old">
+      <a class="concept" href="_archive/trailer-cut-2026-10-06/">
+        <div class="thumb" style="background-image:url('_archive/trailer-cut-2026-10-06/thumb.webp')"></div>
+        <div class="body"><span class="label">Round 1</span><h2>Trailer Cut (original)</h2><p>The version you gave feedback on, kept for comparison.</p><span class="open">Open &rarr;</span></div>
       </a>
       <a class="concept" href="molten-sun/">
         <div class="thumb" style="background-image:url('molten-sun/thumb.webp')"></div>
-        <div class="body">
-          <span class="label">Concept B</span>
-          <h2>Molten Sun</h2>
-          <p>Poster-like and mythic, grown out of the Steam capsule art: the hammer Atlas as a living molten sun, an ember sky with a hex lattice, the trailer in a gilded theater, and a Patron Gods pantheon that recolors per god.</p>
-          <span class="open">Open concept &rarr;</span>
-        </div>
+        <div class="body"><span class="label">Round 1</span><h2>Molten Sun</h2><p>The poster-like direction. Its sun guy now lives in Variant C.</p><span class="open">Open &rarr;</span></div>
       </a>
-    </div>
-
-    <div class="bonus">
-      <a class="concept concept--bonus" href="living-board/">
+      <a class="concept" href="living-board/">
         <div class="thumb" style="background-image:url('living-board/thumb.webp')"></div>
-        <div class="body">
-          <span class="label">Bonus &middot; not the planned direction</span>
-          <h2>Living Board</h2>
-          <p>The playful one: the hero is a hex board painted with real map tiles, where you can claim territory and drag real cards from a hand. Includes a "how it plays" stepper and a commander picker. Here for ideas worth stealing.</p>
-          <span class="open">Open concept &rarr;</span>
-        </div>
+        <div class="body"><span class="label">Round 1 &middot; bonus</span><h2>Living Board</h2><p>The playable hex-board idea.</p><span class="open">Open &rarr;</span></div>
       </a>
     </div>
 
-    <p class="note">All three lead with <strong>Join the Beta on Discord</strong>. One setting (<code>primaryCta</code>) flips every page to <strong>Wishlist on Steam</strong> when the store page is live. The trailer plays from a local placeholder until it's on YouTube.</p>
+    <p class="note">Round 2 leads with <strong>Wishlist on Steam</strong> (a dead link until the store page exists) and Discord second. One setting (<code>primaryCta</code>) swaps them. The trailer plays from a local placeholder until it's on YouTube.</p>
 
     <footer>
       Work in progress on the <code>site-refresh</code> branch &middot; <a href="../index.html">Current homepage</a>

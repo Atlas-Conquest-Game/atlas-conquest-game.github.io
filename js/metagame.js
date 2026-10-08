@@ -6,6 +6,9 @@
 
 let currentCommander = 'all';
 let currentSort = 'prevalence';
+// First page of archetypes rendered before "Show all" (see renderMetagame).
+const ARCHETYPE_PAGE = 25;
+let showAllArchetypes = false;
 
 function escapeHTML(value) {
   return String(value ?? '')
@@ -98,7 +101,7 @@ function updateHero() {
   el('hero-matches', `${(meta.total_matches || 0).toLocaleString()} matches`);
   const updated = meta.last_updated ? new Date(meta.last_updated) : null;
   el('hero-updated', updated && !Number.isNaN(updated.getTime())
-    ? `Last updated: ${updated.toLocaleDateString()}`
+    ? `Last updated: ${formatSiteDate(updated)}`
     : 'Last updated: --');
 }
 
@@ -189,10 +192,10 @@ function renderArchetypeTabBg(row) {
   // itself, so the faded commander strip on the left is dropped.
   const cmdBg = typeof window.ACA !== 'undefined'
     ? ''
-    : `<span class="archetype-tab-bg archetype-tab-bg-left" aria-hidden="true"><img class="archetype-bg-img archetype-bg-commander" src="assets/commanders/${cmdSlug}.jpg" alt="" onerror="this.style.display='none'"></span>`;
+    : `<span class="archetype-tab-bg archetype-tab-bg-left" aria-hidden="true"><img class="archetype-bg-img archetype-bg-commander" src="assets/commanders/${cmdSlug}.jpg" alt="" width="400" height="400" loading="lazy" decoding="async" onerror="this.style.display='none'"></span>`;
 
   const cardImgs = nameCards.map(n =>
-    `<img class="archetype-bg-img archetype-bg-card" src="assets/art/${commanderSlug(n)}.jpg" alt="" onerror="this.style.display='none'">`
+    `<img class="archetype-bg-img archetype-bg-card" src="assets/art/${commanderSlug(n)}.jpg" alt="" width="450" height="410" loading="lazy" decoding="async" onerror="this.style.display='none'">`
   ).join('');
   const cardsBg = nameCards.length
     ? `<span class="archetype-tab-bg archetype-tab-bg-right" aria-hidden="true">${cardImgs}</span>`
@@ -288,12 +291,33 @@ function renderMetagame() {
     return;
   }
 
-  list.innerHTML = rows.map(renderArchetypeCard).join('');
+  // The full list runs to ~90 archetypes, each with its own art and two
+  // tables. Render the top slice first; the rest arrive on request.
+  const first = showAllArchetypes ? rows : rows.slice(0, ARCHETYPE_PAGE);
+  list.innerHTML = first.map(renderArchetypeCard).join('');
+  if (first.length < rows.length) {
+    list.insertAdjacentHTML('beforeend', `
+      <div class="archetype-more">
+        <button type="button" class="ac-btn ac-btn--ghost ac-btn--sm" id="archetype-show-all">Show all ${rows.length.toLocaleString()} archetypes</button>
+        <p class="archetype-more-note">Showing the top ${first.length} by ${currentSort === 'winrate' ? 'winrate' : 'prevalence'}.</p>
+      </div>`);
+    document.getElementById('archetype-show-all').addEventListener('click', () => {
+      showAllArchetypes = true;
+      const more = list.querySelector('.archetype-more');
+      const rest = rows.slice(first.length).map((row, i) => renderArchetypeCard(row, first.length + i)).join('');
+      more.insertAdjacentHTML('beforebegin', rest);
+      more.remove();
+      bindArchetypeToggles();
+      const next = list.querySelectorAll('.archetype-tab')[first.length];
+      if (next) next.focus({ preventScroll: true });
+    });
+  }
   bindArchetypeToggles();
 }
 
 function bindArchetypeToggles() {
-  document.querySelectorAll('.archetype-tab').forEach(button => {
+  document.querySelectorAll('.archetype-tab:not([data-bound])').forEach(button => {
+    button.dataset.bound = '1';
     button.addEventListener('click', () => {
       const card = button.closest('.archetype-card');
       const panel = card.querySelector('.archetype-panel');

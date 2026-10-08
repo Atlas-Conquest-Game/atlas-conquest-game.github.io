@@ -4,16 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meta Trends — Atlas Conquest Analytics</title>
+  <meta name="description" content="Atlas Conquest matchup heatmap, commander and faction popularity over time, and first-turn advantage from beta and playtest matches.">
+  <link rel="canonical" href="https://atlas-conquest.com/meta.html">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Atlas Conquest">
   <meta property="og:title" content="Meta Trends — Atlas Conquest Analytics">
-  <meta property="og:description" content="Matchup heatmap, faction winrates, and commander popularity trends for Atlas Conquest.">
-  <meta property="og:image" content="https://atlas-conquest.com/assets/logo/atlas-conquest-icon.png">
+  <meta property="og:description" content="Atlas Conquest matchup heatmap, commander and faction popularity over time, and first-turn advantage from beta and playtest matches.">
+  <meta property="og:image" content="https://atlas-conquest.com/assets/social/atlas-conquest-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Atlas Conquest logo: Online Competitive Hex-Grid Card Battles, releasing 2027">
   <meta property="og:url" content="https://atlas-conquest.com/meta.html">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@Atlas_Conquest">
   <meta name="twitter:title" content="Meta Trends — Atlas Conquest Analytics">
-  <meta name="twitter:description" content="Matchup heatmap, faction winrates, and commander popularity trends for Atlas Conquest.">
-  <meta name="twitter:image" content="https://atlas-conquest.com/assets/logo/atlas-conquest-icon.png">
+  <meta name="twitter:description" content="Atlas Conquest matchup heatmap, commander and faction popularity over time, and first-turn advantage from beta and playtest matches.">
+  <meta name="twitter:image" content="https://atlas-conquest.com/assets/social/atlas-conquest-og.jpg">
+  <meta name="twitter:image:alt" content="The Atlas Conquest logo: Online Competitive Hex-Grid Card Battles, releasing 2027">
   <link rel="icon" type="image/png" href="assets/logo/atlas-conquest-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -70,8 +77,8 @@
           </ul>
           <div class="ac-nav__extras">
             <div class="ac-nav__ctas">
-              <span class="ac-cta-slot" data-ac-cta="primary"><a class="ac-btn ac-btn--gold" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
-              <span class="ac-cta-slot" data-ac-cta="secondary"><span class="ac-btn ac-btn--ghost is-soon" data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Coming soon to Steam</span></span></span>
+              <span class="ac-cta-slot" data-ac-cta="primary"><a class="ac-btn ac-btn--steam" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Wishlist on Steam</span></a></span>
+              <span class="ac-cta-slot" data-ac-cta="secondary"><a class="ac-btn ac-btn--ghost" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
             </div>
             <p class="ac-nav__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span><strong data-ac-discord-online></strong> online now &middot; <strong data-ac-discord-members></strong> in the Discord</span></p>
             <ul class="ac-social" aria-label="Atlas Conquest on social media">
@@ -83,7 +90,8 @@
           </div>
         </div>
         <div class="ac-nav__actions">
-          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="sm" data-ac-cta-short data-ac-cta-count><a class="ac-btn ac-btn--gold ac-btn--sm" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta</span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-style="pill" data-ac-cta-short data-ac-cta-count><a class="ac-btn ac-btn--pill" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta</span><span class="ac-btn__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span data-ac-discord-online></span><span class="ac-btn__live-label"> online</span></span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="sm" data-ac-cta-short="narrow" data-ac-cta-count><a class="ac-btn ac-btn--steam ac-btn--sm" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label"><span class="ac-btn__label-full">Wishlist on Steam</span><span class="ac-btn__label-short">Wishlist</span></span></a></span>
         </div>
       </nav>
     </div>
@@ -163,7 +171,7 @@
   <header class="ac-page-hero ac-page-hero--compact an-hero" style="--ac-hero-pos: 58% 40%">
     <img class="ac-page-hero__art" src="assets/media/keyart/nilo-1200.webp" srcset="assets/media/keyart/nilo-1200.webp 1200w, assets/media/keyart/nilo-2400.webp 2400w" sizes="100vw" width="1200" height="675" alt="" fetchpriority="high" decoding="async">
     <div class="ac-page-hero__inner">
-      <p class="ac-eyebrow">Beta Analytics</p>
+      <p class="ac-eyebrow">Matchups &middot; Trends</p>
       <h1 class="ac-title">Meta Trends</h1>
       <span class="ac-ornament ac-ornament--start" aria-hidden="true"></span>
       <p class="ac-page-hero__lede">Head-to-head matchups, faction and commander popularity over time, and how much going first really matters in beta and playtest matches.</p>
@@ -292,7 +300,7 @@
   <section id="first-turn-section" class="section">
     <div class="container">
       <h2 class="section-title collapsible">First-Turn Advantage <span class="tooltip-icon" data-tooltip="How much each commander benefits from going first. Turn order is taken from the recorded first player, or inferred from mulligan kept count (3 = went first, 4 = went second) for games after first-player tracking stopped.">?</span> <button type="button" class="chevron" aria-expanded="true" aria-label="First-Turn Advantage">&#9662;</button></h2>
-      <div class="section-body collapsed">
+      <div class="section-body">
         <p class="section-desc">
           Going first: <strong id="ft-going-first">--</strong>
           <span style="color: var(--text-muted); margin: 0 0.5rem;">&middot;</span>
@@ -307,19 +315,6 @@
     </div>
   </section>
 
-  <!-- Faction Loyalty Trends (placeholder) -->
-  <section id="patron-trends" class="section section-alt">
-    <div class="container">
-      <h2 class="section-title collapsible">Faction Loyalty Trends <button type="button" class="chevron" aria-expanded="true" aria-label="Faction Loyalty Trends">&#9662;</button></h2>
-      <div class="section-body collapsed">
-        <div class="placeholder-card">
-          <p class="placeholder-text">Coming soon — tracking how deck faction loyalty (patron vs neutral vs off-faction card ratios) shifts over time across the meta.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
   </main>
 
   <!-- AC:FOOTER — generated from site/partials/footer.html by scripts/sync_chrome.py; edit the partial, not this block. -->
@@ -330,12 +325,12 @@
         <div class="ac-footer__cta-copy">
           <p class="ac-eyebrow">Public beta</p>
           <h2 class="ac-title ac-title--md" id="ac-footer-cta-title">Take Up the Hammer</h2>
-          <p class="ac-footer__cta-text">Beta access goes out through our Discord. Join to get in when the gates open, find opponents and follow development as it happens.</p>
+          <p class="ac-footer__cta-text">Wishlist on Steam to hear the moment we launch. Beta access goes out through our Discord: join to get in when the gates open, find opponents and follow development as it happens.</p>
           <p class="ac-footer__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span><strong data-ac-discord-members></strong> members &middot; <strong data-ac-discord-online></strong> online now</span></p>
         </div>
         <div class="ac-footer__cta-actions">
-          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--gold ac-btn--lg" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
-          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-size="lg"><span class="ac-btn ac-btn--ghost ac-btn--lg is-soon" data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Coming soon to Steam</span></span></span>
+          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--steam ac-btn--lg" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Wishlist on Steam</span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--ghost ac-btn--lg" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
         </div>
       </div>
     </section>
@@ -354,7 +349,7 @@
             <li><a href="assets/media/video/trailer.mp4" data-ac-trailer>Watch the trailer</a></li>
             <li><a href="articles/">Articles &amp; guides</a></li>
             <li><a href="press.html">Press kit</a></li>
-            <li><span class="ac-cta-slot" data-ac-cta="steam" data-ac-cta-style="text"><span class="ac-textcta is-soon" data-platform="steam">Steam <span class="ac-soon">Coming soon</span></span></span></li>
+            <li><span class="ac-cta-slot" data-ac-cta="steam" data-ac-cta-style="text"><a class="ac-textcta" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span>Wishlist on Steam</span></a></span></li>
           </ul>
         </nav>
         <nav class="ac-footer__col" aria-labelledby="ac-footer-community">
@@ -381,7 +376,7 @@
     <div class="ac-footer__bottom">
       <div class="ac-footer__inner ac-footer__bottom-inner">
         <p class="ac-footer__copy">&copy; 2026 Atlas Conquest</p>
-        <p class="ac-footer__human"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-brush"/></svg>100% human-made art</p>
+        <p class="ac-footer__human"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-brush"/></svg>Human-made art</p>
         <ul class="ac-footer__legal">
           <li><a href="privacy.html">Privacy</a></li>
           <li><a href="terms.html">Terms</a></li>

@@ -14,10 +14,13 @@
  * `activate` handler evicts the old cache and clients pick up fresh files.
  */
 
+// v6: the deck page's own hero art joins the shell, card art now comes from the
+// transparent WebP renders in /assets/media/cards/ (cached like the JPGs were),
+// and commander tokens use the small WebPs in /assets/commanders/token/.
 // v5: brand chrome — brand.css, site-config.js, the title font, the hammer
 // wordmark and footer key art join the shell, and the shell is now actually
 // served from cache when offline (see isShellRequest below).
-const CACHE_NAME = 'ac-decks-v5-preview-202610060110';
+const CACHE_NAME = 'ac-decks-v6-preview-202610072353';
 const DATA_CACHE = 'ac-decks-data-v2';
 // Bumped to v2 to flush art cached under the old cache-first strategy, which
 // pinned every viewed card JPG permanently and hid updated screenshots.
@@ -40,7 +43,7 @@ const SHELL_URLS = [
   '/js/deckcode.js',
   '/js/decks.js',
   // UI chrome. Small and used on every decklist row, and it falls outside
-  // isArtRequest() (which only covers /assets/cards/ and /assets/commanders/),
+  // isArtRequest() (which only covers card, commander and faction art),
   // so without this the compact view loses its cost gems offline.
   '/assets/ui/cost-gem.webp',
   // Brand chrome (site/partials/): nav + footer wordmarks, the title font and
@@ -49,6 +52,8 @@ const SHELL_URLS = [
   '/assets/media/logo/wordmark-640.webp',
   '/assets/media/fonts/OptimusPrincepsSemiBold.woff',
   '/assets/media/keyart/khazgar-1200.webp',
+  // The deck builder's hero painting.
+  '/assets/media/keyart/pyrotechnic-1200.webp',
   '/assets/logo/icon-192.png',
   '/assets/logo/icon-512.png',
   '/assets/logo/apple-touch-icon.png',
@@ -78,7 +83,12 @@ async function precacheCommanderArt(artCache) {
     const commanders = await res.json();
     const urls = commanders.flatMap(c => {
       const slug = slugify(c.name);
-      return [`/assets/commanders/${slug}.jpg`, `/assets/cards/${slug}.jpg`];
+      return [
+        `/assets/commanders/${slug}.jpg`,
+        `/assets/commanders/token/${slug}.webp`,
+        `/assets/cards/${slug}.jpg`,
+        `/assets/media/cards/${slug}.webp`,
+      ];
     });
     await artCache.addAll(urls);
   } catch {
@@ -111,7 +121,10 @@ function isDataRequest(url) {
 }
 
 function isArtRequest(url) {
-  return url.pathname.startsWith('/assets/cards/') || url.pathname.startsWith('/assets/commanders/');
+  return url.pathname.startsWith('/assets/cards/') ||
+    url.pathname.startsWith('/assets/commanders/') ||
+    url.pathname.startsWith('/assets/media/cards/') ||
+    url.pathname.startsWith('/assets/factions/');
 }
 
 // The precached shell's own CSS/JS/images. Served network-first so online

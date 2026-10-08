@@ -27,9 +27,9 @@
   <link rel="stylesheet" href="/css/responsive.css">
   <!-- AC:HEAD — generated from site/partials/head.html by scripts/sync_chrome.py; edit the partial, not this block. -->
   <script>document.documentElement.classList.add('ac-js')</script>
-  <link rel="preload" href="assets/media/fonts/OptimusPrincepsSemiBold.woff" as="font" type="font/woff" crossorigin>
-  <link rel="stylesheet" href="css/brand.css">
-  <script src="js/site-config.js" defer></script>
+  <link rel="preload" href="/assets/media/fonts/OptimusPrincepsSemiBold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="stylesheet" href="/css/brand.css">
+  <script src="/js/site-config.js" defer></script>
   <!-- /AC:HEAD -->
   <link rel="stylesheet" href="/css/notfound.css">
 </head>
@@ -52,8 +52,8 @@
   <div class="ac-nav" data-ac-nav>
     <div class="ac-nav__bar">
       <nav class="ac-nav__inner" aria-label="Primary">
-        <a class="ac-nav__brand" href="index.html">
-          <img src="assets/media/logo/wordmark-360.webp" srcset="assets/media/logo/wordmark-360.webp 360w, assets/media/logo/wordmark-640.webp 640w" sizes="190px" width="190" height="30" alt="Atlas Conquest home">
+        <a class="ac-nav__brand" href="/index.html">
+          <img src="/assets/media/logo/wordmark-360.webp" srcset="/assets/media/logo/wordmark-360.webp 360w, /assets/media/logo/wordmark-640.webp 640w" sizes="190px" width="190" height="30" alt="Atlas Conquest home">
         </a>
         <button class="ac-nav__toggle" type="button" aria-expanded="false" aria-controls="ac-nav-menu">
           <span class="ac-nav__burger" aria-hidden="true"><span></span><span></span><span></span></span>
@@ -61,16 +61,16 @@
         </button>
         <div class="ac-nav__menu" id="ac-nav-menu">
           <ul class="ac-nav__links">
-            <li><a class="nav-link" data-nav="home" href="index.html">Home</a></li>
-            <li><a class="nav-link" data-nav="analytics" href="analytics.html">Analytics</a></li>
-            <li><a class="nav-link" data-nav="decks" href="decks.html">Decks</a></li>
-            <li><a class="nav-link" data-nav="articles" href="articles/">Articles</a></li>
-            <li><a class="nav-link" data-nav="press" href="press.html">Press</a></li>
+            <li><a class="nav-link" data-nav="home" href="/index.html">Home</a></li>
+            <li><a class="nav-link" data-nav="analytics" href="/analytics.html">Analytics</a></li>
+            <li><a class="nav-link" data-nav="decks" href="/decks.html">Decks</a></li>
+            <li><a class="nav-link" data-nav="articles" href="/articles/">Articles</a></li>
+            <li><a class="nav-link" data-nav="press" href="/press.html">Press</a></li>
           </ul>
           <div class="ac-nav__extras">
             <div class="ac-nav__ctas">
-              <span class="ac-cta-slot" data-ac-cta="primary"><a class="ac-btn ac-btn--gold" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
-              <span class="ac-cta-slot" data-ac-cta="secondary"><span class="ac-btn ac-btn--ghost is-soon" data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Coming soon to Steam</span></span></span>
+              <span class="ac-cta-slot" data-ac-cta="primary"><a class="ac-btn ac-btn--steam" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Wishlist on Steam</span></a></span>
+              <span class="ac-cta-slot" data-ac-cta="secondary"><a class="ac-btn ac-btn--ghost" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
             </div>
             <p class="ac-nav__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span><strong data-ac-discord-online></strong> online now &middot; <strong data-ac-discord-members></strong> in the Discord</span></p>
             <ul class="ac-social" aria-label="Atlas Conquest on social media">
@@ -82,7 +82,8 @@
           </div>
         </div>
         <div class="ac-nav__actions">
-          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="sm" data-ac-cta-short data-ac-cta-count><a class="ac-btn ac-btn--gold ac-btn--sm" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta</span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-style="pill" data-ac-cta-short data-ac-cta-count><a class="ac-btn ac-btn--pill" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta</span><span class="ac-btn__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span data-ac-discord-online></span><span class="ac-btn__live-label"> online</span></span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="sm" data-ac-cta-short="narrow" data-ac-cta-count><a class="ac-btn ac-btn--steam ac-btn--sm" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label"><span class="ac-btn__label-full">Wishlist on Steam</span><span class="ac-btn__label-short">Wishlist</span></span></a></span>
         </div>
       </nav>
     </div>
@@ -91,7 +92,7 @@
   <!-- /AC:NAV -->
 
   <main id="main" class="nf">
-    <img class="nf-art" src="/assets/media/keyart/zoghn-1200.webp" srcset="/assets/media/keyart/zoghn-1200.webp 1200w, /assets/media/keyart/zoghn-2400.webp 2400w" sizes="100vw" width="1200" height="675" alt="" fetchpriority="high" decoding="async">
+    <img class="nf-art" src="/assets/media/keyart/vampire-1200.webp" srcset="/assets/media/keyart/vampire-1200.webp 1200w, /assets/media/keyart/vampire-2400.webp 2400w" sizes="100vw" width="1200" height="675" alt="" fetchpriority="high" decoding="async">
     <div class="nf-inner">
       <div class="nf-copy">
         <p class="ac-eyebrow">Error 404 &middot; Off the map</p>
@@ -196,24 +197,24 @@
   <!-- AC:FOOTER — generated from site/partials/footer.html by scripts/sync_chrome.py; edit the partial, not this block. -->
   <footer class="ac-footer">
     <section class="ac-footer__cta" aria-labelledby="ac-footer-cta-title">
-      <img class="ac-footer__cta-art" src="assets/media/keyart/khazgar-1200.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
+      <img class="ac-footer__cta-art" src="/assets/media/keyart/khazgar-1200.webp" alt="" width="1200" height="675" loading="lazy" decoding="async">
       <div class="ac-footer__inner ac-footer__cta-inner">
         <div class="ac-footer__cta-copy">
           <p class="ac-eyebrow">Public beta</p>
           <h2 class="ac-title ac-title--md" id="ac-footer-cta-title">Take Up the Hammer</h2>
-          <p class="ac-footer__cta-text">Beta access goes out through our Discord. Join to get in when the gates open, find opponents and follow development as it happens.</p>
+          <p class="ac-footer__cta-text">Wishlist on Steam to hear the moment we launch. Beta access goes out through our Discord: join to get in when the gates open, find opponents and follow development as it happens.</p>
           <p class="ac-footer__live" data-ac-discord-live hidden><span class="ac-dot" aria-hidden="true"></span><span><strong data-ac-discord-members></strong> members &middot; <strong data-ac-discord-online></strong> online now</span></p>
         </div>
         <div class="ac-footer__cta-actions">
-          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--gold ac-btn--lg" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
-          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-size="lg"><span class="ac-btn ac-btn--ghost ac-btn--lg is-soon" data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Coming soon to Steam</span></span></span>
+          <span class="ac-cta-slot" data-ac-cta="primary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--steam ac-btn--lg" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span class="ac-btn__label">Wishlist on Steam</span></a></span>
+          <span class="ac-cta-slot" data-ac-cta="secondary" data-ac-cta-size="lg"><a class="ac-btn ac-btn--ghost ac-btn--lg" href="https://discord.gg/7QaEY4yJH5" target="_blank" rel="noopener" data-platform="discord"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-discord"/></svg><span class="ac-btn__label">Join the Beta on Discord</span></a></span>
         </div>
       </div>
     </section>
     <div class="ac-footer__main">
       <div class="ac-footer__inner ac-footer__grid">
         <div class="ac-footer__brand">
-          <a class="ac-footer__logo" href="index.html"><img src="assets/media/logo/wordmark-640.webp" alt="Atlas Conquest home" width="240" height="38" loading="lazy" decoding="async"></a>
+          <a class="ac-footer__logo" href="/index.html"><img src="/assets/media/logo/wordmark-640.webp" alt="Atlas Conquest home" width="240" height="38" loading="lazy" decoding="async"></a>
           <p class="ac-footer__tagline" data-ac-text="tagline">Online Competitive Hex-Grid Card Battles</p>
           <p class="ac-footer__release"><span data-ac-text="release">Releasing 2027</span></p>
           <p class="ac-footer__press">Press &amp; business<br><a href="mailto:press@atlas-conquest.com" data-ac-href="press">press@atlas-conquest.com</a></p>
@@ -221,11 +222,11 @@
         <nav class="ac-footer__col" aria-labelledby="ac-footer-game">
           <h2 class="ac-footer__heading" id="ac-footer-game">Game</h2>
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="assets/media/video/trailer.mp4" data-ac-trailer>Watch the trailer</a></li>
-            <li><a href="articles/">Articles &amp; guides</a></li>
-            <li><a href="press.html">Press kit</a></li>
-            <li><span class="ac-cta-slot" data-ac-cta="steam" data-ac-cta-style="text"><span class="ac-textcta is-soon" data-platform="steam">Steam <span class="ac-soon">Coming soon</span></span></span></li>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/assets/media/video/trailer.mp4" data-ac-trailer>Watch the trailer</a></li>
+            <li><a href="/articles/">Articles &amp; guides</a></li>
+            <li><a href="/press.html">Press kit</a></li>
+            <li><span class="ac-cta-slot" data-ac-cta="steam" data-ac-cta-style="text"><a class="ac-textcta" href="#" data-ac-pending data-platform="steam"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-steam"/></svg><span>Wishlist on Steam</span></a></span></li>
           </ul>
         </nav>
         <nav class="ac-footer__col" aria-labelledby="ac-footer-community">
@@ -240,11 +241,11 @@
         <nav class="ac-footer__col" aria-labelledby="ac-footer-tools">
           <h2 class="ac-footer__heading" id="ac-footer-tools">Tools</h2>
           <ul>
-            <li><a href="analytics.html">Match analytics</a></li>
-            <li><a href="commanders.html">Commanders</a></li>
-            <li><a href="cards.html">Cards</a></li>
-            <li><a href="meta.html">Meta trends</a></li>
-            <li><a href="decks.html">Deck builder</a></li>
+            <li><a href="/analytics.html">Match analytics</a></li>
+            <li><a href="/commanders.html">Commanders</a></li>
+            <li><a href="/cards.html">Cards</a></li>
+            <li><a href="/meta.html">Meta trends</a></li>
+            <li><a href="/decks.html">Deck builder</a></li>
           </ul>
         </nav>
       </div>
@@ -252,10 +253,10 @@
     <div class="ac-footer__bottom">
       <div class="ac-footer__inner ac-footer__bottom-inner">
         <p class="ac-footer__copy">&copy; 2026 Atlas Conquest</p>
-        <p class="ac-footer__human"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-brush"/></svg>100% human-made art</p>
+        <p class="ac-footer__human"><svg class="ac-icon" aria-hidden="true"><use href="#ac-i-brush"/></svg>Human-made art</p>
         <ul class="ac-footer__legal">
-          <li><a href="privacy.html">Privacy</a></li>
-          <li><a href="terms.html">Terms</a></li>
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
         </ul>
       </div>
     </div>

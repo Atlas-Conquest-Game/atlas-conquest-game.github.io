@@ -317,7 +317,7 @@ function buildColoredDatasets(entries, selectedSet, factionLookup, opts = {}) {
   const factionCounter = {};
   return visible.map(cmd => {
     const faction = factionLookup[cmd.name] || 'neutral';
-    const baseColor = FACTION_COLORS[faction] || '#58a6ff';
+    const baseColor = FACTION_COLORS[faction] || CHART_THEME.gold;
     const idx = factionCounter[faction] || 0;
     factionCounter[faction] = idx + 1;
     const color = idx === 0 ? baseColor : shiftColor(baseColor, idx * 15);
@@ -546,6 +546,16 @@ function renderFirstTurnChart(ftData) {
   el('ft-going-second', ((1 - ftData.first_player_winrate) * 100).toFixed(1) + '%');
   el('ft-overall-games', ftData.total_games.toLocaleString() + ' games');
 
+  // Phones: 16 commanders don't fit as columns, so the bars run sideways with
+  // full names on the left and the chart grows to fit them.
+  const narrow = FT_NARROW.matches;
+  const wrap = canvas.parentElement;
+  if (wrap) wrap.style.height = narrow ? `${cmds.length * 36 + 90}px` : '';
+  const valueAxis = { min: 20, max: 80, ticks: { callback: v => v + '%' }, grid: { color: CHART_THEME.grid } };
+  const nameAxis = narrow
+    ? { ticks: { font: { size: 10 }, autoSkip: false }, grid: { display: false } }
+    : { ticks: { maxRotation: 45, font: { size: 10 } }, grid: { display: false } };
+
   firstTurnChart = new Chart(canvas, {
     type: 'bar',
     data: {
@@ -572,8 +582,9 @@ function renderFirstTurnChart(ftData) {
       ],
     },
     options: {
+      indexAxis: narrow ? 'y' : 'x',
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: !narrow,
       plugins: {
         legend: {
           labels: { usePointStyle: true, pointStyle: 'circle', padding: 14, font: { size: 11 } },
@@ -587,26 +598,21 @@ function renderFirstTurnChart(ftData) {
               const games = isFirst ? d.first_games : d.second_games;
               const adv = ((d.first_winrate - d.second_winrate) * 100).toFixed(1);
               const advStr = adv >= 0 ? `+${adv}pp` : `${adv}pp`;
-              return `${ctx.dataset.label}: ${ctx.parsed.y}% (${games} games) · ${advStr}`;
+              const value = narrow ? ctx.parsed.x : ctx.parsed.y;
+              return `${ctx.dataset.label}: ${value}% (${games} games) · ${advStr}`;
             },
           },
         },
       },
-      scales: {
-        y: {
-          min: 20,
-          max: 80,
-          ticks: { callback: v => v + '%' },
-          grid: { color: CHART_THEME.grid },
-        },
-        x: {
-          ticks: { maxRotation: 45, font: { size: 10 } },
-          grid: { display: false },
-        },
-      },
+      scales: narrow ? { x: valueAxis, y: nameAxis } : { y: valueAxis, x: nameAxis },
     },
   });
 }
+
+const FT_NARROW = window.matchMedia('(max-width: 600px)');
+FT_NARROW.addEventListener('change', () => {
+  if (appData && appData.firstTurn) renderFirstTurnChart(getPeriodData(appData.firstTurn, currentPeriod));
+});
 
 // ─── Matchup Detail Modal ────────────────────────────────────
 
@@ -637,6 +643,7 @@ function syncModalFilterBar() {
 }
 
 async function openMatchupModal(cmd1, cmd2) {
+  const opener = document.activeElement;
   const details = await loadMatchupDetails();
   if (!details) return;
 
@@ -657,6 +664,7 @@ async function openMatchupModal(cmd1, cmd2) {
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
   document.body.classList.add('modal-open');
+  acModalOpen(modal, opener);
 }
 
 function renderMatchupModalContent(matchup, cmd1, cmd2) {
@@ -785,6 +793,7 @@ function closeMatchupModal() {
   const modal = document.getElementById('matchup-modal');
   if (!modal) return;
   modal.classList.remove('open');
+  acModalClose(modal);
   document.body.style.overflow = '';
   document.body.classList.remove('modal-open');
   matchupModalOpen = false;
@@ -871,9 +880,21 @@ function renderAll() {
 // ─── Collapsible Sections ───────────────────────────────────
 
 function initCollapsible() {
-  document.querySelectorAll('.section-title.collapsible').forEach((title) => {
+  document.querySelectorAll('.section-title.collapsible').forEach((title, i) => {
     const body = title.parentElement.querySelector('.section-body');
     if (!body) return;
+    // The round chevron <button> is the keyboard control (Enter/Space click
+    // it, and the click bubbles to the title handler below); keep its
+    // aria-expanded and aria-controls true to the section's state.
+    const chevron = title.querySelector('.chevron');
+    if (!body.id) body.id = `section-body-${i}`;
+    const sync = () => {
+      const collapsed = body.classList.contains('collapsed');
+      if (chevron) chevron.setAttribute('aria-expanded', String(!collapsed));
+      body.inert = collapsed; // no tabbing into a folded-away section
+    };
+    if (chevron) chevron.setAttribute('aria-controls', body.id);
+    sync();
 
     // First section expanded, rest collapsed (set in HTML via .collapsed class)
     if (body.classList.contains('collapsed')) {
@@ -882,7 +903,9 @@ function initCollapsible() {
       body.style.opacity = '0';
       body.style.overflow = 'hidden';
     } else {
-      body.style.maxHeight = body.scrollHeight + 'px';
+      // Open sections size to their content (charts re-render taller on a
+      // period change or on phones), so no fixed max-height here.
+      body.style.maxHeight = 'none';
       body.style.opacity = '1';
       body.style.overflow = 'visible';
     }
@@ -898,15 +921,18 @@ function initCollapsible() {
         body.style.overflow = 'hidden';
         body.style.maxHeight = body.scrollHeight + 'px';
         body.style.opacity = '1';
-        setTimeout(() => { body.style.overflow = 'visible'; }, 300);
+        setTimeout(() => { body.style.overflow = 'visible'; body.style.maxHeight = 'none'; }, 300);
+        sync();
       } else {
         body.style.maxHeight = body.scrollHeight + 'px';
         body.style.overflow = 'hidden';
+        void body.offsetHeight; // commit the px start value so the fold animates
         requestAnimationFrame(() => {
           body.classList.add('collapsed');
           title.classList.add('collapsed');
           body.style.maxHeight = '0';
           body.style.opacity = '0';
+          sync();
         });
       }
     });

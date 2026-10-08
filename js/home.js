@@ -258,13 +258,22 @@ function renderAll() {
 // ─── Init ───────────────────────────────────────────────────
 
 async function init() {
-  appData = await loadData(['metadata', 'commanderStats', 'cardStats',
+  appData = await loadData(['metadata', 'commanderStats',
                             'gameDistributions', 'firstTurn']);
   renderAll();
   initTimeFilters(renderAll);
   initMapFilters(renderAll);
   initNavActiveState();
   initTooltips();
+  // card_stats.json is the heaviest file on the page (~4 MB raw) and only feeds
+  // the "Unique cards played" count, so it loads after everything else drew.
+  const cardStats = await loadJSON(DATA_FILES.cardStats);
+  if (cardStats) {
+    appData.cardStats = cardStats;
+    const stats = getPeriodData(cardStats, currentPeriod);
+    el('stat-cards', stats ? stats.length.toLocaleString() : '--');
+    if (hasUI()) countUp('stat-cards');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', init);

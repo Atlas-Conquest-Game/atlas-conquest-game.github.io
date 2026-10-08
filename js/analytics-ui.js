@@ -56,17 +56,27 @@
    *       alt (default '' — tokens sit next to the name), art (override URL),
    *       eager (skip lazy-loading), className.
    */
+  // On-screen token diameters (analytics.css .cmd-token--*), for `sizes`.
+  const TOKEN_PX = { xs: 22, sm: 32, md: 48, lg: 72, xl: 104 };
+
   function token(name, faction, opts = {}) {
     const size = opts.size || 'md';
     const fac = FACTIONS.includes(faction) ? faction : 'none';
     const art = opts.art || artFor(name);
+    // 160px WebP token (scripts/generate_deck_pages.py) when it covers the
+    // drawn size, the full portrait otherwise; a missing WebP falls back to it.
+    const tokenSrc = art.replace(/(^|\/)assets\/commanders\/([^/]+)\.jpg$/, '$1assets/commanders/token/$2.webp');
+    const small = tokenSrc !== art ? tokenSrc : '';
+    const srcset = small
+      ? ` srcset="${esc(small)} 160w, ${esc(art)} 400w" sizes="${TOKEN_PX[size] || 48}px"` : '';
     const initial = esc(String(name || '?').trim().charAt(0).toUpperCase());
     const badge = opts.badge != null && opts.badge !== ''
       ? `<span class="cmd-token__badge">${esc(opts.badge)}</span>` : '';
     const loading = opts.eager ? '' : ' loading="lazy"';
     const cls = opts.className ? ` ${opts.className}` : '';
     return `<span class="cmd-token cmd-token--${size}${cls}" data-faction="${fac}" data-initial="${initial}">` +
-      `<img src="${esc(art)}" alt="${esc(opts.alt || '')}"${loading} decoding="async" onerror="this.remove()">` +
+      `<img src="${esc(art)}"${srcset} alt="${esc(opts.alt || '')}"${loading} decoding="async" ` +
+      `onerror="if(this.srcset){this.removeAttribute('srcset')}else{this.remove()}">` +
       `${badge}</span>`;
   }
 

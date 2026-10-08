@@ -134,7 +134,7 @@ function renderBucketTable(tableId, data, unitSuffix) {
   };
 
   thead.innerHTML =
-    `<th class="sortable" data-table="${tableId}" data-bsort="name">Commander${sortIcon('name')}</th>` +
+    `<th class="sortable wr-cmd-col" data-table="${tableId}" data-bsort="name">Commander${sortIcon('name')}</th>` +
     buckets.map((b, i) => `<th class="sortable" data-table="${tableId}" data-bsort="${i}">${b}${unitSuffix}${sortIcon(String(i))}</th>`).join('') +
     `<th class="sortable" data-table="${tableId}" data-bsort="total">Games${sortIcon('total')}</th>`;
 
@@ -150,7 +150,7 @@ function renderBucketTable(tableId, data, unitSuffix) {
     }).join('');
     const faction = factionLookup[row.name] || '';
     const token = typeof window.ACA !== 'undefined' ? ACA.token(row.name, faction, { size: 'xs' }) : '';
-    return `<tr><td><span class="an-cmd-cell">${token}<strong>${row.name}</strong> ${factionBadge(faction)}</span></td>${cells}<td>${row.totalGames}</td></tr>`;
+    return `<tr><td class="wr-cmd-col"><span class="an-cmd-cell">${token}<strong title="${row.name}">${row.name}</strong> ${factionBadge(faction)}</span></td>${cells}<td>${row.totalGames}</td></tr>`;
   }).join('');
 
   // Attach sort handlers
@@ -256,16 +256,16 @@ function renderMinionSpellChart(deckComp) {
         {
           label: 'Minions',
           data: sorted.map(([, d]) => d.avg_minion_count),
-          backgroundColor: '#3fb95099',
-          borderColor: '#3fb950',
+          backgroundColor: CHART_THEME.goldFill,
+          borderColor: CHART_THEME.gold,
           borderWidth: 1,
           borderRadius: 3,
         },
         {
           label: 'Spells',
           data: sorted.map(([, d]) => d.avg_spell_count),
-          backgroundColor: '#d2a8ff99',
-          borderColor: '#d2a8ff',
+          backgroundColor: CHART_THEME.steelFill,
+          borderColor: CHART_THEME.steel,
           borderWidth: 1,
           borderRadius: 3,
         },
@@ -314,24 +314,24 @@ function renderPatronNeutralChart(deckComp) {
         {
           label: 'Patron',
           data: sorted.map(([, d]) => d.avg_patron_cards),
-          backgroundColor: '#58a6ff99',
-          borderColor: '#58a6ff',
+          backgroundColor: CHART_THEME.goldFill,
+          borderColor: CHART_THEME.gold,
           borderWidth: 1,
           borderRadius: 3,
         },
         {
           label: 'Neutral',
           data: sorted.map(([, d]) => d.avg_neutral_cards),
-          backgroundColor: '#A8907899',
-          borderColor: '#A89078',
+          backgroundColor: 'rgba(168, 144, 120, 0.6)',
+          borderColor: FACTION_COLORS.neutral,
           borderWidth: 1,
           borderRadius: 3,
         },
         {
           label: 'Other',
           data: sorted.map(([, d]) => d.avg_other_cards),
-          backgroundColor: '#f8514999',
-          borderColor: '#f85149',
+          backgroundColor: CHART_THEME.slateFill,
+          borderColor: CHART_THEME.slate,
           borderWidth: 1,
           borderRadius: 3,
         },
@@ -400,6 +400,21 @@ async function init() {
   initModal();
   initNavActiveState();
   initTooltips();
+  openCommanderFromHash();
+  window.addEventListener('hashchange', openCommanderFromHash);
+}
+
+// Article mentions link to /commanders.html#<slug>: open that commander's
+// detail sheet straight away (focus returns to its roster card on close).
+function openCommanderFromHash() {
+  const slug = decodeURIComponent((location.hash || '').slice(1)).toLowerCase();
+  if (!slug) return;
+  const deckComp = getPeriodData(appData.deckComposition, currentPeriod) || {};
+  const name = Object.keys(deckComp).find(n => commanderSlug(n) === slug);
+  if (!name) return;
+  const card = document.querySelector(`.commander-card[data-commander="${CSS.escape(name)}"]`);
+  if (card) card.focus({ preventScroll: true });
+  openCommanderModal(name);
 }
 
 document.addEventListener('DOMContentLoaded', init);

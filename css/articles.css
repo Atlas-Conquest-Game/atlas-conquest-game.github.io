@@ -663,7 +663,7 @@ html:not(.ac-js) .article-filter { display: none; }
   padding-bottom: 0.55em;
   font-family: var(--ac-font-display);
   font-weight: 400;
-  font-size: clamp(1.625rem, 1.3rem + 1vw, 2.125rem);
+  font-size: var(--ac-h2-content);
   line-height: 1.15;
   letter-spacing: 0.01em;
   text-wrap: balance;
@@ -1174,7 +1174,7 @@ html:not(.ac-js) .article-filter { display: none; }
   font-size: 0.85rem;
   color: var(--ac-text-2);
 }
-.article-deck-commander span { font-weight: 600; }
+.article-deck-commander .article-deck-cmdname { font-weight: 600; color: var(--ac-text); }
 .article-deck-stats {
   font-size: 0.78rem;
   color: var(--ac-text-3);
@@ -1197,14 +1197,11 @@ html:not(.ac-js) .article-filter { display: none; }
   border-color: var(--ac-gold-1);
   background: rgba(232, 162, 69, 0.1);
 }
+/* The whole list shows — no inner scroll box that cuts the last row in half. */
 .article-deck-list {
-  max-height: 480px;
   margin: 0;
   padding: 6px 0;
-  overflow-y: auto;
   list-style: none;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(232, 162, 69, 0.3) transparent;
 }
 .article-prose .article-deck-list { padding: 6px 0; }
 .article-deck-list > li { margin: 0; }
@@ -1246,6 +1243,23 @@ html:not(.ac-js) .article-filter { display: none; }
   font-size: 0.6875rem;
   font-weight: 700;
   letter-spacing: 0.06em;
+  color: var(--ac-text-2);
+}
+/* Faction as a coloured dot beside text in the text colour (passes AA for
+   every faction; the raw hues don't, as small text on navy). */
+.article-deck-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+}
+.article-deck-dot::before {
+  content: '';
+  flex-shrink: 0;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 50%;
+  background: var(--f, var(--ac-gold-2));
+  box-shadow: 0 0 6px -1px var(--f, transparent);
 }
 .article-deck-count {
   min-width: 24px;

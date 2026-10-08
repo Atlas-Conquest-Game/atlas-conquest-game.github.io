@@ -84,12 +84,12 @@
   /* Layout */
   --max-width: 1200px;
   --nav-height: 56px;
-  /* Bottom edge of the sticky stack on an analytics page: nav + sub-nav +
-     time-filter bar. Measured rather than summed, because the bars overlap
-     slightly (see .has-sub-nav .time-filter-bar in layout.css). Used by
-     .table-sticky to size a table pane against the space actually left over.
+  /* Bottom edge of the sticky stack on an analytics page: brand nav (64) +
+     analytics tab bar (48) + filter bar (55). site-config.js measures the real
+     bars and overwrites this at runtime; this plain-px value is the no-JS
+     fallback (shared.js reads it with parseFloat, which can't parse calc()).
      Overridden at the 768px breakpoint in responsive.css. */
-  --sticky-stack: calc(var(--nav-height) + 85px);
+  --sticky-stack: 167px;
   --radius-sm: 6px;
   --radius: 8px;
   --radius-lg: 12px;

@@ -160,11 +160,20 @@ function factionBadge(faction) {
 
 // Round commander portrait token with a faction-coloured ring — the way
 // commanders sit on the board in-game. `cls` adds a size/context modifier.
+// Drawn diameter per token modifier (decks.css), for the srcset `sizes`.
+const CMD_TOKEN_PX = { 'cmd-token--xs': 22, 'cmd-token--strip': 52, 'cmd-token--start': 64, 'cmd-token--summary': 76, 'cmd-token--picker': 84 };
+
 function commanderTokenHtml(name, cls = '') {
   const data = commanderMap[name] || {};
   const fc = factionColor(data.faction);
+  const px = CMD_TOKEN_PX[cls] || 56;
+  // 160px WebP token portrait (scripts/generate_deck_pages.py) for small
+  // tokens, the 400px JPG for big/high-DPR ones; if the WebP is missing the
+  // onerror drops the srcset and the JPG loads instead.
+  const small = commanderArtPath(name).replace('/assets/commanders/', '/assets/commanders/token/').replace(/\.jpg$/, '.webp');
   return `<span class="cmd-token${cls ? ' ' + cls : ''}" style="--fc:${fc}" aria-hidden="true">` +
-    `<img class="cmd-token-img" src="${commanderArtPath(name)}" alt="" loading="lazy" decoding="async" width="400" height="400" onerror="this.style.visibility='hidden'">` +
+    `<img class="cmd-token-img" src="${commanderArtPath(name)}" srcset="${small} 160w, ${commanderArtPath(name)} 400w" sizes="${px}px" alt="" loading="lazy" decoding="async" width="400" height="400" ` +
+    `onerror="if(this.srcset){this.removeAttribute('srcset')}else{this.style.visibility='hidden'}">` +
     `</span>`;
 }
 
@@ -511,8 +520,15 @@ function getCardPool() {
   const selectedCommander = document.getElementById('build-commander')?.value || '';
   const cmdData = commanderMap[selectedCommander];
   const cmdFaction = cmdData ? (cmdData.faction || '').toLowerCase() : null;
+  // cardlist.json can list a name twice when the game re-issued a card under a
+  // new id (Feral Vampire: 202 and 206). Keep one tile per name — the last
+  // entry, which is the id deckcode.js encodes with (its name → id map keeps
+  // the later one).
+  const latest = new Map();
+  cardlistData.cards.forEach(c => latest.set(c.name, c));
 
   return cardlistData.cards.filter(c => {
+    if (latest.get(c.name) !== c) return false;
     if (commanderSet.has(c.name)) return false;
     // Only show cards tracked in cards.json — filters placeholders, retired
     // names, etc. Tokens are tracked there too (they need type/faction for the
@@ -879,6 +895,7 @@ function renderDeck(deck) {
     headerCount.textContent = `${totalCards} card${totalCards === 1 ? '' : 's'} · ${uniqueCards} unique`;
   }
   renderDeckSize(totalCards);
+  renderShareStrip(deck, totalCards, faction);
 
   // Mobile deck drawer pill — Import mode only. Build mode uses the
   // Add Cards / My Deck tabs instead (see setBuildMobileView()).
@@ -1024,6 +1041,43 @@ function wireDeckListTiles() {
 }
 
 // ─── Import (Decode) ───────────────────────────────────────
+
+// Below 900px the summary sidebar is a drawer, so an opened deck gets a
+// compact strip above the list instead: commander token, deck name, commander
+// and size, plus Copy link. Import mode only (Build has its own My Deck tab).
+function renderShareStrip(deck, totalCards, faction) {
+  const strip = document.getElementById('deck-share-strip');
+  if (!strip) return;
+  const show = currentMode === 'import' && deck.cards.length > 0;
+  strip.classList.toggle('hidden', !show);
+  if (!show) return;
+  strip.style.setProperty('--fc', deck.commander ? factionColor(faction) : 'var(--border-strong)');
+  document.getElementById('deck-share-strip-token').innerHTML =
+    deck.commander ? commanderTokenHtml(deck.commander, 'cmd-token--strip') : '';
+  document.getElementById('deck-share-strip-name').textContent = deck.deckName || 'Unnamed Deck';
+  document.getElementById('deck-share-strip-sub').textContent =
+    `${deck.commander || 'No commander'} · ${totalCards} card${totalCards === 1 ? '' : 's'}`;
+}
+
+// A deck opened from a shared link folds the import box into one line on
+// narrow screens; "Change" brings the box back for a different code.
+function setImportLinked(linked) {
+  const panel = document.getElementById('panel-import');
+  if (!panel) return;
+  panel.classList.toggle('is-linked', linked);
+  const btn = document.getElementById('deck-import-change');
+  if (btn) btn.setAttribute('aria-expanded', String(!linked));
+}
+
+function initImportLinked() {
+  const btn = document.getElementById('deck-import-change');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    setImportLinked(false);
+    const input = document.getElementById('deck-code-input');
+    if (input) { input.focus(); input.select(); }
+  });
+}
 
 function handleDecode() {
   const input = document.getElementById('deck-code-input');
@@ -1355,8 +1409,9 @@ function deckCommanderSlug(name) {
   return name.toLowerCase().replace(/[,']/g, '').replace(/\s+/g, '-');
 }
 
-function handleCopyUrl() {
+function handleCopyUrl(e) {
   if (!currentDeck) return;
+  const btnId = (e && e.currentTarget && e.currentTarget.id) || 'btn-copy-url';
   try {
     const code = encodeDeckCode(currentDeck);
     // Build the share URL against the per-commander path if a pre-generated page
@@ -1369,7 +1424,7 @@ function handleCopyUrl() {
     }
     const url = `${window.location.origin}${pathname}?code=${encodeURIComponent(code)}`;
     copyText(url).then(
-      () => { flashButton('btn-copy-url', 'Link copied'); announce('Share link copied to the clipboard.'); },
+      () => { flashButton(btnId, 'Link copied'); announce('Share link copied to the clipboard.'); },
       () => showError("Couldn't reach the clipboard — your browser blocked it. Try again."),
     );
   } catch (e) {
@@ -1697,9 +1752,6 @@ function initInstallButton() {
 async function init() {
   await loadCardlist();
 
-  const decksLink = document.querySelector('.nav-link[data-nav="decks"]');
-  if (decksLink) decksLink.classList.add('active');
-
   initServiceWorker();
   initTabs();
   initTabA11y();
@@ -1727,6 +1779,9 @@ async function init() {
   });
   document.getElementById('btn-copy-code').addEventListener('click', handleCopyCode);
   document.getElementById('btn-copy-url').addEventListener('click', handleCopyUrl);
+  const stripCopy = document.getElementById('btn-copy-url-strip');
+  if (stripCopy) stripCopy.addEventListener('click', handleCopyUrl);
+  initImportLinked();
 
   // Auto-decode from URL
   const params = new URLSearchParams(window.location.search);
@@ -1737,10 +1792,34 @@ async function init() {
       const deck = decodeDeckCode(code);
       deckSource = 'import';
       renderDeck(deck);
+      setImportLinked(true);
     } catch (e) {
       showError(`Failed to decode URL deck code: ${e.message}`);
     }
+  } else {
+    openCommanderPage();
   }
+}
+
+// /decks/<slug>/ without a ?code is that commander's page (it's in the
+// sitemap): start a Build deck with the commander already chosen and say so
+// in the hero, instead of the generic "Choose a commander" state.
+function openCommanderPage() {
+  const m = window.location.pathname.match(/\/decks\/([a-z0-9-]+)\/?(?:index\.html)?$/);
+  if (!m) return;
+  const name = commanderList.find(n => deckCommanderSlug(n) === m[1]);
+  if (!name) return;
+  const lede = document.querySelector('.deck-hero .ac-page-hero__lede');
+  if (lede) lede.textContent = `Build a ${name} deck (${poolDescription(name)}) and watch the curve and deck size as you go. Share it as a link, or as a code for the game.`;
+  const eyebrow = document.querySelector('.deck-hero .ac-eyebrow');
+  if (eyebrow) eyebrow.textContent = name;
+  const buildTab = document.getElementById('tab-build');
+  if (buildTab) buildTab.click();
+  // Same as selectCommander() minus closing the picker, which would move
+  // focus to the picker button on page load.
+  const select = document.getElementById('build-commander');
+  select.value = name;
+  select.dispatchEvent(new Event('change'));
 }
 
 document.addEventListener('DOMContentLoaded', init);

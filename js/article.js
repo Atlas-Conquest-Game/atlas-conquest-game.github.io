@@ -89,7 +89,7 @@ function initImageLightbox() {
       '<span>Click to expand</span>';
     wrap.appendChild(hint);
 
-    const fire = () => open(el.currentSrc || el.src, el.alt);
+    const fire = () => open(el.dataset.full || el.currentSrc || el.src, el.alt);
     wrap.addEventListener('click', fire);
     wrap.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -115,15 +115,30 @@ function initImageLightbox() {
 }
 
 /**
- * Article clips ([[video:...]]) autoplay on a silent loop. For readers who ask
- * for reduced motion, stop them and hand over the controls instead.
+ * Article clips ([[video:...]]) ship with preload="none" and native controls,
+ * so nothing downloads up front and readers without JS can still play them.
+ * Here they become silent loops that play only while on screen. Readers who ask
+ * for reduced motion keep the controls and press play themselves.
  */
-function initReducedMotionVideos() {
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  document.querySelectorAll('.article-video video').forEach((video) => {
-    video.removeAttribute('autoplay');
-    video.pause();
-    video.controls = true;
+function initArticleVideos() {
+  const videos = document.querySelectorAll('.article-video video');
+  if (!videos.length) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) {
+        const p = target.play();
+        if (p && p.catch) p.catch(() => { target.controls = true; });
+      } else if (!target.paused) {
+        target.pause();
+      }
+    });
+  }, { rootMargin: '120px 0px', threshold: 0.2 });
+  videos.forEach((video) => {
+    video.muted = true;
+    video.controls = false;
+    io.observe(video);
   });
 }
 
@@ -279,5 +294,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initArticleFilter();
   initReadingBar();
   initImageLightbox();
-  initReducedMotionVideos();
+  initArticleVideos();
 });

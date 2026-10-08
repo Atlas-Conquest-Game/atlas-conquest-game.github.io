@@ -154,9 +154,10 @@
   box-shadow: inset 0 0 0 1px var(--accent-line);
 }
 
-/* Offset time-filter-bar when sub-nav is present */
+/* Offset time-filter-bar when sub-nav is present (the analytics tab bar's
+   real height comes from --an-subnav-h in analytics.css). */
 .has-sub-nav .time-filter-bar {
-  top: calc(var(--nav-height) + 37px);
+  top: calc(var(--nav-height) + var(--an-subnav-h, 48px));
 }
 
 /* === Hero (page header) ===
@@ -395,7 +396,7 @@
    (1.2em) so wrapped titles stay gold on every line. */
 .section-title {
   font-family: var(--font-display);
-  font-size: 1.875rem;
+  font-size: var(--ac-h2-data, 1.75rem);
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.2;
