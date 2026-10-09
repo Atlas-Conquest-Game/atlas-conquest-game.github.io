@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Layout D ("Focused"): the Trailer Cut hero, then about five calm screens —
-     How it plays · Three Battlefields · Patron gods & commanders · Join the beta · Wishlist finale.
+     How it plays · Three Battlefields · Patron gods & commanders · Wishlist finale.
      One autoplaying video (the hero loop). Section clips play only on hover or tap. -->
 <html lang="en">
 <head>
@@ -451,45 +451,6 @@
             <li><img src="../../assets/media/cards/king-darian.webp" width="400" height="560" alt="King Darian" loading="lazy" decoding="async"></li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- ============ 4 · ALIVE + JOIN THE BETA ============
-         One static line of real numbers (no count-up): playtest matches + playtesters from
-         data/metadata.json (fallbacks in the markup), the live Discord count (hidden if the
-         request fails) and the last balance update (newest "changed"/"added" entry in
-         data/insights/card_changelog.json). Fetched only as this section nears the screen. -->
-    <section class="sec beta" id="beta" aria-labelledby="beta-title">
-      <img class="beta__bg" src="../../assets/media/keyart/khazgar-1200.webp"
-           srcset="../../assets/media/keyart/khazgar-1200.webp 1200w, ../../assets/media/keyart/khazgar-2400.webp 2400w"
-           sizes="100vw" alt="" aria-hidden="true" loading="lazy" decoding="async" width="1200" height="675">
-      <div class="container">
-        <header class="sec__head">
-          <h2 id="beta-title" class="section-title"><span class="gold">Join the Beta</span></h2>
-        </header>
-
-        <ul class="proof" aria-label="The beta so far">
-          <li><strong data-matches>5,229</strong><span>playtest matches</span></li>
-          <li><strong data-players>240</strong><span>playtesters</span></li>
-          <li data-discord hidden><strong data-discord-members></strong><span>on Discord<span data-discord-online-wrap hidden> · <b data-discord-online></b> online</span></span></li>
-          <li data-patch hidden><strong data-patch-date></strong><span>last balance update</span></li>
-        </ul>
-
-        <ol class="steps">
-          <li class="step"><span class="step__n" aria-hidden="true"><svg class="icon"><use href="#i-hex"/></svg><b>1</b></span><span class="step__t"><a class="step__link" href="https://discord.gg/7QaEY4yJH5" data-link="discord" target="_blank" rel="noopener">Join our Discord</a></span></li>
-          <li class="step"><span class="step__n" aria-hidden="true"><svg class="icon"><use href="#i-hex"/></svg><b>2</b></span><span class="step__t">Grab a beta invite there</span></li>
-          <li class="step"><span class="step__n" aria-hidden="true"><svg class="icon"><use href="#i-hex"/></svg><b>3</b></span><span class="step__t">Play on PC when your invite lands</span></li>
-        </ol>
-
-
-        <nav class="quick" aria-label="For beta players">
-          <p class="quick__label">Already playing?</p>
-          <ul class="quick__list">
-            <li><a href="../../articles/detailed-rules/">Rules<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-            <li><a href="../../decks.html">Deck builder<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-            <li><a href="../../analytics.html">Beta analytics<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
-          </ul>
-        </nav>
       </div>
     </section>
 

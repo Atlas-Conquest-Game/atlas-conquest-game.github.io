@@ -25,8 +25,6 @@ const CONFIG = {
 
   const TRAILER_SRC = '../../assets/media/video/trailer.mp4';
   const TRAILER_POSTER = '../../assets/media/stills/t62_5.webp';
-  const METADATA_URL = '../../data/metadata.json';
-  const CHANGELOG_URL = '../../data/insights/card_changelog.json';
   const DISCORD_CACHE_KEY = 'ac:discord-counts';
   const DISCORD_CACHE_MS = 10 * 60 * 1000;
 
@@ -416,94 +414,6 @@ const CONFIG = {
     select(start, false);
   }
 
-  /* ---------------- Proof of life: one static line of real numbers ----------------
-     Playtest matches + playtesters (metadata.json; the markup holds a fallback),
-     the live Discord count (hidden when the request fails) and the last balance update
-     (newest "changed"/"added" entry in card_changelog.json; renames don't count; hidden
-     when missing). No count-ups: numbers are set once. */
-  async function getJSON(url, opts) {
-    const res = await fetch(url, opts);
-    if (!res.ok) throw new Error('HTTP ' + res.status);
-    return res.json();
-  }
-
-  function loadMetadata() {
-    getJSON(METADATA_URL, { cache: 'no-cache' }).then((json) => {
-      const all = ((json && json.data) || json || {}).all;
-      const a = all && all.all;
-      if (!a) return;
-      if (a.total_matches > 0) $$('[data-matches]').forEach((el) => { el.textContent = fmt(a.total_matches); });
-      if (a.total_players > 0) $$('[data-players]').forEach((el) => { el.textContent = fmt(a.total_players); });
-    }).catch(() => { /* keep the fallback numbers */ });
-  }
-
-  function inviteCode() {
-    const m = /discord\.gg\/([\w-]+)/.exec(CONFIG.discord || '');
-    return m ? m[1] : '';
-  }
-  function readDiscordCache(code) {
-    try {
-      const c = JSON.parse(sessionStorage.getItem(DISCORD_CACHE_KEY) || 'null');
-      if (c && c.code === code && Date.now() - c.at < DISCORD_CACHE_MS && Number.isFinite(c.members)) return c;
-    } catch (_) { /* ignore */ }
-    return null;
-  }
-  function writeDiscordCache(c) { try { sessionStorage.setItem(DISCORD_CACHE_KEY, JSON.stringify(c)); } catch (_) { /* ignore */ } }
-
-  async function loadDiscord() {
-    const item = $('[data-discord]');
-    const code = inviteCode();
-    if (!item || !code) return;
-    let c = readDiscordCache(code);
-    if (!c) {
-      try {
-        const data = await getJSON('https://discord.com/api/v10/invites/' + code + '?with_counts=true', { credentials: 'omit', cache: 'no-store' });
-        c = { code, members: Number(data.approximate_member_count), online: Number(data.approximate_presence_count), at: Date.now() };
-        if (!Number.isFinite(c.members) || c.members <= 0) throw new Error('no counts');
-        writeDiscordCache(c);
-      } catch (_) { item.remove(); return; } // offline, rate-limited or blocked: no Discord number
-    }
-    $('[data-discord-members]', item).textContent = fmt(c.members);
-    if (Number.isFinite(c.online) && c.online > 0) {
-      $('[data-discord-online]', item).textContent = fmt(c.online);
-      $('[data-discord-online-wrap]', item).hidden = false;
-    }
-    item.hidden = false;
-  }
-
-  function loadPatch() {
-    const item = $('[data-patch]');
-    if (!item) return;
-    getJSON(CHANGELOG_URL).then((json) => {
-      const dates = ((json && json.entries) || [])
-        .filter((e) => e && (e.kind === 'changed' || e.kind === 'added'))
-        .map((e) => e.date)
-        .filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d || ''));
-      if (!dates.length) throw new Error('no entries');
-      const latest = dates.sort().pop();
-      const d = new Date(latest + 'T12:00:00Z');
-      const opts = { month: 'short', day: 'numeric', timeZone: 'UTC' };
-      if (d.getUTCFullYear() !== new Date().getUTCFullYear()) opts.year = 'numeric';
-      const el = $('[data-patch-date]', item);
-      el.textContent = d.toLocaleDateString('en-US', opts);
-      el.setAttribute('title', latest);
-      item.hidden = false;
-    }).catch(() => item.remove()); // missing or empty changelog: omit the item
-  }
-
-  function setupProof() {
-    // Not needed for the first view: fetch only once #beta is about a screen away.
-    const go = () => { loadMetadata(); loadDiscord(); loadPatch(); };
-    const sec = $('#beta');
-    if (!sec || !('IntersectionObserver' in window)) { addEventListener('load', go, { once: true }); return; }
-    const io = new IntersectionObserver((entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      io.disconnect();
-      go();
-    }, { rootMargin: '0px 0px 100% 0px' });
-    io.observe(sec);
-  }
-
   /* ---------------- Finale coverflow (the trailer's end slide) ----------------
      Like the trailer: cards sit side by side and overlap a little, the centre card is
      clearly the biggest, neighbours turn gently away and shrink toward both edges, and
@@ -705,7 +615,6 @@ const CONFIG = {
   setupStills();
   setupClips();
   setupGods();
-  setupProof();
   setupFlow();
   setupModal();
 })();
