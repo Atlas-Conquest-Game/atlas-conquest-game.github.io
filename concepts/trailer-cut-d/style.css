@@ -1019,7 +1019,8 @@ html:not(.js) .clip__btn { display: none; }
 .step__n .icon { position: absolute; inset: 0; width: 100%; height: 100%; }
 .step__n b { position: relative; font-family: var(--display); font-weight: 400; font-size: 21px; color: var(--gold-hi); line-height: 1; }
 .step__t { font-size: 18px; line-height: 1.35; color: var(--text); }
-.beta__cta { margin-top: clamp(24px, 2.6vw, 34px); display: flex; justify-content: center; }
+.step__link { color: var(--gold-hi); text-decoration: underline; text-decoration-color: rgba(233, 180, 92, .45); text-underline-offset: 4px; }
+.step__link:hover { text-decoration-color: currentColor; }
 
 .quick {
   margin-top: clamp(24px, 2.8vw, 36px);
@@ -1289,7 +1290,6 @@ html:not(.js) .clip__btn { display: none; }
   .cmdr img { width: 46px; height: 46px; }
   .cmdr__go { justify-content: flex-start; margin-top: 1px; }
   .proof span { font-size: 13px; letter-spacing: .1em; }
-  .beta__cta .btn { width: min(380px, 100%); }
   .quick { flex-direction: column; }
   .flow { --cw: 46vw; height: calc(var(--cw) * 1.4 + 48px); }
   .flow__card { top: 24px; }
@@ -1329,7 +1329,6 @@ html:not(.js) .clip__btn { display: none; }
   .step { padding: 10px 16px 10px 10px; gap: 12px; }
   .step__n { width: 42px; height: 42px; }
   .step__t { font-size: 17px; }
-  .beta__cta { margin-top: 20px; }
   .quick { margin-top: 20px; gap: 8px; }
   .god-tab { padding: 8px 4px 9px; gap: 6px; }
   .god-tab img { width: 42px; height: 42px; }
@@ -1367,3 +1366,6 @@ html:not(.js) .clip__btn { display: none; }
   .rec { animation: none; }
   .clip__btn, .clip video { display: none !important; }
 }
+
+/* Map panels: no play icon; the whole panel is the (invisible) button, hover or tap runs the pull-back */
+.clip--map .clip__icon { display: none; }
