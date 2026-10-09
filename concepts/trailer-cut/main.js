@@ -8,7 +8,7 @@ const CONFIG = {
   primaryCta: 'steam',       // 'steam' = Wishlist on Steam leads everywhere. 'discord' flips the roles (Join the Beta leads).
   steam: '',                 // Steam store URL. Empty = Steam buttons stay in place and point at '#' until the store page exists.
   discord: 'https://discord.gg/7QaEY4yJH5',
-  youtubeTrailerId: '',      // YouTube video id. Empty = play the local trailer.mp4 in the modal.
+  youtubeTrailerId: 'hPoGfdLZThA',      // YouTube video id. Empty = play the local trailer.mp4 in the modal.
   x: 'https://x.com/Atlas_Conquest',
   instagram: 'https://www.instagram.com/atlasconquest/',
   tiktok: 'https://www.tiktok.com/@atlas.conquest',

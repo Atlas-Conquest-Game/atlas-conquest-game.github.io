@@ -6,7 +6,7 @@ const CONFIG = {
   primaryCta: 'discord',                       // 'discord' = Join the Beta leads everywhere; flip to 'steam' (with the URL below) when the store page is live
   steam: '',                                   // '' = store page not live yet → "coming soon" state
   discord: 'https://discord.gg/7QaEY4yJH5',
-  youtubeTrailerId: '',                        // '' = play the local trailer.mp4; set an id to use a youtube-nocookie embed
+  youtubeTrailerId: 'hPoGfdLZThA',                        // '' = play the local trailer.mp4; set an id to use a youtube-nocookie embed
   x: 'https://x.com/Atlas_Conquest',
   instagram: 'https://www.instagram.com/atlasconquest/',
   tiktok: 'https://www.tiktok.com/@atlas.conquest',

@@ -31,7 +31,7 @@ window.AC_CONFIG = {
   links: {
     discord: 'https://discord.gg/7QaEY4yJH5',
     steam: '', // Steam store URL; empty keeps "Wishlist on Steam" in place as a no-op '#' link
-    youtubeTrailerId: '', // e.g. 'dQw4w9WgXcQ'; empty plays assets/media/video/trailer.mp4
+    youtubeTrailerId: 'hPoGfdLZThA', // e.g. 'dQw4w9WgXcQ'; empty plays assets/media/video/trailer.mp4
     x: 'https://x.com/Atlas_Conquest',
     instagram: 'https://www.instagram.com/atlasconquest/',
     tiktok: 'https://www.tiktok.com/@atlas.conquest',

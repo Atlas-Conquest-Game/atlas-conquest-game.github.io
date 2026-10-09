@@ -13,7 +13,7 @@ const CONFIG = {
                              // Once set, every Steam link gets ?utm_source=atlas-website&utm_medium=<nav|hero|finale>
                              // (from its data-placement) so Steam's UTM report can attribute wishlists to the site.
   discord: 'https://discord.gg/7QaEY4yJH5',
-  youtubeTrailerId: '',      // YouTube video id. Empty = play the local trailer.mp4 in the modal.
+  youtubeTrailerId: 'hPoGfdLZThA',      // YouTube video id. Empty = play the local trailer.mp4 in the modal.
   x: 'https://x.com/Atlas_Conquest',
   instagram: 'https://www.instagram.com/atlasconquest/',
   tiktok: 'https://www.tiktok.com/@atlas.conquest',
