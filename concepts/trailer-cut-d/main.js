@@ -505,142 +505,128 @@ const CONFIG = {
   }
 
   /* ---------------- Finale coverflow (the trailer's end slide) ----------------
-     Cards sit on a shallow arc: the centre card is largest and frontmost, the rest
-     turn away and recede toward both screen edges. Once the row is in view it advances
-     one card at a time until every card has been in front once (n - 1 steps, ~18s for
-     11 cards), then it stops for good
-     (as it does the moment someone clicks, drags or uses the arrow keys). A pause
-     button covers the pass. Reduced motion: it never moves on its own. */
+     Like the trailer: cards sit side by side and overlap a little, the centre card is
+     clearly the biggest, neighbours turn gently away and shrink toward both edges, and
+     the row pans slowly and continuously (about one card every 3s). It never reads as a
+     wheel because the cards fade out before they wrap around. Pauses on hover, focus,
+     the pause button, a hidden tab, off-screen or the trailer. Drag/swipe scrubs it,
+     clicking a card glides it to the centre, arrow keys step. Reduced motion: static. */
   function setupFlow() {
     const flow = $('[data-flow]');
     if (!flow) return;
     const cards = $$('.flow__card', flow);
     const toggle = $('[data-flow-toggle]', flow);
     const n = cards.length;
-    const HALF = Math.floor(n / 2);
-    // Cards visible either side of the centre. One slot beyond them stays hidden, so the
-    // card that wraps from one end of the arc to the other is never seen jumping.
-    const SHOWN = clamp(HALF - 1, 2, 5);
-    const STEP = (15 * Math.PI) / 180; // arc angle between neighbours
-    const INTERVAL = 1800;
-    let cur = 0;
-    let passLeft = n - 1;              // autoplay steps left: every card reaches the front once
-    const lastD = cards.map(() => null);
-    flow.classList.add('is-ready');
+    const HALF = n / 2;
+    const SPEED = 1 / 3;          // cards per second while panning
+    const FADE_FROM = 3.6;        // |offset| where cards start to fade
+    const FADE_TO = 4.6;          // fully gone (well before the wrap at n/2)
+    let pos = 0;                  // continuous index of the card in the centre
+    let target = null;            // glide destination (click / arrow keys)
+    let hover = false; let focused = false; let userPaused = false; let inView = false;
+    let dragX = null; let dragPos = 0; let moved = false; let holdUntil = 0;
+    flow.classList.add('is-ready', 'is-live');
 
-    const posOf = (i) => { let m = (((i - cur) % n) + n) % n; if (m > HALF) m -= n; return m; };
+    const wrapD = (i) => { let d = i - pos; d -= Math.round(d / n) * n; return d; };
 
-    function layout(instant) {
+    function layout() {
       const cw = cards[0].offsetWidth;
-      const R = cw * 3.6;   // arc radius
-      const P = cw * 7;     // camera distance
+      const P = cw * 8;
+      let centre = -1; let best = 9;
       cards.forEach((c, i) => {
-        const d = posOf(i);
+        const d = wrapD(i);
         const ad = Math.abs(d);
         const sg = Math.sign(d);
-        const th = Math.min(ad, SHOWN + 1) * STEP;
-        const x = sg * R * Math.sin(th);
-        const z = R * (Math.cos(th) - 1) - ad * 0.06 * cw;
-        const rot = sg * Math.min(th * 1.18, 1.43);
-        const wrapped = lastD[i] !== null && Math.abs(d - lastD[i]) > HALF;
-        c.classList.toggle('is-jump', !!instant || wrapped);
-        c.style.transform = 'perspective(' + P.toFixed(0) + 'px) translate3d(' + x.toFixed(1) + 'px,0,' + z.toFixed(1) + 'px) rotateY(' + rot.toFixed(4) + 'rad)';
-        c.style.zIndex = String(50 - ad);
-        c.style.opacity = ad <= SHOWN - 1 ? '1' : ad === SHOWN ? '.7' : '0';
-        c.style.setProperty('--lit', Math.max(0.5, 1 - ad * 0.1).toFixed(2));
-        c.classList.toggle('is-center', d === 0);
-        c.setAttribute('aria-hidden', ad > SHOWN - 1 ? 'true' : 'false');
-        lastD[i] = d;
+        const near = Math.min(ad, 1);
+        const far = Math.max(0, ad - 1);
+        const x = sg * cw * (0.98 * near + 0.78 * far - 0.035 * far * far);
+        const scale = 1.22 - 0.22 * near - 0.055 * far;
+        const rot = sg * (14 * near + 5 * far);          // degrees: a slight wheel, never a ring
+        const z = -(0.18 * near + 0.1 * far) * cw;
+        const op = ad <= FADE_FROM ? 1 : Math.max(0, 1 - (ad - FADE_FROM) / (FADE_TO - FADE_FROM));
+        c.style.transform = 'perspective(' + P.toFixed(0) + 'px) translate3d(' + x.toFixed(1) + 'px,0,' + z.toFixed(1) + 'px) rotateY(' + rot.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+        c.style.zIndex = String(100 - Math.round(ad * 10));
+        c.style.opacity = op.toFixed(3);
+        c.style.setProperty('--lit', Math.max(0.55, 1 - 0.13 * ad).toFixed(3));
+        c.setAttribute('aria-hidden', ad > 2.5 ? 'true' : 'false');
+        if (ad < best) { best = ad; centre = i; }
       });
-      if (instant) { void flow.offsetWidth; cards.forEach((c) => c.classList.remove('is-jump')); }
+      cards.forEach((c, i) => c.classList.toggle('is-center', i === centre && best < 0.35));
     }
 
-    function step(k) { cur = (((cur + k) % n) + n) % n; layout(false); }
-
-    // Multi-card moves (clicking a far card) spin one card at a time, quickly.
-    let queue = 0;
-    let qTimer = 0;
-    function stepBy(k) {
-      if (!k) return;
-      clearTimeout(qTimer);
-      queue = k;
-      flow.classList.add('is-fast');
-      const run = () => {
-        const s = Math.sign(queue);
-        step(s);
-        queue -= s;
-        if (queue) qTimer = setTimeout(run, reduced ? 0 : 170);
-        else qTimer = setTimeout(() => flow.classList.remove('is-fast'), 500);
-      };
-      run();
+    const canPan = () => !reduced && !hover && !focused && !userPaused && inView && !document.hidden && !modalOpen && dragX === null && performance.now() > holdUntil;
+    let last = performance.now();
+    function frame(now) {
+      const dt = Math.min(0.1, (now - last) / 1000);
+      last = now;
+      if (target !== null) {
+        const diff = target - pos;
+        if (Math.abs(diff) < 0.002) { pos = target; target = null; }
+        else pos += diff * Math.min(1, dt * 7);
+        layout();
+      } else if (canPan()) {
+        pos += SPEED * dt;
+        layout();
+      }
+      if (pos > n * 1000) pos -= n * 1000;
+      requestAnimationFrame(frame);
     }
 
-    // The single autoplay pass: pauses on hover, focus, the toggle, a hidden tab, off-screen or the trailer.
-    let hover = false; let focused = false; let userPaused = false; let inView = false; let timer = 0;
-    let auto = !reduced;
-    const canRun = () => auto && !hover && !focused && !userPaused && inView && !document.hidden && !modalOpen;
-    function finish() {
-      auto = false;
-      clearTimeout(timer);
-      if (toggle.hidden) return;
-      if (document.activeElement === toggle) flow.focus({ preventScroll: true });
-      toggle.hidden = true;
+    function glideBy(k) {
+      const base = target !== null ? target : Math.round(pos);
+      target = base + k;
+      holdUntil = performance.now() + 4000;   // let the visitor look before panning resumes
     }
-    const schedule = () => {
-      clearTimeout(timer);
-      if (!auto) return;
-      timer = setTimeout(() => {
-        if (canRun()) { step(1); passLeft -= 1; if (passLeft <= 0) { finish(); return; } }
-        schedule();
-      }, INTERVAL);
-    };
-    new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { threshold: 0.25 }).observe(flow);
+
+    new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { threshold: 0.2 }).observe(flow);
     flow.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hover = true; });
     flow.addEventListener('pointerleave', () => { hover = false; });
     flow.addEventListener('focusin', () => { focused = true; });
     flow.addEventListener('focusout', (e) => { if (!flow.contains(e.relatedTarget)) focused = false; });
 
-    if (auto) {
+    if (!reduced && toggle) {
       toggle.hidden = false;
       toggle.addEventListener('click', () => {
         userPaused = !userPaused;
         toggle.setAttribute('aria-pressed', String(userPaused));
         toggle.setAttribute('aria-label', userPaused ? 'Play cards' : 'Pause cards');
       });
-    }
+    } else if (toggle) toggle.hidden = true;
 
-    // Swipe / drag (touch keeps vertical page scrolling), click a card to bring it forward, arrow keys.
-    // Any of these hands control to the visitor: the autoplay pass ends.
-    const takeOver = (k) => { finish(); stepBy(k); };
-    let sx = null; let moved = false;
+    // Drag / swipe scrubs the row (touch keeps vertical page scrolling via touch-action: pan-y).
     flow.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 || e.target.closest('button')) return;
-      sx = e.clientX; moved = false;
+      dragX = e.clientX; dragPos = pos; moved = false; target = null;
     });
-    flow.addEventListener('pointermove', (e) => { if (sx !== null && Math.abs(e.clientX - sx) > 10) moved = true; });
-    flow.addEventListener('pointerup', (e) => {
-      if (sx === null) return;
-      const dx = e.clientX - sx;
-      sx = null;
-      if (Math.abs(dx) > 36) takeOver(dx < 0 ? 1 : -1);
+    flow.addEventListener('pointermove', (e) => {
+      if (dragX === null) return;
+      const dx = e.clientX - dragX;
+      if (Math.abs(dx) > 6) moved = true;
+      pos = dragPos - dx / (cards[0].offsetWidth * 0.9);
+      layout();
     });
-    flow.addEventListener('pointercancel', () => { sx = null; });
+    const endDrag = () => {
+      if (dragX === null) return;
+      dragX = null;
+      if (moved) { target = Math.round(pos); holdUntil = performance.now() + 4000; }
+    };
+    flow.addEventListener('pointerup', endDrag);
+    flow.addEventListener('pointercancel', endDrag);
     cards.forEach((c, i) => c.addEventListener('click', () => {
       if (moved) return;
-      const d = posOf(i);
-      if (d) takeOver(d);
+      const d = Math.round(wrapD(i));
+      if (d) glideBy(d);
     }));
     flow.addEventListener('keydown', (e) => {
       if (e.target.closest('button')) return;
-      if (e.key === 'ArrowRight') { e.preventDefault(); takeOver(1); }
-      else if (e.key === 'ArrowLeft') { e.preventDefault(); takeOver(-1); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); glideBy(1); }
+      else if (e.key === 'ArrowLeft') { e.preventDefault(); glideBy(-1); }
     });
 
-    layout(true);
-    let rt = 0;
-    addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => layout(true), 100); });
-    schedule();
-    flowCtl = { resume: schedule };
+    layout();
+    addEventListener('resize', layout);
+    if (!reduced) requestAnimationFrame((t) => { last = t; frame(t); });
+    flowCtl = { resume: () => {} };
   }
 
   /* ---------------- Trailer modal ---------------- */

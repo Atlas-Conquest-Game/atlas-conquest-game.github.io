@@ -22,11 +22,16 @@
   ]
  },
  "conquer": {
-  "duration": 15.2,
+  "duration": 15.0,
   "segment_starts": [
    0.0,
    5.1,
    9.4
+  ],
+  "segments": [
+   "red-dragon",
+   "spore-thresher",
+   "khazgar"
   ]
  },
  "battlefields": {
