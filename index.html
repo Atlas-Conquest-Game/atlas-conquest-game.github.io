@@ -67,6 +67,9 @@
     .tag.muted { background: rgba(154,163,178,.14); color: var(--muted); }
     .tag.old { background: rgba(88,101,242,.16); color: #c3c9ff; }
     .tile .go { margin-top: auto; padding-top: 6px; font-size: 14px; font-weight: 600; color: var(--gold-1); }
+    .tile--feature { flex-direction: row; margin-bottom: 4px; }
+    .tile--feature img { width: 52%; aspect-ratio: 16 / 10; border-bottom: 0; border-right: 1px solid var(--line); }
+    @media (max-width: 760px) { .tile--feature { flex-direction: column; } .tile--feature img { width: 100%; border-right: 0; border-bottom: 1px solid var(--line); } }
     .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 22px 24px; }
     .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
     ul.clean { margin: 10px 0 0; padding-left: 20px; }
@@ -86,7 +89,7 @@
       <h1>Website Refresh &mdash; Team Preview</h1>
       <div class="ornament" aria-hidden="true"><span></span></div>
       <p class="lede">A work-in-progress look at the new atlas-conquest.com, built for the Steam page and public beta. Nothing here is live yet. Click around, try it on your phone, and drop feedback in Discord.</p>
-      <p class="status"><b>Preview build 2</b> &middot; October 7, 2026</p>
+      <p class="status"><b>Preview build 3</b> &middot; October 8, 2026</p>
       <nav class="jump" aria-label="Jump to">
         <a href="#home">1 &middot; Pick a layout</a>
         <a href="#site">2 &middot; The rebranded site</a>
@@ -105,6 +108,11 @@
         </div>
         <a href="/concepts/clips/">All new clips &rarr;</a>
       </div>
+      <a class="tile tile--feature" href="/concepts/trailer-cut-d/">
+        <img src="/concepts/trailer-cut-d/thumb.webp" alt="" loading="lazy">
+        <div class="b"><span class="tag">Layout D &middot; recommended</span><h3>Focused</h3><p>The Trailer Cut hero plus five calm screens: how it plays, the three maps, the patron gods, proof of life and how to join the beta, then the Wishlist on Steam end slide. Only the hero moves on its own; everything else plays when you hover or tap. Built from the <a href="https://claude.ai/artifact/3UjoKvKo3ga1FFK7hHinRm">homepage strategy</a>.</p><span class="go">Open &rarr;</span></div>
+      </a>
+      <p style="color:var(--muted);margin:22px 0 10px;font-size:14px">Earlier layouts of the same direction (more motion, longer pages):</p>
       <div class="grid g3">
         <a class="tile" href="/concepts/trailer-cut/">
           <img src="/concepts/trailer-cut/thumb.webp" alt="" loading="lazy">
