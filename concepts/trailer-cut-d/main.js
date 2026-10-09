@@ -507,8 +507,9 @@ const CONFIG = {
   /* ---------------- Finale coverflow (the trailer's end slide) ----------------
      Like the trailer: cards sit side by side and overlap a little, the centre card is
      clearly the biggest, neighbours turn gently away and shrink toward both edges, and
-     the row pans slowly and continuously (about one card every 3s). It never reads as a
-     wheel because the cards fade out before they wrap around. Pauses on hover, focus,
+     each card glides to the centre, grows, rests there a moment, then makes way for the
+     next. It never reads as a wheel because the cards fade out before they wrap around.
+     Pauses on hover, focus,
      the pause button, a hidden tab, off-screen or the trailer. Drag/swipe scrubs it,
      clicking a card glides it to the centre, arrow keys step. Reduced motion: static. */
   function setupFlow() {
@@ -518,13 +519,11 @@ const CONFIG = {
     const toggle = $('[data-flow-toggle]', flow);
     const n = cards.length;
     const HALF = n / 2;
-    const SPEED = 1 / 3;          // cards per second while panning
     const FADE_FROM = 3.6;        // |offset| where cards start to fade
     const FADE_TO = 4.6;          // fully gone (well before the wrap at n/2)
     let pos = 0;                  // continuous index of the card in the centre
-    let target = null;            // glide destination (click / arrow keys)
     let hover = false; let focused = false; let userPaused = false; let inView = false;
-    let dragX = null; let dragPos = 0; let moved = false; let holdUntil = 0;
+    let dragX = null; let dragPos = 0; let moved = false;
     flow.classList.add('is-ready', 'is-live');
 
     const wrapD = (i) => { let d = i - pos; d -= Math.round(d / n) * n; return d; };
@@ -554,28 +553,35 @@ const CONFIG = {
       cards.forEach((c, i) => c.classList.toggle('is-center', i === centre && best < 0.35));
     }
 
-    const canPan = () => !reduced && !hover && !focused && !userPaused && inView && !document.hidden && !modalOpen && dragX === null && performance.now() > holdUntil;
-    let last = performance.now();
+    // Rhythm like the trailer: a card glides to the centre (and grows), holds there for a
+    // moment, then shrinks as the next one slides in. Dragging scrubs; letting go snaps.
+    const HOLD = 1800;            // ms a card rests in the centre
+    const GLIDE = 900;            // ms to slide one card over
+    const IDLE_AFTER_TOUCH = 5000;
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    let anim = null;              // { from, to, start, dur }
+    let nextAt = performance.now() + HOLD;
+    const canAuto = () => !reduced && !hover && !focused && !userPaused && inView && !document.hidden && !modalOpen && dragX === null;
+    function animateTo(to, dur) {
+      anim = { from: pos, to, start: performance.now(), dur };
+    }
     function frame(now) {
-      const dt = Math.min(0.1, (now - last) / 1000);
-      last = now;
-      if (target !== null) {
-        const diff = target - pos;
-        if (Math.abs(diff) < 0.002) { pos = target; target = null; }
-        else pos += diff * Math.min(1, dt * 7);
+      if (anim) {
+        const t = Math.min(1, (now - anim.start) / anim.dur);
+        pos = anim.from + (anim.to - anim.from) * ease(t);
         layout();
-      } else if (canPan()) {
-        pos += SPEED * dt;
-        layout();
+        if (t >= 1) { anim = null; pos = Math.round(pos); nextAt = Math.max(nextAt, now + HOLD); }
+      } else if (dragX === null && canAuto() && now >= nextAt) {
+        animateTo(Math.round(pos) + 1, GLIDE);
       }
       if (pos > n * 1000) pos -= n * 1000;
       requestAnimationFrame(frame);
     }
 
     function glideBy(k) {
-      const base = target !== null ? target : Math.round(pos);
-      target = base + k;
-      holdUntil = performance.now() + 4000;   // let the visitor look before panning resumes
+      const base = anim ? anim.to : Math.round(pos);
+      animateTo(base + k, Math.min(1400, 420 + 260 * Math.abs(k)));
+      nextAt = performance.now() + IDLE_AFTER_TOUCH;
     }
 
     new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { threshold: 0.2 }).observe(flow);
@@ -596,7 +602,7 @@ const CONFIG = {
     // Drag / swipe scrubs the row (touch keeps vertical page scrolling via touch-action: pan-y).
     flow.addEventListener('pointerdown', (e) => {
       if (e.button !== 0 || e.target.closest('button')) return;
-      dragX = e.clientX; dragPos = pos; moved = false; target = null;
+      dragX = e.clientX; dragPos = pos; moved = false; anim = null;
     });
     flow.addEventListener('pointermove', (e) => {
       if (dragX === null) return;
@@ -608,7 +614,7 @@ const CONFIG = {
     const endDrag = () => {
       if (dragX === null) return;
       dragX = null;
-      if (moved) { target = Math.round(pos); holdUntil = performance.now() + 4000; }
+      if (moved) { animateTo(Math.round(pos), 380); nextAt = performance.now() + IDLE_AFTER_TOUCH; }
     };
     flow.addEventListener('pointerup', endDrag);
     flow.addEventListener('pointercancel', endDrag);
@@ -625,7 +631,7 @@ const CONFIG = {
 
     layout();
     addEventListener('resize', layout);
-    if (!reduced) requestAnimationFrame((t) => { last = t; frame(t); });
+    if (!reduced) requestAnimationFrame(frame);
     flowCtl = { resume: () => {} };
   }
 
