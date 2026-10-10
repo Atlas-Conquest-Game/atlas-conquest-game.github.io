@@ -1,13 +1,13 @@
 <!doctype html>
-<!-- Layout D ("Focused"): the Trailer Cut hero, then about five calm screens —
-     How it plays · Three Battlefields · Patron gods & commanders · Wishlist finale.
+<!-- Layout D ("Focused"): the Trailer Cut hero, then calm sections for someone new —
+     Your Cards Take the Field · Three Battlefields · Choose Your Commander · Wishlist finale.
      One autoplaying video (the hero loop). Section clips play only on hover or tap. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Atlas Conquest — Online Competitive Hex-Grid Card Battles</title>
-  <meta name="description" content="Atlas Conquest is an online competitive hex-grid card game. Play cards onto the battlefield, expand your territory, command your army and conquer your opponent. Releasing 2027 — wishlist on Steam, and join the beta on Discord.">
+  <meta name="description" content="Atlas Conquest is a free-to-play online card battler where your cards become units on a real battlefield. Lead a commander for your patron god, battle real players 1 vs 1 and conquer the map. Wishlist on Steam and play free now on Discord.">
   <meta name="robots" content="noindex">
   <meta name="theme-color" content="#0b0f17">
 
@@ -38,7 +38,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Alegreya+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="roster.css">
+  <link rel="stylesheet" href="finale.css">
   <script src="main.js" defer></script>
+  <script src="roster.js" defer></script>
 </head>
 <body>
   <!-- Icon sprite -->
@@ -77,7 +80,7 @@
         </ul>
         <!-- Mobile menu only: the secondary call to action -->
         <a class="nav__alt nav__alt--discord" href="https://discord.gg/7QaEY4yJH5" data-link="discord" data-primary-only="steam" target="_blank" rel="noopener">
-          <svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg>Join the beta on Discord
+          <svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg>Play Free Now on Discord
         </a>
         <a class="nav__alt" href="#" data-link="steam" data-placement="nav" data-primary-only="discord" target="_blank" rel="noopener">
           <svg class="icon" aria-hidden="true"><use href="#i-steam"/></svg>Wishlist on Steam
@@ -136,7 +139,7 @@
           </a>
           <a class="btn btn--discord btn--lg" href="https://discord.gg/7QaEY4yJH5" data-link="discord" data-primary-only="discord" target="_blank" rel="noopener">
             <svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg>
-            <span class="btn__label">Join the Beta on Discord</span>
+            <span class="btn__label">Play Free Now on Discord</span>
           </a>
           <button type="button" class="btn btn--ghost btn--lg" data-trailer>
             <span class="btn__play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span>
@@ -151,7 +154,7 @@
         </a>
         <a class="beta-pill hero__beta" href="https://discord.gg/7QaEY4yJH5" data-link="discord" data-primary-only="steam" target="_blank" rel="noopener">
           <svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg>
-          <span class="beta-pill__label">Join the beta on Discord</span>
+          <span class="beta-pill__label">Play Free Now on Discord</span>
           <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
         </a>
       </div>
@@ -167,70 +170,58 @@
       </div>
     </section>
 
-    <!-- ============ 1 · HOW IT PLAYS ============
-         Four still cards. Hover (mouse) or tap/Enter (button) plays that card's clip inline,
-         muted; only one clip on the page plays at a time. Nothing pins, nothing scroll-driven. -->
-    <section class="sec how" id="how" aria-labelledby="how-title">
+    <!-- ============ 1 · THE PITCH ============
+         Answers "what is this game?" for someone new: the pitch, then three short clips that teach
+         what the board adds (minions, spells, land). Clips play on hover / tap; the corner button
+         opens them big in the shared viewer. Phones get a swipe row, not a stack. -->
+    <section class="sec pitch" id="how" aria-labelledby="pitch-title">
       <div class="container">
         <header class="sec__head">
-          <h2 id="how-title" class="section-title"><span class="gold">Gameplay</span></h2>
-          <p class="spec"><span>1v1</span><i aria-hidden="true"></i><span>16 commanders</span><i aria-hidden="true"></i><span>6 patron gods</span><i aria-hidden="true"></i><span>280+ cards</span></p>
+          <h2 id="pitch-title" class="section-title"><span class="gold">Your Cards Take the Field</span></h2>
+          <p class="pitch__lead">Build a deck of cards that become units on a real battlefield. Play as a commander leading an army for your patron god, battle real players online, outmaneuver your rival and conquer the map.</p>
         </header>
-
-        <ul class="beats">
-          <li class="beat" data-clip-host>
-            <h3 class="beat__title"><span class="gold">Play Cards On The Battlefield</span></h3>
-            <div class="clip" data-clip data-src="../../assets/media/clips/splice/play-1280.mp4">
-              <img class="clip__still" data-src="media/how-play-640.webp" data-srcset="media/how-play-640.webp 640w, ../../assets/media/clips/splice/play-poster.webp 1280w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1100px) 46vw, 320px" width="1280" height="720" alt="A Viridian War Beast card being played onto the Dunes board." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/how-play-640.webp" width="1280" height="720" alt="A Viridian War Beast card being played onto the Dunes board." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Play Cards On The Battlefield" hidden>
+        <ul class="ideas">
+          <li class="idea" data-clip-host>
+            <div class="clip" data-clip data-src="../../assets/media/clips/minion-lands-1280.mp4">
+              <img class="clip__still" data-src="../../assets/media/clips/minion-lands-poster.webp" width="1280" height="720" alt="A Runic Knight card dragged from the hand becomes a unit on the Tropics board." loading="lazy" decoding="async">
+              <noscript><img class="clip__still" src="../../assets/media/clips/minion-lands-poster.webp" width="1280" height="720" alt="A Runic Knight card dragged from the hand becomes a unit on the Tropics board." loading="lazy" decoding="async"></noscript>
+              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Minions Take the Field" hidden>
                 <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
               </button>
+              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/minion-lands-1920.mp4" data-view-poster="../../assets/media/clips/minion-lands-poster.webp" data-view-caption="Minions Take the Field" aria-label="Watch larger: Minions Take the Field"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
             </div>
-            <p class="beat__text">Play minions onto tiles you&rsquo;ve claimed, or cast spells for one-shot effects.</p>
+            <h3 class="idea__title"><span class="gold">Minions Take the Field</span></h3>
+            <p class="idea__text">Every minion you play stands on the map, so where you put it matters.</p>
           </li>
-          <li class="beat" data-clip-host>
-            <h3 class="beat__title"><span class="gold">Expand Your Territory</span></h3>
-            <div class="clip" data-clip data-src="../../assets/media/clips/splice/expand-1280.mp4">
-              <img class="clip__still" data-src="media/how-expand-640.webp" data-srcset="media/how-expand-640.webp 640w, ../../assets/media/clips/splice/expand-poster.webp 1280w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1100px) 46vw, 320px" width="1280" height="720" alt="Green and red territory spreading across the Tropics map." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/how-expand-640.webp" width="1280" height="720" alt="Green and red territory spreading across the Tropics map." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Expand Your Territory" hidden>
+          <li class="idea" data-clip-host>
+            <div class="clip" data-clip data-src="../../assets/media/clips/spell-acid-rain-1280.mp4">
+              <img class="clip__still" data-src="../../assets/media/clips/spell-acid-rain-poster.webp" width="1280" height="720" alt="Acid Rain turns the tile under an enemy knight into a toxic swamp." loading="lazy" decoding="async">
+              <noscript><img class="clip__still" src="../../assets/media/clips/spell-acid-rain-poster.webp" width="1280" height="720" alt="Acid Rain turns the tile under an enemy knight into a toxic swamp." loading="lazy" decoding="async"></noscript>
+              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Spells Change the Board" hidden>
                 <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
               </button>
+              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/spell-acid-rain-1920.mp4" data-view-poster="../../assets/media/clips/spell-acid-rain-poster.webp" data-view-caption="Spells Change the Board" aria-label="Watch larger: Spells Change the Board"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
             </div>
-            <p class="beat__text">Claim tiles to grow your land. Each pays 1 mana a turn; villages pay 2.</p>
+            <h3 class="idea__title"><span class="gold">Spells Change the Board</span></h3>
+            <p class="idea__text">Strike enemy units, poison them, or reshape the land itself.</p>
           </li>
-          <li class="beat" data-clip-host>
-            <h3 class="beat__title"><span class="gold">Command Your Army</span></h3>
-            <div class="clip" data-clip data-src="../../assets/media/clips/splice/command-1280.mp4">
-              <img class="clip__still" data-src="media/how-command-640.webp" data-srcset="media/how-command-640.webp 640w, ../../assets/media/clips/splice/command-poster.webp 1280w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1100px) 46vw, 320px" width="1280" height="720" alt="Commanders and minions clashing across the snowy Snowmelt map." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/how-command-640.webp" width="1280" height="720" alt="Commanders and minions clashing across the snowy Snowmelt map." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Command Your Army" hidden>
+          <li class="idea" data-clip-host>
+            <div class="clip" data-clip data-src="../../assets/media/clips/village-claim-1280.mp4">
+              <img class="clip__still" data-src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it for its owner." loading="lazy" decoding="async">
+              <noscript><img class="clip__still" src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it for its owner." loading="lazy" decoding="async"></noscript>
+              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Land Is Mana" hidden>
                 <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
               </button>
+              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/village-claim-1920.mp4" data-view-poster="../../assets/media/clips/village-claim-poster.webp" data-view-caption="Land Is Mana" aria-label="Watch larger: Land Is Mana"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
             </div>
-            <p class="beat__text">March across the hexes and attack. If the defender falls, you take its tile.</p>
-          </li>
-          <li class="beat" data-clip-host>
-            <h3 class="beat__title"><span class="gold">Conquer Your Opponents</span></h3>
-            <div class="clip" data-clip data-src="../../assets/media/clips/splice/conquer-1280.mp4">
-              <img class="clip__still" data-src="media/how-conquer-640.webp" data-srcset="media/how-conquer-640.webp 640w, ../../assets/media/clips/splice/conquer-poster.webp 1280w" sizes="(max-width: 600px) calc(100vw - 32px), (max-width: 1100px) 46vw, 320px" width="1280" height="720" alt="A crowded late-game board with both armies locked in battle." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/how-conquer-640.webp" width="1280" height="720" alt="A crowded late-game board with both armies locked in battle." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Conquer Your Opponents" hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-            </div>
-            <p class="beat__text">Defeat the enemy commander to win. Every match is one on one, online.</p>
+            <h3 class="idea__title"><span class="gold">Land Is Mana</span></h3>
+            <p class="idea__text">Claim tiles to grow your income each turn. Villages pay double.</p>
           </li>
         </ul>
-
-        <p class="how__more">
-          <button type="button" class="btn btn--ghost" data-trailer>
-            <span class="btn__play" aria-hidden="true"><svg class="icon"><use href="#i-play"/></svg></span>
-            <span class="btn__label">Watch the Full Trailer</span>
-            <span class="btn__meta" aria-hidden="true">1:12</span>
-          </button>
-        </p>
+        <ul class="facts" aria-label="At a glance">
+          <li>Free to play</li><li>1 vs 1 online</li><li>16 commanders</li><li>280+ cards</li>
+        </ul>
+        <p class="facts__note">Every card will be unlockable, free to play.</p>
       </div>
     </section>
 
@@ -291,179 +282,203 @@
       </div>
     </section>
 
-    <!-- ============ 3 · PATRON GODS & COMMANDERS ============
-         ARIA tabs (roving tabindex, arrow keys, Home/End). Static panels: the god, its playstyle,
-         three real cards and its commanders (each links to that commander's deck builder page).
-         Without JS every panel shows, stacked. -->
-    <section class="sec gods" id="gods" aria-labelledby="gods-title">
+    <!-- ============ 3 · CHOOSE YOUR COMMANDER ============
+         All sixteen commanders as portrait tiles, grouped by patron (Skaal, Grenalia, Lucia,
+         Archaeon, Shadis, Neutral). A patron chip dims everyone else (nothing hides, nothing
+         reflows) and shows that god's title and playstyle. A tile opens a small sheet with the
+         commander's ability; without JS each tile links to its deck builder page. -->
+    <section class="sec roster" id="gods" aria-labelledby="gods-title" data-roster>
+      <div class="roster__glow" aria-hidden="true"></div>
       <div class="container">
         <header class="sec__head">
-          <h2 id="gods-title" class="section-title"><span class="gold">Patron Gods &amp; Commanders</span></h2>
-          <span class="ornament" aria-hidden="true"><i></i></span>
+          <h2 id="gods-title" class="section-title"><span class="gold">Choose Your Commander</span></h2>
+          <p class="roster__lead">Every commander serves a patron god, and each god plays its own way. Pick a god to see its style, or a commander to see what they do.</p>
         </header>
 
-        <div class="gods__tabs" role="tablist" aria-label="Patron gods" data-gods-tabs>
-          <button type="button" class="god-tab" role="tab" id="tab-skaal" aria-controls="god-skaal" aria-selected="true" style="--fcr:213, 94, 0"><img src="media/emblem-skaal-160.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>Skaal</span></button>
-          <button type="button" class="god-tab" role="tab" id="tab-grenalia" aria-controls="god-grenalia" aria-selected="false" tabindex="-1" style="--fcr:0, 158, 115"><img src="media/emblem-grenalia-160.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>Grenalia</span></button>
-          <button type="button" class="god-tab" role="tab" id="tab-lucia" aria-controls="god-lucia" aria-selected="false" tabindex="-1" style="--fcr:232, 182, 48"><img src="media/emblem-lucia-160.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>Lucia</span></button>
-          <button type="button" class="god-tab" role="tab" id="tab-archaeon" aria-controls="god-archaeon" aria-selected="false" tabindex="-1" style="--fcr:0, 114, 178"><img src="media/emblem-archaeon-160.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>Archaeon</span></button>
-          <button type="button" class="god-tab" role="tab" id="tab-shadis" aria-controls="god-shadis" aria-selected="false" tabindex="-1" style="--fcr:123, 123, 142"><img src="media/emblem-shadis-160.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>Shadis</span></button>
-          <button type="button" class="god-tab" role="tab" id="tab-neutral" aria-controls="god-neutral" aria-selected="false" tabindex="-1" style="--fcr:168, 144, 120"><img src="media/emblem-neutral-160.webp" alt="" width="56" height="56" loading="lazy" decoding="async"><span>Neutral</span></button>
+        <div class="roster__chips" role="group" aria-label="Highlight commanders by patron god" data-roster-chips>
+          <button type="button" class="roster__chip roster__chip--all" data-chip="all" aria-pressed="true"><span class="roster__chip-name">All</span></button>
+          <button type="button" class="roster__chip" data-chip="skaal" aria-pressed="false" title="Skaal" style="--fc:213, 94, 0"><img src="media/emblem-skaal-160.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="roster__chip-name">Skaal</span></button>
+          <button type="button" class="roster__chip" data-chip="grenalia" aria-pressed="false" title="Grenalia" style="--fc:0, 158, 115"><img src="media/emblem-grenalia-160.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="roster__chip-name">Grenalia</span></button>
+          <button type="button" class="roster__chip" data-chip="lucia" aria-pressed="false" title="Lucia" style="--fc:232, 182, 48"><img src="media/emblem-lucia-160.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="roster__chip-name">Lucia</span></button>
+          <button type="button" class="roster__chip" data-chip="archaeon" aria-pressed="false" title="Archaeon" style="--fc:0, 114, 178"><img src="media/emblem-archaeon-160.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="roster__chip-name">Archaeon</span></button>
+          <button type="button" class="roster__chip" data-chip="shadis" aria-pressed="false" title="Shadis" style="--fc:123, 123, 142"><img src="media/emblem-shadis-160.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="roster__chip-name">Shadis</span></button>
+          <button type="button" class="roster__chip" data-chip="neutral" aria-pressed="false" title="Neutral" style="--fc:168, 144, 120"><img src="media/emblem-neutral-160.webp" alt="" width="40" height="40" loading="lazy" decoding="async"><span class="roster__chip-name">Neutral</span></button>
         </div>
 
-        <!-- Skaal -->
-        <div class="god" role="tabpanel" id="god-skaal" aria-labelledby="tab-skaal" style="--fcr:213, 94, 0">
-          <div class="god__info">
-            <div class="god__head">
-              <img class="god__emblem" src="media/emblem-skaal-160.webp" alt="" width="80" height="80" loading="lazy" decoding="async">
-              <div>
-                <h3 class="god__name">Skaal</h3>
-                <p class="god__role">Goddess of War</p>
-              </div>
-            </div>
-            <p class="god__line">Aggressive minions and destructive magic. Overwhelm them before they settle in.</p>
-            <h4 class="god__sub">Commanders</h4>
-            <ul class="cmdrs">
-              <li><a class="cmdr" href="../../decks/captain-greenbeard/"><img src="../../assets/commanders/token/captain-greenbeard.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Captain Greenbeard</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/kai-longcount-shaman/"><img src="../../assets/commanders/token/kai-longcount-shaman.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Kai, Longcount Shaman</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/macks-speed/"><img src="../../assets/commanders/token/macks-speed.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Macks Speed</span><span class="cmdr__go">Build a deck</span></span></a></li>
-            </ul>
-          </div>
-          <ul class="god__cards" aria-label="Skaal cards">
-            <li><img src="../../assets/media/cards/stormrider-zurn.webp" width="400" height="560" alt="Stormrider Zurn" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/red-dragon.webp" width="400" height="560" alt="Red Dragon" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/fireball.webp" width="400" height="560" alt="Fireball" loading="lazy" decoding="async"></li>
-          </ul>
+        <!-- every line sits in the same cell, so switching gods never moves the grid -->
+        <div class="roster__abouts">
+          <p class="roster__about is-on" data-about="all"><span class="roster__about-god">Sixteen commanders</span> <span class="roster__about-line">Your commander&rsquo;s patron god decides which cards you can play.</span></p>
+          <p class="roster__about" data-about="skaal" style="--fc:213, 94, 0"><span class="roster__about-god">Skaal, Goddess of War</span> <span class="roster__about-line">Aggressive minions and destructive magic. Overwhelm them before they settle in.</span></p>
+          <p class="roster__about" data-about="grenalia" style="--fc:0, 158, 115"><span class="roster__about-god">Grenalia, Goddess of Nature</span> <span class="roster__about-line">Mana growth, poisons and massive creatures. Ramp into overwhelming force.</span></p>
+          <p class="roster__about" data-about="lucia" style="--fc:232, 182, 48"><span class="roster__about-god">Lucia, Goddess of Light</span> <span class="roster__about-line">Unified armies, healing and villages. Outlast the competition.</span></p>
+          <p class="roster__about" data-about="archaeon" style="--fc:0, 114, 178"><span class="roster__about-god">Archaeon, God of Wisdom</span> <span class="roster__about-line">Ancient power, artifacts and spells. Outthink your opponent.</span></p>
+          <p class="roster__about" data-about="shadis" style="--fc:123, 123, 142"><span class="roster__about-god">Shadis, God of Death</span> <span class="roster__about-line">Stealth, deception and dark magic. Win through cunning.</span></p>
+          <p class="roster__about" data-about="neutral" style="--fc:168, 144, 120"><span class="roster__about-god">Neutral, no patron</span> <span class="roster__about-line">Mercenaries any deck can recruit. Versatile tools for every strategy.</span></p>
         </div>
+        <p class="visually-hidden" aria-live="polite" data-roster-status></p>
 
-        <!-- Grenalia -->
-        <div class="god" role="tabpanel" id="god-grenalia" aria-labelledby="tab-grenalia" style="--fcr:0, 158, 115">
-          <div class="god__info">
-            <div class="god__head">
-              <img class="god__emblem" src="media/emblem-grenalia-160.webp" alt="" width="80" height="80" loading="lazy" decoding="async">
-              <div>
-                <h3 class="god__name">Grenalia</h3>
-                <p class="god__role">Goddess of Nature</p>
-              </div>
-            </div>
-            <p class="god__line">Mana growth, poisons and massive creatures. Ramp into overwhelming force.</p>
-            <h4 class="god__sub">Commanders</h4>
-            <ul class="cmdrs">
-              <li><a class="cmdr" href="../../decks/elber-jungle-emissary/"><img src="../../assets/commanders/token/elber-jungle-emissary.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Elber, Jungle Emissary</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/jagris-the-huntsman/"><img src="../../assets/commanders/token/jagris-the-huntsman.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Jagris, the Huntsman</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/lubela-tender-of-the-wilds/"><img src="../../assets/commanders/token/lubela-tender-of-the-wilds.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Lubela, Tender of the Wilds</span><span class="cmdr__go">Build a deck</span></span></a></li>
-            </ul>
-          </div>
-          <ul class="god__cards" aria-label="Grenalia cards">
-            <li><img src="../../assets/media/cards/dyana-prime-huntress.webp" width="400" height="560" alt="Dyana, Prime Huntress" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/green-dragon.webp" width="400" height="560" alt="Green Dragon" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/spore-thresher.webp" width="400" height="560" alt="Spore Thresher" loading="lazy" decoding="async"></li>
-          </ul>
-        </div>
-
-        <!-- Lucia -->
-        <div class="god" role="tabpanel" id="god-lucia" aria-labelledby="tab-lucia" style="--fcr:232, 182, 48">
-          <div class="god__info">
-            <div class="god__head">
-              <img class="god__emblem" src="media/emblem-lucia-160.webp" alt="" width="80" height="80" loading="lazy" decoding="async">
-              <div>
-                <h3 class="god__name">Lucia</h3>
-                <p class="god__role">Goddess of Light</p>
-              </div>
-            </div>
-            <p class="god__line">Unified armies, healing and villages. Outlast the competition.</p>
-            <h4 class="god__sub">Commanders</h4>
-            <ul class="cmdrs">
-              <li><a class="cmdr" href="../../decks/elyse-of-the-order/"><img src="../../assets/commanders/token/elyse-of-the-order.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Elyse of the Order</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/executor-ginn/"><img src="../../assets/commanders/token/executor-ginn.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Executor Ginn</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/milo-sunstone/"><img src="../../assets/commanders/token/milo-sunstone.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Milo Sunstone</span><span class="cmdr__go">Build a deck</span></span></a></li>
-            </ul>
-          </div>
-          <ul class="god__cards" aria-label="Lucia cards">
-            <li><img src="../../assets/media/cards/purifier-euron.webp" width="400" height="560" alt="Purifier Euron" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/gold-dragon.webp" width="400" height="560" alt="Gold Dragon" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/blessed-force.webp" width="400" height="560" alt="Blessed Force" loading="lazy" decoding="async"></li>
-          </ul>
-        </div>
-
-        <!-- Shadis -->
-        <div class="god" role="tabpanel" id="god-archaeon" aria-labelledby="tab-archaeon" style="--fcr:0, 114, 178">
-          <div class="god__info">
-            <div class="god__head">
-              <img class="god__emblem" src="media/emblem-archaeon-160.webp" alt="" width="80" height="80" loading="lazy" decoding="async">
-              <div>
-                <h3 class="god__name">Archaeon</h3>
-                <p class="god__role">God of Wisdom</p>
-              </div>
-            </div>
-            <p class="god__line">Ancient power, artifacts and spells. Outthink your opponent.</p>
-            <h4 class="god__sub">Commanders</h4>
-            <ul class="cmdrs">
-              <li><a class="cmdr" href="../../decks/it-that-weaves/"><img src="../../assets/commanders/token/it-that-weaves.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">It That Weaves</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/rosirix-the-witch/"><img src="../../assets/commanders/token/rosirix-the-witch.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Rosirix the Witch</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/starwise-luna/"><img src="../../assets/commanders/token/starwise-luna.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Starwise Luna</span><span class="cmdr__go">Build a deck</span></span></a></li>
-            </ul>
-          </div>
-          <ul class="god__cards" aria-label="Archaeon cards">
-            <li><img src="../../assets/media/cards/zoghn-eye-of-treason.webp" width="400" height="560" alt="Zoghn, Eye of Treason" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/lorecaller-gazan.webp" width="400" height="560" alt="Lorecaller Gazan" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/thunder-skywhale.webp" width="400" height="560" alt="Thunder Skywhale" loading="lazy" decoding="async"></li>
-          </ul>
-        </div>
-
-        <!-- Neutral -->
-        <div class="god" role="tabpanel" id="god-shadis" aria-labelledby="tab-shadis" style="--fcr:123, 123, 142">
-          <div class="god__info">
-            <div class="god__head">
-              <img class="god__emblem" src="media/emblem-shadis-160.webp" alt="" width="80" height="80" loading="lazy" decoding="async">
-              <div>
-                <h3 class="god__name">Shadis</h3>
-                <p class="god__role">God of Death</p>
-              </div>
-            </div>
-            <p class="god__line">Stealth, deception and dark magic. Win through cunning.</p>
-            <h4 class="god__sub">Commanders</h4>
-            <ul class="cmdrs">
-              <li><a class="cmdr" href="../../decks/fael-spiritwalker/"><img src="../../assets/commanders/token/fael-spiritwalker.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Fael Spiritwalker</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/soultaker-viessa/"><img src="../../assets/commanders/token/soultaker-viessa.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Soultaker Viessa</span><span class="cmdr__go">Build a deck</span></span></a></li>
-            </ul>
-          </div>
-          <ul class="god__cards" aria-label="Shadis cards">
-            <li><img src="../../assets/media/cards/daemonprince-grizlocke.webp" width="400" height="560" alt="Daemonprince Grizlocke" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/nilo-of-one-thousand-cuts.webp" width="400" height="560" alt="Nilo of One Thousand Cuts" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/black-dragon.webp" width="400" height="560" alt="Black Dragon" loading="lazy" decoding="async"></li>
-          </ul>
-        </div>
-
-        <!-- Archaeon -->
-        <div class="god" role="tabpanel" id="god-neutral" aria-labelledby="tab-neutral" style="--fcr:168, 144, 120">
-          <div class="god__info">
-            <div class="god__head">
-              <img class="god__emblem" src="media/emblem-neutral-160.webp" alt="" width="80" height="80" loading="lazy" decoding="async">
-              <div>
-                <h3 class="god__name">Neutral</h3>
-                <p class="god__role">Open to every commander</p>
-              </div>
-            </div>
-            <p class="god__line">Mercenaries any deck can recruit. Versatile tools for every strategy.</p>
-            <h4 class="god__sub">Commanders</h4>
-            <ul class="cmdrs">
-              <li><a class="cmdr" href="../../decks/lazim-thief-of-gods/"><img src="../../assets/commanders/token/lazim-thief-of-gods.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Lazim, Thief of Gods</span><span class="cmdr__go">Build a deck</span></span></a></li>
-              <li><a class="cmdr" href="../../decks/newhaven-township/"><img src="../../assets/commanders/token/newhaven-township.webp" alt="" width="46" height="46" loading="lazy" decoding="async"><span><span class="cmdr__name">Newhaven Township</span><span class="cmdr__go">Build a deck</span></span></a></li>
-            </ul>
-          </div>
-          <ul class="god__cards" aria-label="Neutral cards">
-            <li><img src="../../assets/media/cards/atlas-first-to-walk.webp" width="400" height="560" alt="Atlas, First to Walk" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/khazgar-flame-emperor.webp" width="400" height="560" alt="Khazgar, Flame Emperor" loading="lazy" decoding="async"></li>
-            <li><img src="../../assets/media/cards/king-darian.webp" width="400" height="560" alt="King Darian" loading="lazy" decoding="async"></li>
-          </ul>
-        </div>
+        <ul class="roster__grid" aria-label="Commanders">
+          <li class="roster__item" data-patron="skaal" style="--fc:213, 94, 0; --fx:90%">
+            <a class="roster__tile" href="../../decks/captain-greenbeard/" data-roster-tile
+               data-name="Captain Greenbeard" data-patron="skaal" data-int="7" data-hp="28">
+              <img src="../../assets/commanders/captain-greenbeard.jpg" width="400" height="400" alt="Captain Greenbeard" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Captain Greenbeard</span><span class="roster__short">Greenbeard</span></span></span>
+            </a>
+            <template data-ability><b>[Cooldown 2]:</b> Until end of the turn, minions you control in enemy territory have Haste.</template>
+          </li>
+          <li class="roster__item" data-patron="skaal" style="--fc:213, 94, 0; --fx:70%">
+            <a class="roster__tile" href="../../decks/kai-longcount-shaman/" data-roster-tile
+               data-name="Kai, Longcount Shaman" data-patron="skaal" data-int="10" data-hp="30">
+              <img src="../../assets/commanders/kai-longcount-shaman.jpg" width="400" height="400" alt="Kai, Longcount Shaman" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Kai</span><span class="roster__short">Kai</span></span><span class="roster__epithet">Longcount Shaman</span></span>
+            </a>
+            <template data-ability><b>[Warmup 25]:</b> The enemy commander gains 5&nbsp;Doom. When you play a spell, reduce Warmup by 1.</template>
+          </li>
+          <li class="roster__item" data-patron="skaal" style="--fc:213, 94, 0; --fx:30%">
+            <a class="roster__tile" href="../../decks/macks-speed/" data-roster-tile
+               data-name="Macks Speed" data-patron="skaal" data-int="7" data-hp="29">
+              <img src="../../assets/commanders/macks-speed.jpg" width="400" height="400" alt="Macks Speed" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Macks Speed</span><span class="roster__short">Macks</span></span></span>
+            </a>
+            <template data-ability><b>[Cooldown 3, Range 2]:</b> Target character gains +<img class="roster__ti" src="../../assets/icons/text/speed_2.png" width="99" height="72" alt="2 speed"> and Trample until end of the turn.</template>
+          </li>
+          <li class="roster__item" data-patron="grenalia" style="--fc:0, 158, 115; --fx:30%">
+            <a class="roster__tile" href="../../decks/elber-jungle-emissary/" data-roster-tile
+               data-name="Elber, Jungle Emissary" data-patron="grenalia" data-int="7" data-hp="33">
+              <img src="../../assets/commanders/elber-jungle-emissary.jpg" width="400" height="400" alt="Elber, Jungle Emissary" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Elber</span><span class="roster__short">Elber</span></span><span class="roster__epithet">Jungle Emissary</span></span>
+            </a>
+            <template data-ability>When you play a card that costs 8 or more, Elber, Jungle Emissary heals <img class="roster__ti" src="../../assets/icons/text/health_4.png" width="76" height="72" alt="4 health">.</template>
+          </li>
+          <li class="roster__item" data-patron="grenalia" style="--fc:0, 158, 115; --fx:100%">
+            <a class="roster__tile" href="../../decks/jagris-the-huntsman/" data-roster-tile
+               data-name="Jagris, the Huntsman" data-patron="grenalia" data-int="8" data-hp="29">
+              <img src="../../assets/commanders/jagris-the-huntsman.jpg" width="400" height="400" alt="Jagris, the Huntsman" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Jagris</span><span class="roster__short">Jagris</span></span><span class="roster__epithet">the Huntsman</span></span>
+            </a>
+            <template data-ability><b>[Cooldown 3, Range 2]:</b> Target minion gains +<img class="roster__ti" src="../../assets/icons/text/power_1.png" width="106" height="72" alt="1 power"><img class="roster__ti" src="../../assets/icons/text/speed_1.png" width="99" height="72" alt="1 speed"><img class="roster__ti" src="../../assets/icons/text/health_1.png" width="76" height="72" alt="1 health">.</template>
+          </li>
+          <li class="roster__item" data-patron="grenalia" style="--fc:0, 158, 115; --fx:18%">
+            <a class="roster__tile" href="../../decks/lubela-tender-of-the-wilds/" data-roster-tile
+               data-name="Lubela, Tender of the Wilds" data-patron="grenalia" data-int="8" data-hp="31">
+              <img src="../../assets/commanders/lubela-tender-of-the-wilds.jpg" width="400" height="400" alt="Lubela, Tender of the Wilds" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Lubela</span><span class="roster__short">Lubela</span></span><span class="roster__epithet">Tender of the Wilds</span></span>
+            </a>
+            <template data-ability>When you play a minion in your territory, it gains +<img class="roster__ti" src="../../assets/icons/text/health_2.png" width="76" height="72" alt="2 health"> until the start of your next turn.</template>
+          </li>
+          <li class="roster__item" data-patron="lucia" style="--fc:232, 182, 48; --fx:70%">
+            <a class="roster__tile" href="../../decks/elyse-of-the-order/" data-roster-tile
+               data-name="Elyse of the Order" data-patron="lucia" data-int="8" data-hp="26">
+              <img src="../../assets/commanders/elyse-of-the-order.jpg" width="400" height="400" alt="Elyse of the Order" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Elyse of the Order</span><span class="roster__short">Elyse</span></span></span>
+            </a>
+            <template data-ability><b>[Warmup 6]:</b> Summon a Lucian Soldier. When you play a minion, reduce Warmup by 1.</template>
+          </li>
+          <li class="roster__item" data-patron="lucia" style="--fc:232, 182, 48; --fx:50%">
+            <a class="roster__tile" href="../../decks/executor-ginn/" data-roster-tile
+               data-name="Executor Ginn" data-patron="lucia" data-int="7" data-hp="30">
+              <img src="../../assets/commanders/executor-ginn.jpg" width="400" height="400" alt="Executor Ginn" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Executor Ginn</span><span class="roster__short">Ginn</span></span></span>
+            </a>
+            <template data-ability><b>[Pay <img class="roster__ti" src="../../assets/icons/text/mana_2.png" width="66" height="72" alt="2 mana">, Cooldown 1]:</b> Sacrifice target minion and convert the tile it occupied to a Village.</template>
+          </li>
+          <li class="roster__item" data-patron="lucia" style="--fc:232, 182, 48; --fx:30%">
+            <a class="roster__tile" href="../../decks/milo-sunstone/" data-roster-tile
+               data-name="Milo Sunstone" data-patron="lucia" data-int="7" data-hp="32">
+              <img src="../../assets/commanders/milo-sunstone.jpg" width="400" height="400" alt="Milo Sunstone" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Milo Sunstone</span><span class="roster__short">Milo</span></span></span>
+            </a>
+            <template data-ability><b>[Cooldown 2, Range 3]:</b> Target character heals <img class="roster__ti" src="../../assets/icons/text/health_3.png" width="76" height="72" alt="3 health">.</template>
+          </li>
+          <li class="roster__item" data-patron="archaeon" style="--fc:0, 114, 178; --fx:50%">
+            <a class="roster__tile" href="../../decks/it-that-weaves/" data-roster-tile
+               data-name="It That Weaves" data-patron="archaeon" data-int="7" data-hp="27">
+              <img src="../../assets/commanders/it-that-weaves.jpg" width="400" height="400" alt="It That Weaves" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">It That Weaves</span><span class="roster__short">It That Weaves</span></span></span>
+            </a>
+            <template data-ability><b>[Cooldown 2, Range 4]:</b> Pull target minion in a straight line to It That Weaves. It has &minus;<img class="roster__ti" src="../../assets/icons/text/power_1.png" width="106" height="72" alt="1 power"><img class="roster__ti" src="../../assets/icons/text/speed_1.png" width="99" height="72" alt="1 speed"><img class="roster__ti" src="../../assets/icons/text/health_1.png" width="76" height="72" alt="1 health"> until the end of its controller's turn.</template>
+          </li>
+          <li class="roster__item" data-patron="archaeon" style="--fc:0, 114, 178; --fx:82%">
+            <a class="roster__tile" href="../../decks/rosirix-the-witch/" data-roster-tile
+               data-name="Rosirix the Witch" data-patron="archaeon" data-int="6" data-hp="31">
+              <img src="../../assets/commanders/rosirix-the-witch.jpg" width="400" height="400" alt="Rosirix the Witch" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Rosirix the Witch</span><span class="roster__short">Rosirix</span></span></span>
+            </a>
+            <template data-ability><b>[Once Per Game]:</b> Lose <img class="roster__ti" src="../../assets/icons/text/intellect_1.png" width="67" height="72" alt="1 intellect"> Intellect, then draw cards until your hand is full.</template>
+          </li>
+          <li class="roster__item" data-patron="archaeon" style="--fc:0, 114, 178; --fx:58%">
+            <a class="roster__tile" href="../../decks/starwise-luna/" data-roster-tile
+               data-name="Starwise Luna" data-patron="archaeon" data-int="7" data-hp="26">
+              <img src="../../assets/commanders/starwise-luna.jpg" width="400" height="400" alt="Starwise Luna" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Starwise Luna</span><span class="roster__short">Luna</span></span></span>
+            </a>
+            <template data-ability><b>[Cooldown 5]:</b> Refresh all but one of your Mana.</template>
+          </li>
+          <li class="roster__item" data-patron="shadis" style="--fc:123, 123, 142; --fx:30%">
+            <a class="roster__tile" href="../../decks/fael-spiritwalker/" data-roster-tile
+               data-name="Fael Spiritwalker" data-patron="shadis" data-int="7" data-hp="27">
+              <img src="../../assets/commanders/fael-spiritwalker.jpg" width="400" height="400" alt="Fael Spiritwalker" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Fael Spiritwalker</span><span class="roster__short">Fael</span></span></span>
+            </a>
+            <template data-ability><b>[Warmup 13]:</b> Summon a Daemon Familiar. When a minion dies, reduce Warmup by 1.</template>
+          </li>
+          <li class="roster__item" data-patron="shadis" style="--fc:123, 123, 142; --fx:90%">
+            <a class="roster__tile" href="../../decks/soultaker-viessa/" data-roster-tile
+               data-name="Soultaker Viessa" data-patron="shadis" data-int="8" data-hp="30">
+              <img src="../../assets/commanders/soultaker-viessa.jpg" width="400" height="400" alt="Soultaker Viessa" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Soultaker Viessa</span><span class="roster__short">Viessa</span></span></span>
+            </a>
+            <template data-ability><b>[Warmup 3, Range 2]:</b> Deal 2 damage to target character and Soultaker Viessa heals <img class="roster__ti" src="../../assets/icons/text/health_2.png" width="76" height="72" alt="2 health">.</template>
+          </li>
+          <li class="roster__item" data-patron="neutral" style="--fc:168, 144, 120; --fx:70%">
+            <a class="roster__tile" href="../../decks/lazim-thief-of-gods/" data-roster-tile
+               data-name="Lazim, Thief of Gods" data-patron="neutral" data-int="8" data-hp="25">
+              <img src="../../assets/commanders/lazim-thief-of-gods.jpg" width="400" height="400" alt="Lazim, Thief of Gods" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Lazim</span><span class="roster__short">Lazim</span></span><span class="roster__epithet">Thief of Gods</span></span>
+            </a>
+            <template data-ability>Your deck may contain cards from any Patron, but not Neutral cards.</template>
+          </li>
+          <li class="roster__item" data-patron="neutral" style="--fc:168, 144, 120; --fx:50%">
+            <a class="roster__tile" href="../../decks/newhaven-township/" data-roster-tile
+               data-name="Newhaven Township" data-patron="neutral" data-int="7" data-hp="33">
+              <img src="../../assets/commanders/newhaven-township.jpg" width="400" height="400" alt="Newhaven Township" loading="lazy" decoding="async">
+              <span class="roster__cap" aria-hidden="true"><span class="roster__name"><span class="roster__full">Newhaven Township</span><span class="roster__short">Newhaven</span></span></span>
+            </a>
+            <template data-ability><b>Realmbound.</b> Your Village tiles produce an additional Mana. You may claim uncontested tiles at a distance.</template>
+          </li>
+        </ul>
       </div>
+
+      <!-- Commander sheet: filled from the tile that opened it -->
+      <dialog class="roster__sheet" aria-labelledby="roster-sheet-name" data-roster-sheet>
+        <div class="roster__sheet-in">
+          <!-- first in the DOM so Tab runs close, Build a deck, prev, next -->
+          <button type="button" class="round-btn roster__close" data-rs-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+          <div class="roster__sheet-art" data-rs-swipe><img data-rs-img src="" alt="" width="400" height="400"></div>
+          <div class="roster__sheet-body">
+            <h3 class="roster__sheet-name gold" id="roster-sheet-name" data-rs-name></h3>
+            <p class="roster__sheet-patron"><img data-rs-emblem src="" alt="" width="40" height="40"><span data-rs-patron></span></p>
+            <ul class="roster__stats">
+              <li title="Hand size, and how many cards you see in your opening hand"><span class="roster__stat roster__stat--int" aria-hidden="true" data-rs-int></span><span><span class="visually-hidden" data-rs-int-sr></span>Intellect</span></li>
+              <li title="Damage taken before losing the game"><span class="roster__stat roster__stat--hp" aria-hidden="true" data-rs-hp></span><span><span class="visually-hidden" data-rs-hp-sr></span>Health</span></li>
+            </ul>
+            <p class="roster__ability" data-rs-ability></p>
+            <div class="roster__sheet-foot">
+              <a class="btn btn--ghost btn--sm roster__deck" href="#" data-rs-deck><span class="btn__label">Build a deck</span><svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <div class="roster__sheet-nav">
+                <button type="button" class="round-btn roster__prev" data-rs-prev aria-label="Previous commander"><svg class="icon" aria-hidden="true"><use href="#i-chev"/></svg></button>
+                <button type="button" class="round-btn" data-rs-next aria-label="Next commander"><svg class="icon" aria-hidden="true"><use href="#i-chev"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </dialog>
     </section>
 
     <!-- ============ 5 · FINALE: the trailer's end slide ============ -->
-    <section class="finale" id="wishlist" aria-labelledby="finale-title">
+    <section class="finale finale-a" id="wishlist" aria-labelledby="finale-title">
       <div class="finale__bg" aria-hidden="true">
+        <div class="finale-a__art"></div>
         <div class="finale__hex"></div>
         <div class="finale__glow"></div>
       </div>
@@ -504,12 +519,12 @@
           </a>
           <a class="beta-pill" href="https://discord.gg/7QaEY4yJH5" data-link="discord" data-primary-only="steam" target="_blank" rel="noopener">
             <svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg>
-            <span class="beta-pill__label">Join the beta on Discord</span>
+            <span class="beta-pill__label">Play Free Now on Discord</span>
             <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
           <a class="btn btn--discord btn--xl" href="https://discord.gg/7QaEY4yJH5" data-link="discord" data-primary-only="discord" target="_blank" rel="noopener">
             <svg class="icon" aria-hidden="true"><use href="#i-discord"/></svg>
-            <span class="btn__label">Join the Beta on Discord</span>
+            <span class="btn__label">Play Free Now on Discord</span>
           </a>
           <a class="beta-pill steam-pill" href="#" data-link="steam" data-placement="finale" data-primary-only="discord" target="_blank" rel="noopener">
             <svg class="icon" aria-hidden="true"><use href="#i-steam"/></svg>
@@ -517,14 +532,6 @@
             <svg class="icon icon--arrow" aria-hidden="true"><use href="#i-arrow"/></svg>
           </a>
         </div>
-        <nav class="finale__links" aria-label="More Atlas Conquest">
-          <ul>
-            <li><a href="../../press.html" data-link="press">Press kit</a></li>
-            <li><a href="../../decks.html">Deck builder</a></li>
-            <li><a href="../../analytics.html">Analytics</a></li>
-            <li><a href="../../articles/detailed-rules/">Rules</a></li>
-          </ul>
-        </nav>
       </div>
     </section>
   </main>
