@@ -656,6 +656,14 @@ const CONFIG = {
         };
         if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true });
         v.addEventListener('ended', () => { replay.hidden = false; });
+        if (d.viewChapters) { // caption follows the clip: "t:text|t:text"
+          const ch = d.viewChapters.split('|').map((p) => { const k = p.indexOf(':'); return [parseFloat(p.slice(0, k)), p.slice(k + 1)]; });
+          v.addEventListener('timeupdate', () => {
+            let txt = ch[0][1];
+            ch.forEach(([t, s]) => { if (v.currentTime >= t) txt = s; });
+            if (cap.textContent !== txt) cap.textContent = txt;
+          });
+        }
         v.addEventListener('click', () => { if (v.paused) { replay.hidden = true; safePlay(v); } else v.pause(); });
         stage.prepend(v);
       } else {
