@@ -650,8 +650,10 @@ const CONFIG = {
         v.src = d.viewVideo;
         v.setAttribute('aria-label', d.viewCaption || 'Gameplay clip');
         const start = parseFloat(d.viewStart || '0');
+        const at = parseFloat(d.viewAt || '0'); // seconds into the clip (data-view-at)
         const go = () => {
           if (start > 0) { try { v.currentTime = (v.duration || 0) * start; } catch (_) { /* ignore */ } }
+          else if (at > 0) { try { v.currentTime = at; } catch (_) { /* ignore */ } }
           safePlay(v);
         };
         if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true });
