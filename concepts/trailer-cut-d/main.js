@@ -630,6 +630,7 @@ const CONFIG = {
       const m = media();
       if (m && m.tagName === 'VIDEO') { m.pause(); m.removeAttribute('src'); m.load(); }
       if (m) m.remove();
+      const chap = $('.viewer__chapter', stage); if (chap) chap.remove();
       replay.hidden = true;
     }
     function show(k) {
@@ -658,13 +659,28 @@ const CONFIG = {
         };
         if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true });
         v.addEventListener('ended', () => { replay.hidden = false; });
-        if (d.viewChapters) { // caption follows the clip: "t:text|t:text"
+        if (d.viewChapters) { // a big chapter title on the video follows the clip: "t:Word · line|..."
           const ch = d.viewChapters.split('|').map((p) => { const k = p.indexOf(':'); return [parseFloat(p.slice(0, k)), p.slice(k + 1)]; });
-          v.addEventListener('timeupdate', () => {
+          const card = document.createElement('div');
+          card.className = 'viewer__chapter';
+          card.innerHTML = '<span class="viewer__chapter-word"></span><span class="viewer__chapter-line"></span>';
+          stage.append(card);
+          let shown = '';
+          const paint = () => {
             let txt = ch[0][1];
-            ch.forEach(([t, s]) => { if (v.currentTime >= t) txt = s; });
-            if (cap.textContent !== txt) cap.textContent = txt;
-          });
+            ch.forEach(([t, s]) => { if (v.currentTime >= t - 0.05) txt = s; });
+            if (txt === shown) return;
+            shown = txt;
+            const [word, line] = txt.split(' · ');
+            card.classList.remove('is-in'); void card.offsetWidth;
+            $('.viewer__chapter-word', card).textContent = word;
+            $('.viewer__chapter-line', card).textContent = line || '';
+            card.classList.add('is-in');
+            cap.textContent = txt;
+          };
+          v.addEventListener('timeupdate', paint);
+          v.addEventListener('seeked', paint);
+          paint();
         }
         v.addEventListener('click', () => { if (v.paused) { replay.hidden = true; safePlay(v); } else v.pause(); });
         stage.prepend(v);
@@ -681,6 +697,7 @@ const CONFIG = {
       items = g ? $$('[data-view][data-view-group="' + g + '"]') : [el];
       opener = el;
       dlg.classList.toggle('is-single', items.length < 2);
+      dlg.classList.toggle('has-chapters', 'viewChapters' in el.dataset);
       modalOpen = true;
       if (heroCtl) heroCtl.update();
       if (clipsCtl) clipsCtl.stopAll();
@@ -791,6 +808,18 @@ const CONFIG = {
     storyCtl = { stopAll() { if (cur >= 0) stop(beats[cur]); } };
   }
 
+  /* Review helper: ?art=grutali | dyana | pilot swaps the facts band art (eagle-king by default). */
+  function setupArtSwitch() {
+    const img = $('[data-glance-art]');
+    const pick = new URLSearchParams(location.search).get('art');
+    if (!img || !pick) return;
+    const map = { grutali: 'media/glance-grutali', dyana: 'media/glance-dyana', pilot: '../../assets/media/keyart/pilot' };
+    if (!map[pick]) return;
+    img.src = map[pick] + '-1200.webp';
+    img.srcset = map[pick] + '-1200.webp 1200w, ' + map[pick] + '-2400.webp 2400w';
+    img.style.objectPosition = { grutali: '60% 45%', dyana: '50% 0%', pilot: '50% 30%' }[pick];
+  }
+
   /* ---------------- Boot ---------------- */
   applyLinks();
   setupNav();
@@ -804,4 +833,5 @@ const CONFIG = {
   setupFlow();
   setupModal();
   setupViewer();
+  setupArtSwitch();
 })();
