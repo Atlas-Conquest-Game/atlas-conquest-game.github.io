@@ -171,51 +171,54 @@
     </section>
 
     <!-- ============ 1 · THE PITCH ============
-         Answers "what is this game?" for someone new: the pitch, then three short clips that teach
-         what the board adds (minions, spells, land). Clips play on hover / tap; the corner button
-         opens them big in the shared viewer. Phones get a swipe row, not a stack. -->
+         For someone new: the pitch, set large over concept art (the Dunes backdrop painting),
+         then three clips that show what the board adds, one line each. Clips play on hover / tap;
+         the corner button opens them big. Phones stack the clips one after another. -->
     <section class="sec pitch" id="how" aria-labelledby="pitch-title">
-      <div class="container">
-        <header class="sec__head">
-          <h2 id="pitch-title" class="section-title"><span class="gold">Your Cards Take the Field</span></h2>
-          <p class="pitch__lead">Build a deck of cards that become units on a real battlefield. Play as a commander leading an army for your patron god, battle real players online, outmaneuver your rival and conquer the map.</p>
-        </header>
+      <h2 id="pitch-title" class="visually-hidden">What is Atlas Conquest?</h2>
+      <div class="pitch__band">
+        <picture class="pitch__art" aria-hidden="true">
+          <source media="(max-width: 700px)" srcset="media/concept-dunes-tall-900.webp">
+          <img src="media/concept-dunes-1200.webp" srcset="media/concept-dunes-1200.webp 1200w, media/concept-dunes-2400.webp 2400w" sizes="100vw" width="2400" height="1200" alt="" loading="lazy" decoding="async">
+        </picture>
+        <div class="container pitch__copy">
+          <p class="pitch__lead"><span class="pitch__hook"><span class="gold">Build a deck of cards that become units on a real battlefield.</span></span> <span class="pitch__more">Play as a commander leading an army for your patron god, battle real players online, outmaneuver your rival and conquer the map.</span></p>
+        </div>
+      </div>
+      <div class="pitch__body">
         <ul class="ideas">
           <li class="idea" data-clip-host>
             <div class="clip" data-clip data-src="../../assets/media/clips/minion-lands-1280.mp4">
               <img class="clip__still" data-src="../../assets/media/clips/minion-lands-poster.webp" width="1280" height="720" alt="A Runic Knight card dragged from the hand becomes a unit on the Tropics board." loading="lazy" decoding="async">
               <noscript><img class="clip__still" src="../../assets/media/clips/minion-lands-poster.webp" width="1280" height="720" alt="A Runic Knight card dragged from the hand becomes a unit on the Tropics board." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Minions Take the Field" hidden>
+              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Minion Cards are played on the physical battlefield." hidden>
                 <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
               </button>
-              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/minion-lands-1920.mp4" data-view-poster="../../assets/media/clips/minion-lands-poster.webp" data-view-caption="Minions Take the Field" aria-label="Watch larger: Minions Take the Field"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/minion-lands-1920.mp4" data-view-poster="../../assets/media/clips/minion-lands-poster.webp" data-view-caption="Minion Cards are played on the physical battlefield." aria-label="Watch larger: Minion Cards are played on the physical battlefield."><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
             </div>
-            <h3 class="idea__title"><span class="gold">Minions Take the Field</span></h3>
-            <p class="idea__text">Every minion you play stands on the map, so where you put it matters.</p>
+            <h3 class="idea__cap"><span class="gold">Minion Cards are played on the physical battlefield.</span></h3>
           </li>
           <li class="idea" data-clip-host>
             <div class="clip" data-clip data-src="../../assets/media/clips/spell-acid-rain-1280.mp4">
               <img class="clip__still" data-src="../../assets/media/clips/spell-acid-rain-poster.webp" width="1280" height="720" alt="Acid Rain turns the tile under an enemy knight into a toxic swamp." loading="lazy" decoding="async">
               <noscript><img class="clip__still" src="../../assets/media/clips/spell-acid-rain-poster.webp" width="1280" height="720" alt="Acid Rain turns the tile under an enemy knight into a toxic swamp." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Spells Change the Board" hidden>
+              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Spell Cards impact the battlefield!" hidden>
                 <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
               </button>
-              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/spell-acid-rain-1920.mp4" data-view-poster="../../assets/media/clips/spell-acid-rain-poster.webp" data-view-caption="Spells Change the Board" aria-label="Watch larger: Spells Change the Board"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/spell-acid-rain-1920.mp4" data-view-poster="../../assets/media/clips/spell-acid-rain-poster.webp" data-view-caption="Spell Cards impact the battlefield!" aria-label="Watch larger: Spell Cards impact the battlefield!"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
             </div>
-            <h3 class="idea__title"><span class="gold">Spells Change the Board</span></h3>
-            <p class="idea__text">Strike enemy units, poison them, or reshape the land itself.</p>
+            <h3 class="idea__cap"><span class="gold">Spell Cards impact the battlefield!</span></h3>
           </li>
           <li class="idea" data-clip-host>
             <div class="clip" data-clip data-src="../../assets/media/clips/village-claim-1280.mp4">
-              <img class="clip__still" data-src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it for its owner." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it for its owner." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Land Is Mana" hidden>
+              <img class="clip__still" data-src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it." loading="lazy" decoding="async">
+              <noscript><img class="clip__still" src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it." loading="lazy" decoding="async"></noscript>
+              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Claim tiles to grow your mana each turn." hidden>
                 <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
               </button>
-              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/village-claim-1920.mp4" data-view-poster="../../assets/media/clips/village-claim-poster.webp" data-view-caption="Land Is Mana" aria-label="Watch larger: Land Is Mana"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/village-claim-1920.mp4" data-view-poster="../../assets/media/clips/village-claim-poster.webp" data-view-caption="Claim tiles to grow your mana each turn." aria-label="Watch larger: Claim tiles to grow your mana each turn."><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
             </div>
-            <h3 class="idea__title"><span class="gold">Land Is Mana</span></h3>
-            <p class="idea__text">Claim tiles to grow your income each turn. Villages pay double.</p>
+            <h3 class="idea__cap"><span class="gold">Claim tiles to grow your mana each turn.</span></h3>
           </li>
         </ul>
         <ul class="facts" aria-label="At a glance">

@@ -683,30 +683,46 @@ html.primary-discord [data-primary-only="steam"] { display: none !important; }
 .sec .section-title { font-size: clamp(32px, 3.5vw, 52px); }
 .sec__head .ornament { width: min(220px, 56%); margin-top: 14px; }
 
-/* ---------- 1 · The pitch: what the board adds ---------- */
-.pitch {
+/* ---------- 1 · The pitch: concept-art band, then three clips ---------- */
+.sec.pitch { padding-top: 0; background: var(--ink-1); }
+.pitch__band {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: grid; place-items: center;
+  min-height: clamp(360px, 40vw, 580px);
+}
+.pitch__art img {
+  position: absolute; inset: 0; z-index: -2;
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%;
+  filter: saturate(.92) brightness(.6);
+}
+.pitch__band::after { /* melt into the page above and below, darken behind the words */
+  content: ''; position: absolute; inset: 0; z-index: -1;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 0%, rgba(232, 140, 50, .07), transparent 70%),
-    var(--ink-1);
+    radial-gradient(ellipse 58% 62% at 50% 52%, rgba(11, 15, 23, .55), transparent 78%),
+    linear-gradient(180deg, var(--ink-1) 0%, rgba(11, 15, 23, .15) 20%, rgba(11, 15, 23, .2) 72%, var(--ink-1) 100%);
 }
-.pitch__lead {
-  margin: 18px auto 0; max-width: 46rem;
-  font-size: clamp(18px, 1.45vw, 21px); line-height: 1.55;
-  color: var(--text-2); text-wrap: balance;
-}
-.ideas {
-  margin-top: clamp(30px, 3.4vw, 48px);
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(18px, 2vw, 30px);
-}
-.idea { display: flex; flex-direction: column; min-width: 0; }
-.idea__title {
-  margin-top: 18px;
+.pitch__copy { text-align: center; padding-block: clamp(64px, 7vw, 120px); }
+.pitch__lead { margin: 0 auto; max-width: 62rem; }
+.pitch__hook {
+  display: block; text-wrap: balance;
   font-family: var(--display); font-weight: 400;
-  font-size: clamp(21px, 1.75vw, 27px); line-height: 1.12; letter-spacing: .01em;
+  font-size: clamp(30px, 3.7vw, 58px); line-height: 1.1; letter-spacing: .01em;
+  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, .75));
+}
+.pitch__more {
+  display: block; margin: clamp(14px, 1.4vw, 22px) auto 0; max-width: 44rem; text-wrap: balance;
+  font-size: clamp(18px, 1.5vw, 23px); line-height: 1.5; color: var(--text);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .9);
+}
+.pitch__body { width: min(1560px, 100% - 2 * var(--gutter)); margin: clamp(8px, 1.2vw, 20px) auto 0; }
+.ideas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 1.6vw, 28px); }
+.idea { display: flex; flex-direction: column; min-width: 0; }
+.idea__cap {
+  margin-top: 16px; text-align: center; text-wrap: balance;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(19px, 1.45vw, 25px); line-height: 1.2; letter-spacing: .01em;
   filter: drop-shadow(0 3px 16px rgba(232, 140, 50, .18));
 }
-.idea__text { margin-top: 8px; font-size: 17px; line-height: 1.5; color: var(--text-2); }
 .clip__expand {
   position: absolute; z-index: 3; right: 10px; top: 10px;
   display: grid; place-items: center; width: 36px; height: 36px; padding: 0;
@@ -1303,22 +1319,14 @@ html:not(.js) .clip__btn { display: none; }
   .viewer__bar { padding-inline: 16px; }
 }
 
-/* pitch section: tablets two-up isn't useful for three ideas, so phones and small tablets swipe */
-@media (max-width: 900px) {
-  .ideas {
-    grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(78vw, 360px);
-    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
-    margin-inline: calc(-1 * var(--gutter)); padding: 4px var(--gutter) 6px;
-    scroll-padding-inline: var(--gutter);
-  }
-  .ideas::-webkit-scrollbar { display: none; }
-  .idea { scroll-snap-align: start; }
-  .idea__title { font-size: 22px; margin-top: 12px; }
-  .idea__text { font-size: 16px; margin-top: 4px; }
-  .facts li + li::before { margin: 0 10px; }
-}
-@media (max-width: 420px) { .facts { font-size: 15px; } .facts li + li::before { margin: 0 8px; width: 5px; height: 5px; } }
 @media (max-width: 600px) {
   .facts { display: grid; grid-template-columns: repeat(2, auto); justify-content: center; gap: 8px 22px; }
   .facts li::before, .facts li + li::before { display: none; }
+}
+
+/* pitch on tablets and phones: clips stack one after another, full width */
+@media (max-width: 900px) {
+  .ideas { grid-template-columns: minmax(0, 1fr); gap: 30px; max-width: 640px; margin-inline: auto; }
+  .idea__cap { font-size: 21px; margin-top: 12px; }
+  .pitch__band { min-height: 0; }
 }
