@@ -255,14 +255,14 @@ const CONFIG = {
     imgs.forEach((img) => io.observe(img));
   }
 
-  /* ---------------- Clips on request (How it plays + Three Battlefields) ----------------
+  /* ---------------- Clips on request (Gameplay cards) ----------------
      Each [data-clip] box rests on a still <img>. Its <video> is only created the first
      time someone asks for it: mouse hover (after a short intent delay) or the box's
      button (tap, click, Enter/Space). One clip plays at a time across the page; a clip
      stops when its card is left, scrolled away, the tab is hidden or the trailer opens.
-     data-mode="once" (the maps) skips the close-in opening of the pull-back: it starts where
-     the board is already mostly in frame, runs at 2x (about 2.5s) and settles on the still,
-     which is the clip's own last frame. While any clip plays the hero loop waits.
+     data-mode="once" skips the close-in opening of a pull-back, runs at ONCE_RATE and settles
+     on the still (no section uses it now that the maps open in the viewer instead).
+     While any clip plays the hero loop waits.
      Reduced motion: nothing here runs. */
   function setupClips() {
     const boxes = $$('[data-clip]');
@@ -606,6 +606,116 @@ const CONFIG = {
     $('[data-sentinel="end"]', dlg).addEventListener('focus', () => closeBtn.focus());
   }
 
+  /* ---------------- Media viewer (click to expand) ----------------
+     Any [data-view] element opens the shared <dialog data-viewer>. Items in the same
+     data-view-group step with the arrows, the arrow keys or a swipe. Videos are muted,
+     play at normal speed (once, or looped with data-view-loop) and pause on a click;
+     a play-once clip holds its last frame with a Replay button. Delegated, so markup
+     added later (e.g. by a section script) works too. Reduced motion: posters only. */
+  function setupViewer() {
+    const dlg = $('[data-viewer]');
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    const stage = $('[data-viewer-stage]', dlg);
+    const cap = $('[data-viewer-cap]', dlg);
+    const count = $('[data-viewer-count]', dlg);
+    const replay = $('[data-viewer-replay]', dlg);
+    let items = [];
+    let i = 0;
+    let opener = null;
+
+    function media() { return $('video, img', stage); }
+    function clear() {
+      const m = media();
+      if (m && m.tagName === 'VIDEO') { m.pause(); m.removeAttribute('src'); m.load(); }
+      if (m) m.remove();
+      replay.hidden = true;
+    }
+    function show(k) {
+      i = (k + items.length) % items.length;
+      const el = items[i];
+      const d = el.dataset;
+      clear();
+      cap.textContent = d.viewCaption || '';
+      count.textContent = items.length > 1 ? (i + 1) + ' / ' + items.length : '';
+      if (d.viewVideo && !reduced) {
+        const v = document.createElement('video');
+        v.muted = true; v.defaultMuted = true; v.playsInline = true;
+        v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+        v.disablePictureInPicture = true;
+        v.preload = 'auto';
+        v.loop = 'viewLoop' in d;
+        if (d.viewPoster) v.poster = d.viewPoster;
+        v.src = d.viewVideo;
+        v.setAttribute('aria-label', d.viewCaption || 'Gameplay clip');
+        const start = parseFloat(d.viewStart || '0');
+        const go = () => {
+          if (start > 0) { try { v.currentTime = (v.duration || 0) * start; } catch (_) { /* ignore */ } }
+          safePlay(v);
+        };
+        if (v.readyState >= 1) go(); else v.addEventListener('loadedmetadata', go, { once: true });
+        v.addEventListener('ended', () => { replay.hidden = false; });
+        v.addEventListener('click', () => { if (v.paused) { replay.hidden = true; safePlay(v); } else v.pause(); });
+        stage.prepend(v);
+      } else {
+        const img = document.createElement('img');
+        img.src = d.viewImage || d.viewPoster || '';
+        img.alt = d.viewAlt || d.viewCaption || '';
+        img.decoding = 'async';
+        stage.prepend(img);
+      }
+    }
+    function open(el) {
+      const g = el.dataset.viewGroup;
+      items = g ? $$('[data-view][data-view-group="' + g + '"]') : [el];
+      opener = el;
+      dlg.classList.toggle('is-single', items.length < 2);
+      modalOpen = true;
+      if (heroCtl) heroCtl.update();
+      if (clipsCtl) clipsCtl.stopAll();
+      dlg.showModal();
+      show(Math.max(0, items.indexOf(el)));
+      $('[data-viewer-close]', dlg).focus();
+    }
+
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-view]');
+      if (!el || dlg.contains(el)) return;
+      e.preventDefault();
+      open(el);
+    });
+    replay.addEventListener('click', () => {
+      const v = media();
+      if (!v || v.tagName !== 'VIDEO') return;
+      replay.hidden = true;
+      const start = parseFloat(items[i].dataset.viewStart || '0');
+      try { v.currentTime = (v.duration || 0) * start; } catch (_) { /* ignore */ }
+      safePlay(v);
+    });
+    $('[data-viewer-prev]', dlg).addEventListener('click', () => show(i - 1));
+    $('[data-viewer-next]', dlg).addEventListener('click', () => show(i + 1));
+    $('[data-viewer-close]', dlg).addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('keydown', (e) => {
+      if (items.length < 2) return;
+      if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(i - 1); }
+    });
+    let sx = null;
+    stage.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') sx = e.clientX; });
+    stage.addEventListener('pointerup', (e) => {
+      if (sx === null) return;
+      const dx = e.clientX - sx; sx = null;
+      if (items.length > 1 && Math.abs(dx) > 48) show(i + (dx < 0 ? 1 : -1));
+    });
+    dlg.addEventListener('close', () => {
+      clear();
+      modalOpen = false;
+      if (heroCtl) heroCtl.update();
+      if (flowCtl) flowCtl.resume();
+      if (opener && document.contains(opener)) opener.focus();
+    });
+  }
+
   /* ---------------- Boot ---------------- */
   applyLinks();
   setupNav();
@@ -617,4 +727,5 @@ const CONFIG = {
   setupGods();
   setupFlow();
   setupModal();
+  setupViewer();
 })();

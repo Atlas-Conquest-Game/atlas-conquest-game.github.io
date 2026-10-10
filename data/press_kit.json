@@ -5,68 +5,71 @@
       "title": "Screenshots",
       "items": [
         {
-          "slug": "screenshot-01-viridian-war-beast",
-          "title": "Playing a minion",
-          "files": [
-            {
-              "format": "JPG",
-              "filename": "AtlasConquest-Screenshot-01-ViridianWarBeast.jpg",
-              "id": "1ttOA_uucX3ca53SlY6_xEUuITAaL6B1Q",
-              "size": "1.8 MB"
-            },
-            {
-              "format": "PNG",
-              "filename": "AtlasConquest-Screenshot-01-ViridianWarBeast.png",
-              "id": "1_P6YGO8wSQbO3E_JInDYVPsBD2xqvXI0",
-              "size": "8.9 MB"
-            }
-          ],
-          "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-01-viridian-war-beast.webp"
-        },
-        {
-          "slug": "screenshot-02-explosive-potion",
-          "title": "Casting a spell",
-          "files": [
-            {
-              "format": "JPG",
-              "filename": "AtlasConquest-Screenshot-02-ExplosivePotion.jpg",
-              "id": "1A5HilwqxEk9B_BLpdsoxmbGFnEHehAP1",
-              "size": "1.8 MB"
-            },
-            {
-              "format": "PNG",
-              "filename": "AtlasConquest-Screenshot-02-ExplosivePotion.png",
-              "id": "1KGtHYhfE6KX3p9tIOeE6N_OrPMzyQQS_",
-              "size": "9.3 MB"
-            }
-          ],
-          "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-02-explosive-potion.webp"
-        },
-        {
           "slug": "screenshot-03-milo-sunstone",
-          "title": "A commander in battle",
+          "title": "Commander With Weapon",
           "files": [
             {
               "format": "JPG",
               "filename": "AtlasConquest-Screenshot-03-MiloSunstone.jpg",
               "id": "1RvSepGtr74V6lZQiWnC-Exfj9whp1LBf",
-              "size": "1.8 MB"
+              "size": "1.7 MB"
             },
             {
               "format": "PNG",
               "filename": "AtlasConquest-Screenshot-03-MiloSunstone.png",
               "id": "1ImaDI5H4zj4l6WzH01JAlPTZPFB9Fk3P",
-              "size": "8.8 MB"
+              "size": "8.5 MB"
             }
           ],
           "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-03-milo-sunstone.webp"
+          "preview": "assets/press/screenshot-03-milo-sunstone.webp",
+          "large": "assets/press/large/screenshot-03-milo-sunstone.webp"
+        },
+        {
+          "slug": "screenshot-02-khazgar-flame-emperor",
+          "title": "Fire Titan",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Screenshot-02-KhazgarFlameEmperor.jpg",
+              "id": "1KptcEoZF__cuIQqG92ywg4JokHDo3ggJ",
+              "size": "2.4 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Screenshot-02-KhazgarFlameEmperor.png",
+              "id": "1t6EBc9eQsWQZZ5RQNkytC0Bb-zgCOuY0",
+              "size": "10.1 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/screenshot-02-khazgar-flame-emperor.webp",
+          "large": "assets/press/large/screenshot-02-khazgar-flame-emperor.webp"
+        },
+        {
+          "slug": "screenshot-01-explosive-potion",
+          "title": "Explosive Potion",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Screenshot-01-ExplosivePotion.jpg",
+              "id": "1uqkTovGKfMXe2p3RpRXRvBFNltGRsPTK",
+              "size": "1.8 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Screenshot-01-ExplosivePotion.png",
+              "id": "1ZzBNZpsewzNSO21dNC62HZ_xhs9uX23H",
+              "size": "9.3 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/screenshot-01-explosive-potion.webp",
+          "large": "assets/press/large/screenshot-01-explosive-potion.webp"
         },
         {
           "slug": "screenshot-04-kai-longcount",
-          "title": "A match in progress",
+          "title": "Ultimate Ability",
           "files": [
             {
               "format": "JPG",
@@ -82,11 +85,54 @@
             }
           ],
           "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-04-kai-longcount.webp"
+          "preview": "assets/press/screenshot-04-kai-longcount.webp",
+          "large": "assets/press/large/screenshot-04-kai-longcount.webp"
+        },
+        {
+          "slug": "screenshot-08-darkwing",
+          "title": "Darkwing Arrival",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Screenshot-08-Darkwing.jpg",
+              "id": "1SV5D6lVZrYSAqBBZBnTI5q97VZcJjnxr",
+              "size": "1.9 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Screenshot-08-Darkwing.png",
+              "id": "1SdZl5FW5itPZCWe2IVmPIRJkx6T3S83q",
+              "size": "9.3 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/screenshot-08-darkwing.webp",
+          "large": "assets/press/large/screenshot-08-darkwing.webp"
+        },
+        {
+          "slug": "screenshot-07-dyana-prime-huntress",
+          "title": "Ranged Attack",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Screenshot-07-DyanaPrimeHuntress.jpg",
+              "id": "1H5LelJFz4IToH2nBdWKMTTxs4SRR8R3-",
+              "size": "2.1 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Screenshot-07-DyanaPrimeHuntress.png",
+              "id": "1LPTaQ7reRUKzo1EkLwbvMZbdTWQDAj_Y",
+              "size": "9.5 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/screenshot-07-dyana-prime-huntress.webp",
+          "large": "assets/press/large/screenshot-07-dyana-prime-huntress.webp"
         },
         {
           "slug": "screenshot-05-deck-editor",
-          "title": "Deck editor",
+          "title": "Deck Editor",
           "files": [
             {
               "format": "JPG",
@@ -102,11 +148,12 @@
             }
           ],
           "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-05-deck-editor.webp"
+          "preview": "assets/press/screenshot-05-deck-editor.webp",
+          "large": "assets/press/large/screenshot-05-deck-editor.webp"
         },
         {
           "slug": "screenshot-06-deck-collection",
-          "title": "Deck collection",
+          "title": "Collection",
           "files": [
             {
               "format": "JPG",
@@ -122,34 +169,300 @@
             }
           ],
           "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-06-deck-collection.webp"
-        },
+          "preview": "assets/press/screenshot-06-deck-collection.webp",
+          "large": "assets/press/large/screenshot-06-deck-collection.webp"
+        }
+      ]
+    },
+    {
+      "title": "Maps",
+      "items": [
         {
-          "slug": "screenshot-07-dyana-prime-huntress",
-          "title": "A ranged attack",
+          "slug": "map-dunes-medium",
+          "title": "Dunes — close",
           "files": [
             {
               "format": "JPG",
-              "filename": "AtlasConquest-Screenshot-07-DyanaPrimeHuntress.jpg",
-              "id": "1H5LelJFz4IToH2nBdWKMTTxs4SRR8R3-",
-              "size": "2.3 MB"
+              "filename": "AtlasConquest-Map-Dunes-Medium.jpg",
+              "id": "1Ys7JS9E5vPvhwiJoEZCS9fsG-_rVR6H6",
+              "size": "3.5 MB"
             },
             {
               "format": "PNG",
-              "filename": "AtlasConquest-Screenshot-07-DyanaPrimeHuntress.png",
-              "id": "1LPTaQ7reRUKzo1EkLwbvMZbdTWQDAj_Y",
-              "size": "10.5 MB"
+              "filename": "AtlasConquest-Map-Dunes-Medium.png",
+              "id": "1eG-hl5-aTQeA_OoRkhWK3bZkB_UEQGi7",
+              "size": "15.0 MB"
             }
           ],
-          "dimensions": "3840 × 2160",
-          "preview": "assets/press/screenshot-07-dyana-prime-huntress.webp"
+          "dimensions": "5120 × 2880",
+          "preview": "assets/press/map-dunes-medium.webp",
+          "large": "assets/press/large/map-dunes-medium.webp"
+        },
+        {
+          "slug": "map-dunes-far",
+          "title": "Dunes — full map",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Map-Dunes-Far.jpg",
+              "id": "14mcTDeKX1KX66YHV_UO4CF4BW_9S7kMJ",
+              "size": "2.4 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Map-Dunes-Far.png",
+              "id": "191XHlxcPSb6NiG_p1-5Pn0Rro7q8W3YU",
+              "size": "16.6 MB"
+            }
+          ],
+          "dimensions": "5120 × 2880",
+          "preview": "assets/press/map-dunes-far.webp",
+          "large": "assets/press/large/map-dunes-far.webp"
+        },
+        {
+          "slug": "map-snowmelt-medium",
+          "title": "Snowmelt — close",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Map-Snowmelt-Medium.jpg",
+              "id": "1vmDWBhrI1M96_vPcPEV8ACclR-YbikV8",
+              "size": "4.5 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Map-Snowmelt-Medium.png",
+              "id": "1-sy8TcItOZhDDwxsbD3l63LXBJdiVqJ-",
+              "size": "19.1 MB"
+            }
+          ],
+          "dimensions": "5120 × 2880",
+          "preview": "assets/press/map-snowmelt-medium.webp",
+          "large": "assets/press/large/map-snowmelt-medium.webp"
+        },
+        {
+          "slug": "map-snowmelt-far",
+          "title": "Snowmelt — full map",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Map-Snowmelt-Far.jpg",
+              "id": "13VRtTUHavhhLkyDImwefw1p3DRwFKAEa",
+              "size": "3.6 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Map-Snowmelt-Far.png",
+              "id": "1MO4N2-FABRwonPlxPK-PCDCwHS-seBUI",
+              "size": "20.2 MB"
+            }
+          ],
+          "dimensions": "5120 × 2880",
+          "preview": "assets/press/map-snowmelt-far.webp",
+          "large": "assets/press/large/map-snowmelt-far.webp"
+        },
+        {
+          "slug": "map-tropics-medium",
+          "title": "Tropics — close",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Map-Tropics-Medium.jpg",
+              "id": "187kvfLxBMyr2eLOf7SV5CAu8Ute7J6vf",
+              "size": "4.2 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Map-Tropics-Medium.png",
+              "id": "1JL75Np7YyXFw437t2XjRDG3mzERTHZyy",
+              "size": "16.0 MB"
+            }
+          ],
+          "dimensions": "5120 × 2880",
+          "preview": "assets/press/map-tropics-medium.webp",
+          "large": "assets/press/large/map-tropics-medium.webp"
+        },
+        {
+          "slug": "map-tropics-far",
+          "title": "Tropics — full map",
+          "files": [
+            {
+              "format": "JPG",
+              "filename": "AtlasConquest-Map-Tropics-Far.jpg",
+              "id": "1nfPyQfokGxk53WP5e6ec0TgvGMgoUVTf",
+              "size": "3.4 MB"
+            },
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-Map-Tropics-Far.png",
+              "id": "1JpDj91h0EW95cMH_4A09NqbBur7Zl7hB",
+              "size": "17.9 MB"
+            }
+          ],
+          "dimensions": "5120 × 2880",
+          "preview": "assets/press/map-tropics-far.webp",
+          "large": "assets/press/large/map-tropics-far.webp"
         }
       ]
     },
     {
       "title": "Key art",
-      "coming_soon": true,
-      "items": []
+      "items": [
+        {
+          "slug": "key-art-atlas",
+          "title": "Atlas",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Atlas-Logo.png",
+              "id": "1YzKLIdQwQN2oPwo5AOKnG41sar78zK2g",
+              "size": "7.7 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Atlas.png",
+              "id": "1Vksp7AGw1Z8ZMZk4UwR_4SIG5pv8WLbB",
+              "size": "7.6 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-atlas.webp",
+          "large": "assets/press/large/key-art-atlas.webp"
+        },
+        {
+          "slug": "key-art-dyana",
+          "title": "Dyana",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Dyana-Logo.png",
+              "id": "1IK0cOZDX4PgcaIagwCY-XUFOEA4gawyo",
+              "size": "9.8 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Dyana.png",
+              "id": "1ytKCsWZgaNWTXkW2qPY9E47o__GkGsD2",
+              "size": "9.8 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-dyana.webp",
+          "large": "assets/press/large/key-art-dyana.webp"
+        },
+        {
+          "slug": "key-art-euron",
+          "title": "Euron",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Euron-Logo.png",
+              "id": "12drHSs0xrouxOqtswqcJZjB2P0smzVlZ",
+              "size": "7.9 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Euron.png",
+              "id": "1PAoLiULDV4bTrpjralAZM2mW7_xn0A8I",
+              "size": "7.9 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-euron.webp",
+          "large": "assets/press/large/key-art-euron.webp"
+        },
+        {
+          "slug": "key-art-khazgar",
+          "title": "Khazgar",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Khazgar-Logo.png",
+              "id": "1oXxoqz27GS4yzPFEL6t_r5gVdfPnj_1c",
+              "size": "7.5 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Khazgar.png",
+              "id": "1G9EzZdDLUjegPlwp8TSY9uTalZe9QHjR",
+              "size": "7.4 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-khazgar.webp",
+          "large": "assets/press/large/key-art-khazgar.webp"
+        },
+        {
+          "slug": "key-art-nilo",
+          "title": "Nilo",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Nilo-Logo.png",
+              "id": "1XnhKon6yeFHA71choH1Zuw7iJaLZGkSE",
+              "size": "8.3 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Nilo.png",
+              "id": "1VybPP93gfrsH1ZwySlNVFu5WMNw1a4X5",
+              "size": "8.3 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-nilo.webp",
+          "large": "assets/press/large/key-art-nilo.webp"
+        },
+        {
+          "slug": "key-art-zoghn",
+          "title": "Zoghn",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Zoghn-Logo.png",
+              "id": "1W0X0YYUAaJciMZilphHFMn9yCD-kyITq",
+              "size": "8.1 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Zoghn.png",
+              "id": "1nOxK-diRh9JgdkPOjTeF45ij8J320Mdu",
+              "size": "8.2 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-zoghn.webp",
+          "large": "assets/press/large/key-art-zoghn.webp"
+        },
+        {
+          "slug": "key-art-zurn",
+          "title": "Zurn",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "AtlasConquest-KeyArt-Zurn-Logo.png",
+              "id": "1UYvoKDfWS04igcfhpW2YhEPoMc20VjZ1",
+              "size": "7.4 MB"
+            },
+            {
+              "format": "PNG",
+              "label": "Without logo",
+              "filename": "AtlasConquest-KeyArt-Zurn.png",
+              "id": "1yRaJSaBDjOFg8O7f63IGu35_wuq_bOib",
+              "size": "7.3 MB"
+            }
+          ],
+          "dimensions": "3840 × 2160",
+          "preview": "assets/press/key-art-zurn.webp",
+          "large": "assets/press/large/key-art-zurn.webp"
+        }
+      ]
     },
     {
       "title": "Steam capsules",
@@ -172,7 +485,8 @@
             }
           ],
           "dimensions": "1232 × 706",
-          "preview": "assets/press/main-capsule.webp"
+          "preview": "assets/press/main-capsule.webp",
+          "large": "assets/press/large/main-capsule.webp"
         },
         {
           "slug": "header-capsule",
@@ -192,7 +506,8 @@
             }
           ],
           "dimensions": "920 × 430",
-          "preview": "assets/press/header-capsule.webp"
+          "preview": "assets/press/header-capsule.webp",
+          "large": "assets/press/large/header-capsule.webp"
         },
         {
           "slug": "vertical-capsule",
@@ -212,7 +527,23 @@
             }
           ],
           "dimensions": "748 × 896",
-          "preview": "assets/press/vertical-capsule.webp"
+          "preview": "assets/press/vertical-capsule.webp",
+          "large": "assets/press/large/vertical-capsule.webp"
+        },
+        {
+          "slug": "capsule-bw",
+          "title": "Capsule — black & white",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "Capsule BW.png",
+              "id": "1T1DVidyrFgn76FqHhA2byqKCBTPZ-hBM",
+              "size": "488 KB"
+            }
+          ],
+          "dimensions": "4961 × 3508",
+          "preview": "assets/press/capsule-bw.webp",
+          "large": "assets/press/large/capsule-bw.webp"
         }
       ]
     },
@@ -232,7 +563,8 @@
             }
           ],
           "dimensions": "11647 × 1832",
-          "preview": "assets/press/logo-wide.webp"
+          "preview": "assets/press/logo-wide.webp",
+          "large": "assets/press/large/logo-wide.webp"
         },
         {
           "slug": "logo-stacked",
@@ -247,7 +579,8 @@
             }
           ],
           "dimensions": "9202 × 2970",
-          "preview": "assets/press/logo-stacked.webp"
+          "preview": "assets/press/logo-stacked.webp",
+          "large": "assets/press/large/logo-stacked.webp"
         },
         {
           "slug": "game-icon",
@@ -262,7 +595,23 @@
             }
           ],
           "dimensions": "1955 × 1957",
-          "preview": "assets/press/game-icon.webp"
+          "preview": "assets/press/game-icon.webp",
+          "large": "assets/press/large/game-icon.webp"
+        },
+        {
+          "slug": "logo-bw",
+          "title": "Logo — black & white",
+          "files": [
+            {
+              "format": "PNG",
+              "filename": "Logo BW.png",
+              "id": "1-NMvUuH-H7i_zDUZB9Puti8NQDcVUwu5",
+              "size": "479 KB"
+            }
+          ],
+          "dimensions": "4961 × 3508",
+          "preview": "assets/press/logo-bw.webp",
+          "large": "assets/press/large/logo-bw.webp"
         }
       ]
     }

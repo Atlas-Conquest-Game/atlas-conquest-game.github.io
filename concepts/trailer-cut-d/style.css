@@ -783,15 +783,20 @@ html:not(.js) .clip__btn { display: none; }
   margin-top: clamp(26px, 3vw, 40px);
   display: flex; gap: var(--gap);
 }
-.map {
-  flex: 1 1 0;
-  min-width: 0;
-  display: flex; flex-direction: column;
-  transition: flex-grow .7s var(--ease-out);
+.map { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; }
+/* Each panel is a still of the whole map; the button opens it in the viewer. */
+.map__open {
+  position: relative; display: block; width: 100%;
+  height: calc(var(--pw) / 1.38);
+  padding: 0; border: 0; border-radius: 6px; overflow: hidden;
+  background: var(--ink-0); cursor: zoom-in;
+  box-shadow: 0 0 0 1px var(--line), 0 24px 60px -30px rgba(0, 0, 0, .9);
+  transition: box-shadow .3s ease;
 }
-.clip--map { aspect-ratio: auto; height: calc(var(--pw) / 1.38); }
-.clip--map .clip__still, .clip--map video { object-position: 50% 52%; }
-.clip--map video { transition-duration: .6s; }
+.map__still { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; transition: filter .3s ease; }
+.map__open:hover, .map__open:focus-visible { box-shadow: 0 0 0 1px rgba(247, 220, 154, .55), 0 24px 60px -30px rgba(0, 0, 0, .9), 0 0 50px -18px rgba(232, 130, 40, .55); }
+.map__open:hover .map__still { filter: brightness(1.06) saturate(1.05); }
+.map__open:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
 .map__cap { margin-top: 16px; display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; }
 .map__name {
   font-family: var(--display); font-weight: 400;
@@ -807,10 +812,6 @@ html:not(.js) .clip__btn { display: none; }
 }
 @media (min-width: 701px) and (max-width: 1100px) {
   .map__cap { flex-direction: column; align-items: flex-start; gap: 4px; }
-}
-@media (hover: hover) and (min-width: 701px) and (prefers-reduced-motion: no-preference) {
-  .map:hover, .map:has(.clip__btn:focus-visible), .map.is-playing { flex-grow: 1.32; }
-  .maps__list:hover .map:not(:hover):not(.is-playing) { flex-grow: 1; }
 }
 
 /* ---------- 3 · Patron gods & commanders ---------- */
@@ -1164,7 +1165,7 @@ html:not(.js) .clip__btn { display: none; }
 @media (max-width: 700px) {
   body { font-size: 17px; }
   .maps__list { flex-direction: column; gap: 26px; }
-  .clip--map { height: auto; aspect-ratio: 16 / 9; }
+  .map__open { height: auto; aspect-ratio: 16 / 9; }
   .map__cap { margin-top: 12px; }
   .god-tab { min-width: 0; width: calc((100% - 12px) / 3); padding: 10px 4px 12px; font-size: 14px; letter-spacing: .1em; }
   .god-tab img { width: 48px; height: 48px; }
@@ -1245,8 +1246,58 @@ html:not(.js) .clip__btn { display: none; }
 }
 
 /* Map panels: no play icon; the whole panel is the (invisible) button, hover or tap runs the pull-back */
-.clip--map .clip__icon { display: none; }
 
 /* the card row can be dragged */
 .flow.is-live { cursor: grab; }
 .flow.is-live:active { cursor: grabbing; }
+
+/* Expand hint: a small corner badge on anything that opens the viewer. */
+.expand-hint {
+  position: absolute; right: 10px; bottom: 10px;
+  display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(6, 8, 13, .62); color: var(--gold-hi);
+  box-shadow: 0 0 0 1px rgba(247, 220, 154, .35);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: .8; transition: opacity .25s ease;
+  pointer-events: none;
+}
+.expand-hint .icon { width: 16px; height: 16px; }
+[data-view]:hover .expand-hint, [data-view]:focus-visible .expand-hint { opacity: 1; }
+
+/* ==========================================================================
+   MEDIA VIEWER (shared click-to-expand)
+   ========================================================================== */
+.viewer {
+  width: min(1240px, 100vw - 32px);
+  max-width: none; max-height: none;
+  padding: 0; border: 0; background: transparent; color: var(--text); overflow: visible;
+}
+.viewer::backdrop { background: rgba(3, 4, 8, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.viewer[open] { animation: modal-in .35s var(--ease-out); }
+.viewer__stage {
+  position: relative; aspect-ratio: 16 / 9; max-height: calc(100dvh - 120px); margin-inline: auto;
+  background: #000; border-radius: 6px; overflow: hidden; touch-action: pan-y;
+  box-shadow: 0 0 0 1px rgba(247, 220, 154, .25), 0 40px 120px -20px rgba(0, 0, 0, .9);
+}
+.viewer__stage video, .viewer__stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.viewer__stage video { cursor: pointer; }
+.viewer__replay {
+  position: absolute; z-index: 2; right: 14px; bottom: 14px;
+  display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px;
+  border: 1px solid rgba(247, 220, 154, .45); border-radius: 999px;
+  background: rgba(6, 8, 13, .7); color: var(--gold-hi);
+  font: 600 14px/1 var(--sans); letter-spacing: .04em; cursor: pointer;
+}
+.viewer__replay .icon { width: 16px; height: 16px; }
+.viewer__replay:hover { background: rgba(232, 162, 69, .2); }
+.viewer__bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 12px; }
+.viewer__cap { margin: 0; min-width: 0; font-family: var(--display); font-size: clamp(16px, 1.6vw, 20px); letter-spacing: .04em; color: var(--gold-hi); }
+.viewer__nav { display: flex; align-items: center; gap: 8px; flex: none; }
+.viewer__count { font: 500 14px/1 var(--sc); letter-spacing: .12em; color: var(--text-3); margin-right: 6px; font-variant-numeric: tabular-nums; }
+.viewer__prev .icon { transform: scaleX(-1); }
+.viewer.is-single .viewer__prev, .viewer.is-single [data-viewer-next], .viewer.is-single .viewer__count { display: none; }
+@media (max-width: 600px) {
+  .viewer { width: 100vw; }
+  .viewer__stage { border-radius: 0; }
+  .viewer__bar { padding-inline: 16px; }
+}

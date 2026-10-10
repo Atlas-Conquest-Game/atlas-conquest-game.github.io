@@ -53,6 +53,9 @@
     <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-replay" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-hex" viewBox="0 0 24 24"><path d="M12 2.6l8.2 4.7v9.4L12 21.4l-8.2-4.7V7.3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   </svg>
 
@@ -232,8 +235,9 @@
     </section>
 
     <!-- ============ 2 · THREE BATTLEFIELDS ============
-         Each panel rests on its whole map. Hover or tap plays the pull-back once and settles
-         back on the wide frame (the clip's last frame). Hover widens the panel a little. -->
+         Calm by default: each panel is a still of the whole map (no hover video, no widening).
+         Click / tap / Enter opens the shared viewer, which plays that map's fly-over once at
+         normal speed and settles on the wide frame; arrows step between the three maps. -->
     <section class="sec maps" id="battlefields" aria-labelledby="maps-title">
       <div class="container">
         <header class="sec__head">
@@ -241,40 +245,43 @@
           <span class="ornament" aria-hidden="true"><i></i></span>
         </header>
         <ul class="maps__list">
-          <li class="map map--dunes" data-clip-host>
-            <div class="clip clip--map" data-clip data-mode="once" data-src="../../assets/media/clips/dunes-pullback-1280.mp4">
-              <img class="clip__still" data-src="media/map-dunes-640.webp" data-srcset="media/map-dunes-640.webp 640w, ../../assets/media/clips/dunes-pullback-wide.webp 1280w" sizes="(max-width: 700px) 160vw, 46vw" width="1280" height="720" alt="The whole Dunes map: a hex-grid plateau among desert ruins." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/map-dunes-640.webp" width="1280" height="720" alt="The whole Dunes map: a hex-grid plateau among desert ruins." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play the Dunes fly-over" hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-            </div>
+          <li class="map map--dunes">
+            <button type="button" class="map__open" data-view data-view-group="maps"
+                    data-view-video="../../assets/media/clips/dunes-pullback-1280.mp4"
+                    data-view-poster="../../assets/press/large/map-dunes-far.webp"
+                    data-view-start="0.3" data-view-caption="Dunes &middot; desert ruins"
+                    aria-label="Open the Dunes map larger">
+              <img class="map__still" src="../../assets/press/map-dunes-far.webp" srcset="../../assets/press/map-dunes-far.webp 711w, ../../assets/press/large/map-dunes-far.webp 1920w" sizes="(max-width: 700px) calc(100vw - 32px), 31vw" width="1920" height="1080" alt="The whole Dunes map: a hex-grid plateau among desert ruins." loading="lazy" decoding="async">
+              <span class="expand-hint" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
             <div class="map__cap">
               <h3 class="map__name"><span class="gold">Dunes</span></h3>
               <p class="map__desc">Desert ruins</p>
             </div>
           </li>
-          <li class="map map--snow" data-clip-host>
-            <div class="clip clip--map" data-clip data-mode="once" data-src="../../assets/media/clips/snowmelt-pullback-1280.mp4">
-              <img class="clip__still" data-src="media/map-snowmelt-640.webp" data-srcset="media/map-snowmelt-640.webp 640w, ../../assets/media/clips/snowmelt-pullback-poster.webp 1280w" sizes="(max-width: 700px) 160vw, 46vw" width="1280" height="720" alt="The whole Snowmelt map: an icy hex-grid island above a glacier." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/map-snowmelt-640.webp" width="1280" height="720" alt="The whole Snowmelt map: an icy hex-grid island above a glacier." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play the Snowmelt fly-over" hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-            </div>
+          <li class="map map--snow">
+            <button type="button" class="map__open" data-view data-view-group="maps"
+                    data-view-video="../../assets/media/clips/snowmelt-pullback-1280.mp4"
+                    data-view-poster="../../assets/press/large/map-snowmelt-far.webp"
+                    data-view-start="0.3" data-view-caption="Snowmelt &middot; frozen glacier"
+                    aria-label="Open the Snowmelt map larger">
+              <img class="map__still" src="../../assets/press/map-snowmelt-far.webp" srcset="../../assets/press/map-snowmelt-far.webp 711w, ../../assets/press/large/map-snowmelt-far.webp 1920w" sizes="(max-width: 700px) calc(100vw - 32px), 31vw" width="1920" height="1080" alt="The whole Snowmelt map: an icy hex-grid island above a glacier." loading="lazy" decoding="async">
+              <span class="expand-hint" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
             <div class="map__cap">
               <h3 class="map__name"><span class="gold">Snowmelt</span></h3>
               <p class="map__desc">Frozen glacier</p>
             </div>
           </li>
-          <li class="map map--tropics" data-clip-host>
-            <div class="clip clip--map" data-clip data-mode="once" data-src="../../assets/media/clips/tropics-pullback-1280.mp4">
-              <img class="clip__still" data-src="media/map-tropics-640.webp" data-srcset="media/map-tropics-640.webp 640w, ../../assets/media/clips/tropics-pullback-poster.webp 1280w" sizes="(max-width: 700px) 160vw, 46vw" width="1280" height="720" alt="The whole Tropics map: a jungle hex-grid island in a turquoise sea." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="media/map-tropics-640.webp" width="1280" height="720" alt="The whole Tropics map: a jungle hex-grid island in a turquoise sea." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play the Tropics fly-over" hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-            </div>
+          <li class="map map--tropics">
+            <button type="button" class="map__open" data-view data-view-group="maps"
+                    data-view-video="../../assets/media/clips/tropics-pullback-1280.mp4"
+                    data-view-poster="../../assets/press/large/map-tropics-far.webp"
+                    data-view-start="0.3" data-view-caption="Tropics &middot; jungle island"
+                    aria-label="Open the Tropics map larger">
+              <img class="map__still" src="../../assets/press/map-tropics-far.webp" srcset="../../assets/press/map-tropics-far.webp 711w, ../../assets/press/large/map-tropics-far.webp 1920w" sizes="(max-width: 700px) calc(100vw - 32px), 31vw" width="1920" height="1080" alt="The whole Tropics map: a jungle hex-grid island in a turquoise sea." loading="lazy" decoding="async">
+              <span class="expand-hint" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span>
+            </button>
             <div class="map__cap">
               <h3 class="map__name"><span class="gold">Tropics</span></h3>
               <p class="map__desc">Jungle island</p>
@@ -580,6 +587,28 @@
       <div class="modal__frame" data-modal-frame></div>
     </div>
     <span class="modal__sentinel" tabindex="0" data-sentinel="end"></span>
+  </dialog>
+
+  <!-- ============ MEDIA VIEWER ============
+       Shared click-to-expand viewer. Any element with data-view opens it:
+       data-view-video | data-view-image, data-view-poster, data-view-caption,
+       data-view-group (prev/next within the group), data-view-start (fraction to skip),
+       data-view-loop (loop instead of play-once). -->
+  <dialog class="viewer" data-viewer aria-label="Media viewer">
+    <div class="viewer__inner">
+      <div class="viewer__stage" data-viewer-stage>
+        <button type="button" class="viewer__replay" data-viewer-replay hidden><svg class="icon" aria-hidden="true"><use href="#i-replay"/></svg><span>Replay</span></button>
+      </div>
+      <div class="viewer__bar">
+        <p class="viewer__cap" data-viewer-cap aria-live="polite"></p>
+        <div class="viewer__nav">
+          <span class="viewer__count" data-viewer-count></span>
+          <button type="button" class="round-btn viewer__prev" data-viewer-prev aria-label="Previous"><svg class="icon" aria-hidden="true"><use href="#i-chev"/></svg></button>
+          <button type="button" class="round-btn" data-viewer-next aria-label="Next"><svg class="icon" aria-hidden="true"><use href="#i-chev"/></svg></button>
+          <button type="button" class="round-btn" data-viewer-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-close"/></svg></button>
+        </div>
+      </div>
+    </div>
   </dialog>
 
 </body>
