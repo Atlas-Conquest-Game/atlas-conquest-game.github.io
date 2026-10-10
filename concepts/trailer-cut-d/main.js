@@ -41,6 +41,7 @@ const CONFIG = {
   let heroCtl = null;
   let clipsCtl = null;
   let flowCtl = null;
+  let storyCtl = null;
 
   root.classList.add('js');
 
@@ -583,6 +584,7 @@ const CONFIG = {
       modalOpen = true;
       if (heroCtl) heroCtl.update();
       if (clipsCtl) clipsCtl.stopAll();
+      if (storyCtl) storyCtl.stopAll();
       dlg.showModal();
       closeBtn.focus();
       const v = $('video', frame);
@@ -672,6 +674,7 @@ const CONFIG = {
       modalOpen = true;
       if (heroCtl) heroCtl.update();
       if (clipsCtl) clipsCtl.stopAll();
+      if (storyCtl) storyCtl.stopAll();
       dlg.showModal();
       show(Math.max(0, items.indexOf(el)));
       $('[data-viewer-close]', dlg).focus();
@@ -716,6 +719,68 @@ const CONFIG = {
     });
   }
 
+  /* ---------------- The story beats (play, claim, strike) ----------------
+     Three clips cut from one take. Pressing a beat plays it once at normal speed; when it
+     ends, the next beat starts, so watching one rolls through the turn and then stops.
+     Hover never starts anything. Only one video on the page plays at a time. */
+  function setupStory() {
+    const beats = $$('[data-beat]');
+    if (!beats.length) return;
+    let cur = -1;
+    let raf = 0;
+    const vid = (b) => {
+      let v = $('video', b);
+      if (v) return v;
+      v = document.createElement('video');
+      v.muted = true; v.defaultMuted = true; v.playsInline = true;
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+      v.preload = 'auto'; v.disablePictureInPicture = true;
+      v.setAttribute('aria-hidden', 'true');
+      v.src = b.dataset.src;
+      v.addEventListener('playing', () => b.classList.add('is-live'));
+      v.addEventListener('ended', () => { const n = beats.indexOf(b) + 1; stop(b); if (n < beats.length) start(n); });
+      $('.beat__still', b).after(v);
+      return v;
+    };
+    const bar = (b) => $('.beat__bar i', b);
+    function tick() {
+      const b = beats[cur];
+      if (!b) return;
+      const v = $('video', b);
+      if (v && v.duration) bar(b).style.width = (100 * v.currentTime / v.duration) + '%';
+      raf = requestAnimationFrame(tick);
+    }
+    function stop(b) {
+      const v = $('video', b);
+      b.classList.remove('is-on', 'is-live');
+      $('[data-beat-play]', b).setAttribute('aria-pressed', 'false');
+      if (v && !v.paused) v.pause();
+      if (beats[cur] === b) { cur = -1; cancelAnimationFrame(raf); clipPlaying = false; if (heroCtl) heroCtl.update(); }
+    }
+    function start(i) {
+      if (modalOpen) return;
+      if (clipsCtl) clipsCtl.stopAll();
+      if (cur >= 0 && cur !== i) stop(beats[cur]);
+      beats.forEach((b, k) => { if (k >= i) bar(b).style.width = '0%'; });
+      cur = i;
+      const b = beats[i];
+      const v = vid(b);
+      b.classList.add('is-on');
+      $('[data-beat-play]', b).setAttribute('aria-pressed', 'true');
+      clipPlaying = true; if (heroCtl) heroCtl.update();
+      try { v.currentTime = 0; } catch (_) { /* ignore */ }
+      safePlay(v);
+      cancelAnimationFrame(raf); raf = requestAnimationFrame(tick);
+    }
+    beats.forEach((b, i) => {
+      $('[data-beat-play]', b).addEventListener('click', () => (cur === i ? stop(b) : start(i)));
+    });
+    new IntersectionObserver((es) => es.forEach((e) => { if (!e.isIntersecting && cur >= 0) stop(beats[cur]); }), { threshold: 0 })
+      .observe($('[data-story]'));
+    document.addEventListener('visibilitychange', () => { if (document.hidden && cur >= 0) stop(beats[cur]); });
+    storyCtl = { stopAll() { if (cur >= 0) stop(beats[cur]); } };
+  }
+
   /* ---------------- Boot ---------------- */
   applyLinks();
   setupNav();
@@ -724,6 +789,7 @@ const CONFIG = {
   setupEmbers();
   setupStills();
   setupClips();
+  setupStory();
   setupGods();
   setupFlow();
   setupModal();

@@ -171,59 +171,60 @@
     </section>
 
     <!-- ============ 1 · THE PITCH ============
-         For someone new: the pitch, set large beside the Atlas card art (desktop: words left, art right),
-         then three clips that show what the board adds, one line each. Clips play on hover / tap;
-         the corner button opens them big. Phones stack the clips one after another. -->
+         For someone new: the pitch beside the Atlas card art, then one turn of play told in three
+         beats, all cut from a single take with the same camera. Play any beat and it rolls into the
+         next (play, claim, strike), then stops. The expand button plays the whole take big. -->
     <section class="sec pitch" id="how" aria-labelledby="pitch-title">
-      <h2 id="pitch-title" class="visually-hidden">What is Atlas Conquest?</h2>
       <div class="pitch__band">
         <div class="pitch__art" aria-hidden="true">
           <img src="../../assets/media/keyart/atlas-1200.webp" srcset="../../assets/media/keyart/atlas-1200.webp 1200w, ../../assets/media/keyart/atlas-2400.webp 2400w" sizes="(max-width: 700px) 100vw, 72vw" width="2400" height="1350" alt="" loading="lazy" decoding="async">
         </div>
         <div class="container pitch__copy">
-          <p class="pitch__lead"><span class="pitch__hook"><span class="gold">Build a deck of cards that become units on a real battlefield.</span></span> <span class="pitch__more">Play as a commander leading an army for your patron god, battle real players online, outmaneuver your rival and conquer the map.</span></p>
+          <h2 id="pitch-title" class="pitch__lead"><span class="pitch__hook"><span class="gold">Cards become units on a real battlefield.</span></span> <span class="pitch__more">Play as a commander leading an army for your patron god, battle real players online, outmaneuver your rival and conquer the map.</span></h2>
         </div>
       </div>
       <div class="pitch__body">
-        <ul class="ideas">
-          <li class="idea" data-clip-host>
-            <div class="clip" data-clip data-src="../../assets/media/clips/minion-lands-1280.mp4">
-              <img class="clip__still" data-src="../../assets/media/clips/minion-lands-poster.webp" width="1280" height="720" alt="A Runic Knight card dragged from the hand becomes a unit on the Tropics board." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="../../assets/media/clips/minion-lands-poster.webp" width="1280" height="720" alt="A Runic Knight card dragged from the hand becomes a unit on the Tropics board." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Minion Cards are played on the physical battlefield." hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/minion-lands-1920.mp4" data-view-poster="../../assets/media/clips/minion-lands-poster.webp" data-view-caption="Minion Cards are played on the physical battlefield." aria-label="Watch larger: Minion Cards are played on the physical battlefield."><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+        <ol class="story" data-story aria-label="One turn, in three beats">
+          <li class="beat" data-beat data-src="../../assets/media/clips/story-1-play-1280.mp4">
+            <div class="beat__media">
+              <img class="beat__still" src="../../assets/media/clips/story-1-play-poster.webp" width="1280" height="720" alt="A Runic Knight card is dragged from the hand and lands on the board as a unit." loading="lazy" decoding="async">
+              <button type="button" class="beat__play" data-beat-play aria-label="Play: Play cards onto the battlefield."><span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span></button>
+              <span class="beat__bar" aria-hidden="true"><i></i></span>
             </div>
-            <h3 class="idea__cap"><span class="gold">Minion Cards are played on the physical battlefield.</span></h3>
+            <h3 class="beat__cap"><span class="gold">Play cards onto the battlefield.</span></h3>
           </li>
-          <li class="idea" data-clip-host>
-            <div class="clip" data-clip data-src="../../assets/media/clips/spell-acid-rain-1280.mp4">
-              <img class="clip__still" data-src="../../assets/media/clips/spell-acid-rain-poster.webp" width="1280" height="720" alt="Acid Rain turns the tile under an enemy knight into a toxic swamp." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="../../assets/media/clips/spell-acid-rain-poster.webp" width="1280" height="720" alt="Acid Rain turns the tile under an enemy knight into a toxic swamp." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Spell Cards impact the battlefield!" hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/spell-acid-rain-1920.mp4" data-view-poster="../../assets/media/clips/spell-acid-rain-poster.webp" data-view-caption="Spell Cards impact the battlefield!" aria-label="Watch larger: Spell Cards impact the battlefield!"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+          <li class="beat" data-beat data-src="../../assets/media/clips/story-2-claim-1280.mp4">
+            <div class="beat__media">
+              <img class="beat__still" src="../../assets/media/clips/story-2-claim-poster.webp" width="1280" height="720" alt="Elber walks onto a village and claims it." loading="lazy" decoding="async">
+              <button type="button" class="beat__play" data-beat-play aria-label="Play: Claim tiles to grow your mana."><span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span></button>
+              <span class="beat__bar" aria-hidden="true"><i></i></span>
             </div>
-            <h3 class="idea__cap"><span class="gold">Spell Cards impact the battlefield!</span></h3>
+            <h3 class="beat__cap"><span class="gold">Claim tiles to grow your mana.</span></h3>
           </li>
-          <li class="idea" data-clip-host>
-            <div class="clip" data-clip data-src="../../assets/media/clips/village-claim-1280.mp4">
-              <img class="clip__still" data-src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it." loading="lazy" decoding="async">
-              <noscript><img class="clip__still" src="../../assets/media/clips/village-claim-poster.webp" width="1280" height="720" alt="A commander steps onto a village and claims it." loading="lazy" decoding="async"></noscript>
-              <button type="button" class="clip__btn" data-clip-btn aria-pressed="false" aria-label="Play clip: Claim tiles to grow your mana each turn." hidden>
-                <span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span>
-              </button>
-              <button type="button" class="clip__expand" data-view data-view-group="ideas" data-view-loop data-view-video="../../assets/media/clips/village-claim-1920.mp4" data-view-poster="../../assets/media/clips/village-claim-poster.webp" data-view-caption="Claim tiles to grow your mana each turn." aria-label="Watch larger: Claim tiles to grow your mana each turn."><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg></button>
+          <li class="beat" data-beat data-src="../../assets/media/clips/story-3-strike-1280.mp4">
+            <div class="beat__media">
+              <img class="beat__still" src="../../assets/media/clips/story-3-strike-poster.webp" width="1280" height="720" alt="Khazgar, Flame Emperor, hits the enemy commander, taking him from 20 health to 8." loading="lazy" decoding="async">
+              <button type="button" class="beat__play" data-beat-play aria-label="Play: Strike the enemy commander."><span class="clip__icon" aria-hidden="true"><svg class="icon icon--play"><use href="#i-play"/></svg><svg class="icon icon--pause"><use href="#i-pause"/></svg></span></button>
+              <span class="beat__bar" aria-hidden="true"><i></i></span>
             </div>
-            <h3 class="idea__cap"><span class="gold">Claim tiles to grow your mana each turn.</span></h3>
+            <h3 class="beat__cap"><span class="gold">Strike the enemy commander.</span></h3>
           </li>
+        </ol>
+        <p class="story__more"><button type="button" class="btn btn--ghost btn--sm" data-view data-view-loop data-view-video="../../assets/media/clips/story-full-1920.mp4" data-view-poster="../../assets/media/clips/story-full-poster.webp" data-view-caption="Play, claim, strike"><svg class="icon" aria-hidden="true"><use href="#i-expand"/></svg><span class="btn__label">Watch it full screen</span></button></p>
+      </div>
+    </section>
+
+    <!-- ============ AT A GLANCE: a quiet art band between the clips and the battlefields ============ -->
+    <section class="glance" aria-label="At a glance">
+      <div class="glance__art" aria-hidden="true"><img src="../../assets/media/keyart/zurn-1200.webp" srcset="../../assets/media/keyart/zurn-1200.webp 1200w, ../../assets/media/keyart/zurn-2400.webp 2400w" sizes="100vw" width="2400" height="1350" alt="" loading="lazy" decoding="async"></div>
+      <div class="container glance__inner">
+        <ul class="glance__facts">
+          <li><b>Free</b><span>to play</span></li>
+          <li><b>1 vs 1</b><span>online</span></li>
+          <li><b>16</b><span>commanders</span></li>
+          <li><b>280+</b><span>cards</span></li>
         </ul>
-        <ul class="facts" aria-label="At a glance">
-          <li>Free to play</li><li>1 vs 1 online</li><li>16 commanders</li><li>280+ cards</li>
-        </ul>
-        <p class="facts__note">Every card will be unlockable, free to play.</p>
+        <p class="glance__note">Every card will be unlockable, free to play.</p>
       </div>
     </section>
 
